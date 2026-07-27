@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ShefGuide — Community Q&A</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Arial,sans-serif;background:#f0f2f5;min-height:100vh;padding:24px 16px}
+    .page{max-width:700px;margin:0 auto}
+    h1{color:#1A3A5C;font-size:20px;margin-bottom:4px}
+    .sub{color:#888;font-size:13px;margin-bottom:20px}
+    .search-row{display:flex;gap:8px;margin-bottom:16px}
+    .search-row input{flex:1;padding:10px 14px;border:1px solid #ddd;
+                      border-radius:8px;font-size:14px}
+    .btn{padding:10px 18px;border:none;border-radius:8px;
+         font-size:13px;cursor:pointer;font-family:Arial}
+    .btn-primary{background:#1A3A5C;color:white}
+    .btn-teal{background:#148F77;color:white}
+    .btn-sm{padding:6px 12px;font-size:12px}
+    .card{background:white;border-radius:10px;padding:18px;
+          margin-bottom:12px;border:0.5px solid #e0e0e0}
+    .q-text{font-size:15px;font-weight:500;color:#1A3A5C;margin-bottom:6px}
+    .meta{font-size:11px;color:#aaa;margin-bottom:10px}
+    .cat-tag{display:inline-block;font-size:10px;padding:2px 7px;
+             border-radius:4px;background:#E6F1FB;color:#0C447C;margin-right:6px}
+    .ai-box{background:#EAF3DE;border-radius:6px;padding:12px 14px;margin:10px 0}
+    .ai-label{font-size:10px;font-weight:500;color:#27500A;margin-bottom:4px}
+    .ai-text{font-size:13px;color:#1C2833;line-height:1.6}
+    .ai-meta{font-size:10px;color:#888;margin-top:4px}
+    .cached{display:inline-block;font-size:9px;padding:1px 5px;
+            border-radius:3px;background:#E6F1FB;color:#0C447C;margin-left:4px}
+    .replies{margin-top:12px;padding-top:12px;border-top:1px solid #f0f0f0}
+    .reply{background:#f8f9fa;border-radius:6px;padding:8px 12px;
+           margin-bottom:6px;font-size:13px;color:#333}
+    .reply-input{width:100%;padding:8px 12px;border:1px solid #ddd;
+                 border-radius:6px;font-size:13px;margin-top:8px}
+    .new-q{background:white;border-radius:10px;padding:18px;
+           margin-bottom:20px;border:1.5px solid #1A3A5C}
+    .new-q h3{color:#1A3A5C;font-size:14px;margin-bottom:12px}
+    .new-q input{width:100%;padding:10px;border:1px solid #ddd;
+                 border-radius:6px;font-size:14px;margin-bottom:10px}
+    .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    select{padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:13px}
+    #status{font-size:12px;margin-left:6px}
+    .empty{text-align:center;color:#aaa;padding:40px;font-size:14px}
+    #search-results .card{border-color:#BA7517}
+  </style>
+</head>
+<body>
+<div class="page">
+  <a href="index.html"
+     style="font-size:12px;color:#888;text-decoration:none">← Back to ShefGuide</a>
+
+  <h1 style="margin-top:12px">Community Q&A</h1>
+  <p class="sub">Ask questions about UK university life. Get answers from
+     other students and AI — answers are saved so you never ask twice.</p>
+
+  <!-- Search existing questions -->
+  <div class="search-row">
+    <input id="search-input"
+           placeholder="Search before posting — your question may already be answered..."
+           oninput="searchPosts()">
+  </div>
+  <div id="search-results"></div>
+
+  <!-- Post a new question -->
+  <div class="new-q">
+    <h3>Post a question</h3>
+    <input id="new-question"
+           placeholder="What do you want to know about UK university life?">
+    <div class="row">
+      <select id="category">
+        <option value="academic">Academic</option>
+        <option value="arrival">Arrival and admin</option>
+        <option value="technology">Technology and AI</option>
+        <option value="general">General</option>
+      </select>
+      <select id="ai-model">
+        <option value="gpt">AI: GPT-4o-mini</option>
+        <option value="gemini">AI: Gemini Flash</option>
+      </select>
+      <button class="btn btn-primary" onclick="postQuestion()">Post</button>
+      <span id="status"></span>
+    </div>
+  </div>
+
+  <!-- All posts -->
+  <div id="posts-container"></div>
+</div>
+
+<script>
+const API   = 'http://localhost:8000';
+const token = localStorage.getItem('shefguide_token');
+
+if (!token) {
+  document.body.innerHTML =
+    '<div style="text-align:center;padding:60px;font-family:Arial">' +
+    '<p>Please <a href="index.html">log in</a> first.</p></div>';
+}
+
+window.onload = () => loadPosts();
+
+async function loadPosts() {
+  const r = await fetch(API + '/posts',
+    { headers: { Authorization: 'Bearer ' + token } });
+  const d = await r.json();
+  renderPosts(d.posts, 'posts-container');
+}
+
+function renderPosts(posts, containerId) {
+  const el = document.getElementById(containerId);
+  if (!posts.length) {
+    el.innerHTML = '<div class="empty">No questions yet. Be the first!</div>';
+    return;
+  }
+  el.innerHTML = posts.map(p => `
+    <div class="card">
+      <div class="q-text">${esc(p.question)}</div>
+      <div class="meta">
+        <span class="cat-tag">${p.category}</span>
+        ${new Date(p.created_at).toLocaleDateString('en-GB',
+          {day:'numeric',month:'short'})}
+        · ${p.reply_count || (p.replies||[]).length} replies
+      </div>
+
+      ${p.ai_answer
+        ? `<div class="ai-box">
+             <div class="ai-label">
+               AI answer <span class="cached">cached</span>
+             </div>
+             <div class="ai-text">${esc(p.ai_answer.text)}</div>
+             <div class="ai-meta">
+               ${p.ai_answer.model_used} · ${p.ai_answer.latency_sec}s
+             </div>
+           </div>`
+        : `<button class="btn btn-teal btn-sm"
+                   onclick="getAiAnswer('${p._id}')">
+             Get AI answer
+           </button>`
+      }
+
+      <div class="replies">
+        ${(p.replies || []).map(r =>
+          `<div class="reply">${esc(r.text)}</div>`
+        ).join('')}
+        <input class="reply-input" id="ri-${p._id}"
+               placeholder="Add a reply or tip..."
+               onkeydown="if(event.key==='Enter')addReply('${p._id}')">
+        <div style="margin-top:6px">
+          <button class="btn btn-sm"
+                  onclick="addReply('${p._id}')"
+                  style="background:#f0f2f5;color:#333">
+            Post reply
+          </button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+async function postQuestion() {
+  const question = document.getElementById('new-question').value.trim();
+  const category = document.getElementById('category').value;
+  const model    = document.getElementById('ai-model').value;
+  const status   = document.getElementById('status');
+  if (!question) return;
+
+  status.textContent = 'Posting...';
+  status.style.color = '#888';
+
+  const r = await fetch(API + '/posts', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json',
+               'Authorization': 'Bearer ' + token },
+    body: JSON.stringify({ question, category })
+  });
+  const d = await r.json();
+
+  if (d.message === 'A similar question already exists') {
+    status.textContent = 'Similar question already exists — see below';
+    status.style.color = '#BA7517';
+  } else {
+    status.textContent = 'Posted!';
+    status.style.color = '#148F77';
+    document.getElementById('new-question').value = '';
+    // Auto-generate AI answer straight away
+    await getAiAnswer(d.post_id, model);
+  }
+  loadPosts();
+}
+
+async function getAiAnswer(postId, model) {
+  const m = model || document.getElementById('ai-model').value;
+  await fetch(`${API}/posts/${postId}/ai-answer`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json',
+               'Authorization': 'Bearer ' + token },
+    body: JSON.stringify({ model: m })
+  });
+  loadPosts();
+}
+
+async function addReply(postId) {
+  const input = document.getElementById('ri-' + postId);
+  const text  = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  await fetch(`${API}/posts/${postId}/reply`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json',
+               'Authorization': 'Bearer ' + token },
+    body: JSON.stringify({ text })
+  });
+  loadPosts();
+}
+
+let searchTimer;
+function searchPosts() {
+  const q  = document.getElementById('search-input').value.trim();
+  const el = document.getElementById('search-results');
+  clearTimeout(searchTimer);
+  if (q.length < 3) { el.innerHTML = ''; return; }
+  searchTimer = setTimeout(async () => {
+    const r = await fetch(
+      `${API}/posts/search/${encodeURIComponent(q)}`,
+      { headers: { Authorization: 'Bearer ' + token } }
+    );
+    const d = await r.json();
+    if (!d.results.length) { el.innerHTML = ''; return; }
+    el.innerHTML =
+      `<p style="font-size:12px;color:#888;margin-bottom:8px">
+         Existing questions matching "${esc(q)}":</p>`;
+    renderPosts(d.results, 'search-results');
+    // re-add the label (renderPosts replaces innerHTML)
+    el.insertAdjacentHTML('afterbegin',
+      `<p style="font-size:12px;color:#888;margin-bottom:8px">
+         Existing questions matching "${esc(q)}":</p>`);
+  }, 400);
+}
+
+const esc = s => (s||'')
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+  .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+</script>
+</body>
+</html>
