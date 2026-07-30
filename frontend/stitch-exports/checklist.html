@@ -1,0 +1,273 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"on-primary-container":"#87a4cc","surface-light":"#F4F7FA","surface-variant":"#e0e3e6","secondary-fixed-dim":"#70d9bd","on-error-container":"#93000a","surface-tint":"#436084","dark-text":"#0E1133","error-container":"#ffdad6","secondary-fixed":"#8df6d9","pure-white":"#FFFFFF","on-secondary-fixed":"#002019","tertiary-fixed-dim":"#ecbf80","surface-container-low":"#f1f4f7","on-tertiary-fixed-variant":"#5f410c","inverse-on-surface":"#eef1f4","on-secondary-fixed-variant":"#005142","secondary":"#006b58","on-primary-fixed-variant":"#2a486b","on-error":"#ffffff","on-secondary-container":"#00725e","primary-container":"#1a3a5c","inverse-primary":"#abc9f2","on-tertiary":"#ffffff","surface-dim":"#d7dadd","on-secondary":"#ffffff","on-primary-fixed":"#001c37","primary-fixed-dim":"#abc9f2","surface-container-high":"#e5e8eb","outline-variant":"#c3c6cf","outline":"#73777f","on-tertiary-fixed":"#291800","tertiary":"#331f00","inverse-surface":"#2d3133","primary":"#002444","on-surface-variant":"#43474e","surface":"#f7fafd","primary-fixed":"#d2e4ff","surface-container-highest":"#e0e3e6","surface-bright":"#f7fafd","background":"#f7fafd","teal-accent":"#148F77","on-primary":"#ffffff","on-surface":"#181c1e","tertiary-container":"#4f3300","surface-container-lowest":"#ffffff","secondary-container":"#8df6d9","deep-navy":"#1A3A5C","surface-container":"#ebeef1","error":"#ba1a1a","tertiary-fixed":"#ffddb1","on-tertiary-container":"#c49b5f","on-background":"#181c1e"},"borderRadius":{"DEFAULT":"1rem","lg":"2rem","xl":"3rem","full":"9999px"},"spacing":{"section-gap":"80px","gutter":"24px","container-max":"1200px","card-padding":"32px","margin-mobile":"20px"},"fontFamily":{"display-lg":["DM Sans"],"title-lg":["DM Sans"],"headline-md-mobile":["DM Sans"],"headline-md":["DM Sans"],"display-lg-mobile":["DM Sans"],"body-lg":["Inter"],"number-accent":["DM Sans"],"label-md":["Inter"],"body-md":["Inter"]},"fontSize":{"display-lg":["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"700"}],"title-lg":["20px",{"lineHeight":"28px","fontWeight":"600"}],"headline-md-mobile":["24px",{"lineHeight":"32px","fontWeight":"600"}],"headline-md":["32px",{"lineHeight":"40px","fontWeight":"600"}],"display-lg-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.01em","fontWeight":"700"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"number-accent":["56px",{"lineHeight":"1","letterSpacing":"-0.04em","fontWeight":"700"}],"label-md":["14px",{"lineHeight":"20px","letterSpacing":"0.02em","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}]}}}}</script><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/></head><body class="bg-background font-body-md text-on-background"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 max-w-[1200px] mx-auto px-margin-mobile lg:px-gutter flex items-center justify-between"><div class="flex items-center gap-3"><img alt="ShefGuide logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLsNR0_0s2_4eb4qq2waWwx4ApNNlVg4UD-Al381J3r7frztPCzKlK9_0aSqb5MpfWUTeHnp-drCXVKNw7D-fMrcbxvYgh_P2HwxQHve7oAfWzdNhqd15br4nt-xvb_zJ0YWvshm4l2cqyKVnwmmr0KF8PpCQbPYNx-v9giVvqfJcP_4_VlvHf6ovMc9dazM4yKfA7WyqY2oyuBWWuQNf7sAY0-WdRs030NPFazTXR09S_kCo13mas45th2z"/><span class="font-title-lg text-title-lg text-deep-navy">ShefGuide</span></div><nav class="hidden md:flex items-center gap-8" data-active-classes="text-teal-accent font-semibold"><a class="font-label-md text-label-md text-on-surface-variant hover:text-teal-accent transition-colors" data-path="chat" href="#">Chat</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-teal-accent transition-colors" data-path="community-qa" href="#">Community Q&A</a><a aria-current="page" class="transition-colors text-teal-accent font-semibold" data-path="checklist" href="#">Checklist</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-teal-accent transition-colors" data-path="about" href="#">About</a></nav><div class="flex items-center gap-4"><a class="hidden sm:block font-label-md text-label-md text-deep-navy hover:text-teal-accent px-4 py-2" href="#">Sign In</a><a class="bg-teal-accent text-on-primary font-label-md text-label-md px-6 py-2.5 rounded-full hover:scale-105 transition-transform shadow-lg shadow-teal-accent/20" href="#">Get Started</a><div class="ml-2 w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-background"><div class="flex flex-col w-full font-body-md text-on-background pb-section-gap relative">
+<div class="fixed top-0 left-0 w-full h-[614px] bg-gradient-to-b from-primary-container/10 via-surface/50 to-transparent pointer-events-none -z-10"></div>
+<div class="fixed top-0 right-0 w-[500px] h-[500px] bg-secondary-fixed/10 rounded-full blur-[120px] pointer-events-none -z-10 transform translate-x-1/3 -translate-y-1/3"></div>
+<div class="max-w-[1200px] mx-auto w-full px-margin-mobile lg:px-gutter mt-16 mb-12">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8">
+<div class="max-w-2xl">
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-high rounded-full mb-6 text-label-md text-on-surface-variant backdrop-blur-sm shadow-sm">
+<span>🎓 MSc Cybersecurity and AI</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span>University of Sheffield</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span>🌍 Nigeria</span>
+</div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-deep-navy mb-4 tracking-tight">Your Arrival Checklist</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">A step-by-step guide tailored to your university, programme, and home country. We've organized everything you need to settle in smoothly.</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-xl shadow-primary-container/5 min-w-[280px] flex items-center gap-6 relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-teal-accent/10 rounded-full blur-xl"></div>
+<div class="relative w-16 h-16 flex-shrink-0">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle class="text-surface-container" cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-teal-accent transition-all duration-1000 ease-out" cx="50" cy="50" fill="none" id="progress-ring" r="45" stroke="currentColor" stroke-dasharray="283" stroke-dashoffset="161.7" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-label-md text-label-md text-deep-navy">
+                        42%
+                    </div>
+</div>
+<div class="flex flex-col">
+<span class="font-title-lg text-[18px] font-semibold text-deep-navy">6 of 14 tasks</span>
+<span class="font-label-md text-label-md text-teal-accent">You're off to a great start!</span>
+</div>
+</div>
+</div>
+</div>
+<div class="max-w-[1200px] mx-auto w-full px-margin-mobile lg:px-gutter grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+<div class="lg:col-span-8 flex flex-col gap-6" id="checklist-accordion">
+<div class="bg-surface-container-lowest rounded-[2.5rem] shadow-lg shadow-primary-container/5 overflow-hidden transition-all duration-300 group is-active" data-accordion-item="">
+<button aria-expanded="true" class="w-full px-8 py-6 flex items-center justify-between text-left focus:outline-none">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">flight_takeoff</span>
+</div>
+<div>
+<h2 class="font-title-lg text-title-lg text-deep-navy">Before You Arrive</h2>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">2 of 4 completed</p>
+</div>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-on-surface-variant group-[.is-active]:rotate-180 transition-transform duration-300">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</button>
+<div class="px-8 pb-8 pt-2 grid gap-4 accordion-content opacity-100 h-auto">
+<div class="flex items-start gap-4 p-4 rounded-2xl transition-colors hover:bg-surface opacity-60">
+<button class="w-6 h-6 mt-1 flex-shrink-0 rounded-md border-2 border-teal-accent bg-teal-accent text-on-primary flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-teal-accent/50 focus:ring-offset-2">
+<span class="material-symbols-outlined text-[16px] font-bold">check</span>
+</button>
+<div class="flex-1">
+<h3 class="font-label-md text-[16px] font-semibold text-deep-navy line-through decoration-outline-variant decoration-2">Apply for visa / BRP</h3>
+<p class="font-body-md text-sm text-on-surface-variant mt-1">Ensure your Student Visa is approved and you know where to collect your Biometric Residence Permit.</p>
+<a class="inline-flex items-center gap-1 font-label-md text-sm text-teal-accent hover:text-deep-navy transition-colors mt-2" href="#">
+                                Review details <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-2xl transition-colors hover:bg-surface opacity-60">
+<button class="w-6 h-6 mt-1 flex-shrink-0 rounded-md border-2 border-teal-accent bg-teal-accent text-on-primary flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-teal-accent/50 focus:ring-offset-2">
+<span class="material-symbols-outlined text-[16px] font-bold">check</span>
+</button>
+<div class="flex-1">
+<h3 class="font-label-md text-[16px] font-semibold text-deep-navy line-through decoration-outline-variant decoration-2">Book accommodation</h3>
+<p class="font-body-md text-sm text-on-surface-variant mt-1">Secure your university hall or private housing contract and pay the initial deposit.</p>
+<a class="inline-flex items-center gap-1 font-label-md text-sm text-teal-accent hover:text-deep-navy transition-colors mt-2" href="#">
+                                Review details <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-2xl bg-surface-container-low transition-colors hover:bg-surface">
+<button class="w-6 h-6 mt-1 flex-shrink-0 rounded-md border-2 border-outline-variant hover:border-teal-accent bg-transparent flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-teal-accent/50 focus:ring-offset-2"></button>
+<div class="flex-1">
+<div class="flex justify-between items-start gap-4">
+<h3 class="font-label-md text-[16px] font-semibold text-deep-navy">Arrange airport pickup</h3>
+<span class="inline-block px-2 py-1 rounded bg-error-container text-on-error-container font-label-md text-[10px] uppercase tracking-wider whitespace-nowrap">High Priority</span>
+</div>
+<p class="font-body-md text-sm text-on-surface-variant mt-1">Book the university's free coach service from Manchester Airport or organize alternative transport to Sheffield.</p>
+<a class="inline-flex items-center gap-1 font-label-md text-sm text-teal-accent hover:text-deep-navy transition-colors mt-2" href="#">
+                                Book transport <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-2xl transition-colors hover:bg-surface">
+<button class="w-6 h-6 mt-1 flex-shrink-0 rounded-md border-2 border-outline-variant hover:border-teal-accent bg-transparent flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-teal-accent/50 focus:ring-offset-2"></button>
+<div class="flex-1">
+<h3 class="font-label-md text-[16px] font-semibold text-deep-navy">Get travel insurance</h3>
+<p class="font-body-md text-sm text-on-surface-variant mt-1">Purchase coverage for your journey and your initial period in the UK before IHS covers you fully.</p>
+<a class="inline-flex items-center gap-1 font-label-md text-sm text-teal-accent hover:text-deep-navy transition-colors mt-2" href="#">
+                                Compare options <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-[2.5rem] shadow-lg shadow-primary-container/5 overflow-hidden transition-all duration-300 group" data-accordion-item="">
+<button aria-expanded="false" class="w-full px-8 py-6 flex items-center justify-between text-left focus:outline-none">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-secondary/5 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[24px]">event_upcoming</span>
+</div>
+<div>
+<h2 class="font-title-lg text-title-lg text-deep-navy">Your First Week</h2>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">0 of 4 completed</p>
+</div>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-on-surface-variant group-[.is-active]:rotate-180 transition-transform duration-300">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</button>
+<div class="px-8 pb-8 pt-2 grid gap-4 accordion-content h-0 overflow-hidden opacity-0">
+<div class="flex items-start gap-4 p-4 rounded-2xl transition-colors hover:bg-surface">
+<button class="w-6 h-6 mt-1 flex-shrink-0 rounded-md border-2 border-outline-variant hover:border-teal-accent bg-transparent flex items-center justify-center transition-colors"></button>
+<div class="flex-1">
+<h3 class="font-label-md text-[16px] font-semibold text-deep-navy">Register with a GP</h3>
+<p class="font-body-md text-sm text-on-surface-variant mt-1">Sign up at the University Health Service to access NHS healthcare.</p>
+<a class="inline-flex items-center gap-1 font-label-md text-sm text-teal-accent hover:text-deep-navy transition-colors mt-2" href="#">
+                                Find a clinic <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-[2.5rem] shadow-lg shadow-primary-container/5 overflow-hidden transition-all duration-300 group" data-accordion-item="">
+<button aria-expanded="false" class="w-full px-8 py-6 flex items-center justify-between text-left focus:outline-none">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-tertiary/5 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[24px]">explore</span>
+</div>
+<div>
+<h2 class="font-title-lg text-title-lg text-deep-navy">Your First Month</h2>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">0 of 4 completed</p>
+</div>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-on-surface-variant group-[.is-active]:rotate-180 transition-transform duration-300">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</button>
+<div class="px-8 pb-8 pt-2 grid gap-4 accordion-content h-0 overflow-hidden opacity-0">
+<div class="flex items-start gap-4 p-4 rounded-2xl transition-colors hover:bg-surface">
+<button class="w-6 h-6 mt-1 flex-shrink-0 rounded-md border-2 border-outline-variant hover:border-teal-accent bg-transparent flex items-center justify-center transition-colors"></button>
+<div class="flex-1">
+<h3 class="font-label-md text-[16px] font-semibold text-deep-navy">Register with the police</h3>
+<p class="font-body-md text-sm text-on-surface-variant mt-1">Check your visa conditions to see if you are required to register with South Yorkshire Police.</p>
+<a class="inline-flex items-center gap-1 font-label-md text-sm text-teal-accent hover:text-deep-navy transition-colors mt-2" href="#">
+                                Check requirements <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 flex flex-col gap-6">
+<div class="bg-primary text-on-primary rounded-[2rem] p-8 shadow-xl shadow-primary/10 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-fixed/20 rounded-full blur-2xl transform translate-x-1/2 -translate-y-1/2 transition-transform duration-700 group-hover:scale-150"></div>
+<div class="relative z-10">
+<div class="w-12 h-12 bg-on-primary/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-[24px]">forum</span>
+</div>
+<h3 class="font-title-lg text-title-lg mb-3">Need help with any of these?</h3>
+<p class="font-body-md text-sm text-on-primary/80 mb-8">Our community of international students and AI guide are here to help you navigate your arrival.</p>
+<a class="inline-flex items-center justify-between w-full bg-pure-white text-primary font-label-md px-6 py-4 rounded-xl hover:scale-[1.02] transition-transform shadow-lg shadow-black/5" href="#">
+                        Ask ShefGuide
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-[2rem] p-6 shadow-md shadow-primary-container/5">
+<h4 class="font-label-md text-label-md text-deep-navy uppercase tracking-wider mb-4">Helpful Resources</h4>
+<div class="flex flex-col gap-3">
+<a class="flex items-center gap-3 p-3 rounded-xl hover:bg-surface-container-low transition-colors" href="#">
+<div class="w-10 h-10 rounded-lg bg-surface flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">map</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-sm text-deep-navy truncate">Campus Map</p>
+<p class="font-body-md text-xs text-on-surface-variant truncate">Navigate Sheffield easily</p>
+</div>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-xl hover:bg-surface-container-low transition-colors" href="#">
+<div class="w-10 h-10 rounded-lg bg-surface flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">menu_book</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-sm text-deep-navy truncate">Student Handbook</p>
+<p class="font-body-md text-xs text-on-surface-variant truncate">MSc Cybersecurity specific</p>
+</div>
+</a>
+</div>
+</div>
+<div class="w-full h-48 bg-cover bg-center rounded-[2rem] shadow-sm relative overflow-hidden group" data-alt="A bright, welcoming photograph of a modern university student union building with large glass windows, green trees outside, and diverse students chatting and walking. The lighting is soft and sunny, evoking a positive, inviting educational atmosphere. Shot in a documentary style with high clarity, incorporating subtle cool navy and warm teal hues in the environment." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDt9FEBirpRNAXVULU_p2Rr1azBny5pnfBcVGDL0rM_7uPgaHUL9el4o2HdexkIGnHbLu3bce1K-TV4GY562evGs20l_XnbGfCgY6xU9ktx5XjQXwqAF16HBorL1y3at4lKEbg1SGOocXOUT4tL-Sn4NLVL0pgKnpoNAO7Bx2rKAcDGd2LP12KqYnABGtMJkTjUatrYpoteFR_gU2HYBZCanHQsDQ4NSy2w-vq4J5WhDSAC9JoYdA1u0g')">
+<div class="absolute inset-0 bg-gradient-to-t from-deep-navy/80 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6 w-full">
+<p class="font-label-md text-xs text-secondary-fixed mb-1">Upcoming Event</p>
+<p class="font-title-lg text-[18px] text-pure-white leading-tight">International Student Orientation</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Accordion Logic
+    const accordionItems = document.querySelectorAll('[data-accordion-item]');
+    
+    accordionItems.forEach(item => {
+        const button = item.querySelector('button');
+        const content = item.querySelector('.accordion-content');
+        
+        button.addEventListener('click', () => {
+            const isActive = item.classList.contains('is-active');
+            
+            // Close all
+            accordionItems.forEach(acc => {
+                acc.classList.remove('is-active');
+                acc.querySelector('button').setAttribute('aria-expanded', 'false');
+                const accContent = acc.querySelector('.accordion-content');
+                accContent.style.height = '0px';
+                accContent.style.opacity = '0';
+            });
+            
+            // Toggle clicked
+            if (!isActive) {
+                item.classList.add('is-active');
+                button.setAttribute('aria-expanded', 'true');
+                content.style.height = content.scrollHeight + 'px';
+                content.style.opacity = '1';
+                
+                // reset to auto after animation to handle resize
+                setTimeout(() => {
+                    if(item.classList.contains('is-active')) {
+                         content.style.height = 'auto';
+                    }
+                }, 300);
+            }
+        });
+    });
+
+    // Checkbox interaction preview
+    const checkboxes = document.querySelectorAll('.accordion-content button');
+    checkboxes.forEach(box => {
+        box.addEventListener('click', (e) => {
+            e.stopPropagation(); // prevent accordion toggle if clicked near edge
+            const row = box.closest('.flex.items-start');
+            const title = row.querySelector('h3');
+            const hasCheck = box.querySelector('.material-symbols-outlined');
+            
+            if (hasCheck) {
+                // uncheck
+                box.innerHTML = '';
+                box.className = 'w-6 h-6 mt-1 flex-shrink-0 rounded-md border-2 border-outline-variant hover:border-teal-accent bg-transparent flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-teal-accent/50 focus:ring-offset-2';
+                title.classList.remove('line-through', 'decoration-outline-variant', 'decoration-2');
+                row.classList.remove('opacity-60');
+            } else {
+                // check
+                box.innerHTML = '<span class="material-symbols-outlined text-[16px] font-bold">check</span>';
+                box.className = 'w-6 h-6 mt-1 flex-shrink-0 rounded-md border-2 border-teal-accent bg-teal-accent text-on-primary flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-teal-accent/50 focus:ring-offset-2';
+                title.classList.add('line-through', 'decoration-outline-variant', 'decoration-2');
+                row.classList.add('opacity-60');
+            }
+        });
+    });
+});
+</script></main><footer class="w-full bg-surface-container-low py-section-gap mt-section-gap"><div class="max-w-[1200px] mx-auto px-margin-mobile lg:px-gutter grid grid-cols-1 md:grid-cols-4 gap-12"><div class="col-span-1 md:col-span-1"><div class="flex items-center gap-2 mb-6"><img class="h-6 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLsNR0_0s2_4eb4qq2waWwx4ApNNlVg4UD-Al381J3r7frztPCzKlK9_0aSqb5MpfWUTeHnp-drCXVKNw7D-fMrcbxvYgh_P2HwxQHve7oAfWzdNhqd15br4nt-xvb_zJ0YWvshm4l2cqyKVnwmmr0KF8PpCQbPYNx-v9giVvqfJcP_4_VlvHf6ovMc9dazM4yKfA7WyqY2oyuBWWuQNf7sAY0-WdRs030NPFazTXR09S_kCo13mas45th2z"/><span class="font-title-lg text-title-lg text-deep-navy">ShefGuide</span></div><p class="text-on-surface-variant font-body-md text-label-md">Empowering international students through seamless transitions and community-led guidance.</p></div><div class="flex flex-col gap-4"><h4 class="font-label-md text-label-md text-deep-navy uppercase tracking-wider">Platform</h4><a class="text-on-surface-variant hover:text-teal-accent text-sm" href="#">The Checklist</a><a class="text-on-surface-variant hover:text-teal-accent text-sm" href="#">Expert Chat</a><a class="text-on-surface-variant hover:text-teal-accent text-sm" href="#">Community Hub</a></div><div class="flex flex-col gap-4"><h4 class="font-label-md text-label-md text-deep-navy uppercase tracking-wider">Company</h4><a class="text-on-surface-variant hover:text-teal-accent text-sm" href="#">About Us</a><a class="text-on-surface-variant hover:text-teal-accent text-sm" href="#">Our Mission</a><a class="text-on-surface-variant hover:text-teal-accent text-sm" href="#">Careers</a></div><div class="flex flex-col gap-4"><h4 class="font-label-md text-label-md text-deep-navy uppercase tracking-wider">Contact</h4><a class="text-on-surface-variant hover:text-teal-accent text-sm" href="#">Support Center</a><a class="text-on-surface-variant hover:text-teal-accent text-sm" href="#">Partnerships</a><a class="text-on-surface-variant hover:text-teal-accent text-sm" href="#">hello@shefguide.com</a></div></div><div class="max-w-[1200px] mx-auto px-margin-mobile lg:px-gutter mt-16 pt-8 border-t border-outline-variant/30 text-center text-on-surface-variant text-sm">© 2024 ShefGuide. All rights reserved.</div></footer></body></html>

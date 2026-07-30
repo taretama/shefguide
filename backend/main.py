@@ -1,12 +1,14 @@
 from fastapi import FastAPI, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from database import users_collection, sessions_collection, checklists_collection, posts_collection 
+from database import users_collection, sessions_collection, checklists_collection, posts_collection, security_events_collection
 from auth import hash_password, check_password, make_token, decode_token
 from datetime import datetime
 from bson import ObjectId
 from llm import ask_llm
+from security import check_prompt_injection, redact_pii, check_rate_limit
 import json
+import re
 import pdfplumber
 import io
 from fastapi import UploadFile, File
@@ -25,6 +27,65 @@ def get_user(authorization: str = Header(...)):
     if not user_id:
         raise HTTPException(401, "Invalid token")
     return user_id
+
+def require_disclosure(user_id: str):
+    user = users_collection.find_one({"_id": ObjectId(user_id)})
+    if not user or not user.get("disclosure_accepted"):
+        raise HTTPException(403, "Please accept the cloud data disclosure first")
+
+def require_rate_limit(user_id: str, endpoint: str):
+    if not check_rate_limit(user_id, endpoint):
+        raise HTTPException(429, "Too many requests. Please wait a minute and try again.")
+
+def guard_and_redact(user_id: str, endpoint: str, text: str) -> str:
+    if check_prompt_injection(text):
+        security_events_collection.insert_one({
+            "user_id":    user_id,
+            "event_type": "prompt_injection_blocked",
+            "endpoint":   endpoint,
+            "created_at": datetime.utcnow()
+        })
+        raise HTTPException(
+            400,
+            "This message could not be processed because it appears to try to "
+            "change the assistant's instructions. Please rephrase your question."
+        )
+
+    clean_text, redacted_count = redact_pii(text)
+    if redacted_count:
+        security_events_collection.insert_one({
+            "user_id":    user_id,
+            "event_type": "pii_redacted",
+            "endpoint":   endpoint,
+            "created_at": datetime.utcnow()
+        })
+    return clean_text
+
+@app.get("/me")
+def get_me(authorization: str = Header(...)):
+    user_id = get_user(authorization)
+    user = users_collection.find_one({"_id": ObjectId(user_id)})
+    if not user:
+        raise HTTPException(404, "User not found")
+    return {
+        "email": user["email"],
+        "university": user["university"],
+        "home_country": user["home_country"],
+        "programme": user["programme"],
+        "disclosure_accepted": bool(user.get("disclosure_accepted"))
+    }
+
+@app.post("/consent/cloud-disclosure")
+def accept_disclosure(authorization: str = Header(...)):
+    user_id = get_user(authorization)
+    users_collection.update_one(
+        {"_id": ObjectId(user_id)},
+        {"$set": {
+            "disclosure_accepted":    True,
+            "disclosure_accepted_at": datetime.utcnow()
+        }}
+    )
+    return {"message": "Disclosure accepted"}
 
 class RegisterBody(BaseModel):
     email: str
@@ -66,8 +127,17 @@ class ChatBody(BaseModel):
 @app.post("/chat")
 def chat(body: ChatBody, authorization: str = Header(...)):
     user_id = get_user(authorization)
+    require_disclosure(user_id)
+    require_rate_limit(user_id, "/chat")
 
-    result     = ask_llm(body.messages, model=body.model)
+    messages = list(body.messages)
+    pii_redacted = False
+    if messages:
+        clean_content = guard_and_redact(user_id, "/chat", messages[-1]["content"])
+        pii_redacted = clean_content != messages[-1]["content"]
+        messages[-1] = {**messages[-1], "content": clean_content}
+
+    result     = ask_llm(messages, model=body.model)
     reply      = result["reply"]
     latency    = result["latency"]
     model_used = result["model_used"]
@@ -91,10 +161,11 @@ def chat(body: ChatBody, authorization: str = Header(...)):
         sid = str(res.inserted_id)
 
     return {
-        "reply":      reply,
-        "session_id": sid,
-        "latency":    latency,
-        "model_used": model_used
+        "reply":        reply,
+        "session_id":   sid,
+        "latency":      latency,
+        "model_used":   model_used,
+        "pii_redacted": pii_redacted
     }
 
 @app.get("/sessions")
@@ -137,6 +208,7 @@ def get_session(session_id: str, authorization: str = Header(...)):
 @app.post("/checklist/generate")
 def generate_checklist(authorization: str = Header(...)):
     user_id = get_user(authorization)
+    require_rate_limit(user_id, "/checklist/generate")
     user = users_collection.find_one({"_id": ObjectId(user_id)})
 
     prompt = f"""Generate a personalised UK university arrival checklist for:
@@ -231,7 +303,7 @@ def list_posts(category: str = None, authorization: str = Header(...)):
 def search_posts(query: str, authorization: str = Header(...)):
     get_user(authorization)
     posts = list(posts_collection.find(
-        {"question": {"$regex": query, "$options": "i"}}
+        {"question": {"$regex": re.escape(query), "$options": "i"}}
     ).limit(10))
     for p in posts:
         p["_id"] = str(p["_id"])
@@ -273,7 +345,9 @@ class AIAnswerBody(BaseModel):
 @app.post("/posts/{post_id}/ai-answer")
 def generate_ai_answer(post_id: str, body: AIAnswerBody,
                         authorization: str = Header(...)):
-    get_user(authorization)
+    user_id = get_user(authorization)
+    require_disclosure(user_id)
+    require_rate_limit(user_id, "/posts/ai-answer")
 
     post = posts_collection.find_one({"_id": ObjectId(post_id)})
     if not post:
@@ -289,8 +363,9 @@ def generate_ai_answer(post_id: str, body: AIAnswerBody,
         }
 
     # No cached answer yet — generate one
+    clean_question = guard_and_redact(user_id, "/posts/ai-answer", post["question"])
     result = ask_llm(
-        [{"role": "user", "content": post["question"]}],
+        [{"role": "user", "content": clean_question}],
         model=body.model
     )
 
@@ -355,10 +430,14 @@ class DocumentAskBody(BaseModel):
 @app.post("/document/ask")
 def ask_document(body: DocumentAskBody, authorization: str = Header(...)):
     user_id  = get_user(authorization)
+    require_disclosure(user_id)
+    require_rate_limit(user_id, "/document/ask")
     doc_text = document_store.get(user_id)
 
     if not doc_text:
         raise HTTPException(400, "No document uploaded yet. Please upload a PDF first.")
+
+    clean_question = guard_and_redact(user_id, "/document/ask", body.question)
 
     # This is the RAG prompt — document text is injected directly as context
     rag_prompt = f"""You are helping a student understand their document.
@@ -366,7 +445,7 @@ def ask_document(body: DocumentAskBody, authorization: str = Header(...)):
 DOCUMENT:
 {doc_text}
 
-STUDENT QUESTION: {body.question}
+STUDENT QUESTION: {clean_question}
 
 Rules:
 - Answer ONLY from the document above

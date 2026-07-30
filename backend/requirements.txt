@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+pydantic
+pymongo
+python-dotenv
+bcrypt
+python-jose[cryptography]
+openai
+google-genai
+pdfplumber
+python-multipart

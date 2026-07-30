@@ -1,0 +1,51 @@
+/* Visually hidden but screen-reader-accessible label text. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Visible keyboard focus ring, since several controls use focus:outline-none
+   with only a border-color change (not visible enough for keyboard nav). */
+:focus-visible {
+  outline: 2px solid #148F77;
+  outline-offset: 2px;
+}
+
+/* Global Accessibility Safety Net (ui-ux-pro-max) */
+button, [role="button"], a[href] {
+  cursor: pointer;
+}
+
+button:focus-visible, 
+[role="button"]:focus-visible, 
+a[href]:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px #f7fafd, 0 0 0 4px #148F77 !important;
+}
+
+/* Ensure smooth transitions for interactive elements */
+button, a, input, textarea {
+  transition-duration: 200ms;
+}
+
+/* Respect the user's reduced-motion preference site-wide. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

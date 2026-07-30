@@ -1,245 +1,927 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>ShefGuide — Community Q&A</title>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:Arial,sans-serif;background:#f0f2f5;min-height:100vh;padding:24px 16px}
-    .page{max-width:700px;margin:0 auto}
-    h1{color:#1A3A5C;font-size:20px;margin-bottom:4px}
-    .sub{color:#888;font-size:13px;margin-bottom:20px}
-    .search-row{display:flex;gap:8px;margin-bottom:16px}
-    .search-row input{flex:1;padding:10px 14px;border:1px solid #ddd;
-                      border-radius:8px;font-size:14px}
-    .btn{padding:10px 18px;border:none;border-radius:8px;
-         font-size:13px;cursor:pointer;font-family:Arial}
-    .btn-primary{background:#1A3A5C;color:white}
-    .btn-teal{background:#148F77;color:white}
-    .btn-sm{padding:6px 12px;font-size:12px}
-    .card{background:white;border-radius:10px;padding:18px;
-          margin-bottom:12px;border:0.5px solid #e0e0e0}
-    .q-text{font-size:15px;font-weight:500;color:#1A3A5C;margin-bottom:6px}
-    .meta{font-size:11px;color:#aaa;margin-bottom:10px}
-    .cat-tag{display:inline-block;font-size:10px;padding:2px 7px;
-             border-radius:4px;background:#E6F1FB;color:#0C447C;margin-right:6px}
-    .ai-box{background:#EAF3DE;border-radius:6px;padding:12px 14px;margin:10px 0}
-    .ai-label{font-size:10px;font-weight:500;color:#27500A;margin-bottom:4px}
-    .ai-text{font-size:13px;color:#1C2833;line-height:1.6}
-    .ai-meta{font-size:10px;color:#888;margin-top:4px}
-    .cached{display:inline-block;font-size:9px;padding:1px 5px;
-            border-radius:3px;background:#E6F1FB;color:#0C447C;margin-left:4px}
-    .replies{margin-top:12px;padding-top:12px;border-top:1px solid #f0f0f0}
-    .reply{background:#f8f9fa;border-radius:6px;padding:8px 12px;
-           margin-bottom:6px;font-size:13px;color:#333}
-    .reply-input{width:100%;padding:8px 12px;border:1px solid #ddd;
-                 border-radius:6px;font-size:13px;margin-top:8px}
-    .new-q{background:white;border-radius:10px;padding:18px;
-           margin-bottom:20px;border:1.5px solid #1A3A5C}
-    .new-q h3{color:#1A3A5C;font-size:14px;margin-bottom:12px}
-    .new-q input{width:100%;padding:10px;border:1px solid #ddd;
-                 border-radius:6px;font-size:14px;margin-bottom:10px}
-    .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    select{padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:13px}
-    #status{font-size:12px;margin-left:6px}
-    .empty{text-align:center;color:#aaa;padding:40px;font-size:14px}
-    #search-results .card{border-color:#BA7517}
-  </style>
-</head>
-<body>
-<div class="page">
-  <a href="index.html"
-     style="font-size:12px;color:#888;text-decoration:none">← Back to ShefGuide</a>
-
-  <h1 style="margin-top:12px">Community Q&A</h1>
-  <p class="sub">Ask questions about UK university life. Get answers from
-     other students and AI — answers are saved so you never ask twice.</p>
-
-  <!-- Search existing questions -->
-  <div class="search-row">
-    <input id="search-input"
-           placeholder="Search before posting — your question may already be answered..."
-           oninput="searchPosts()">
-  </div>
-  <div id="search-results"></div>
-
-  <!-- Post a new question -->
-  <div class="new-q">
-    <h3>Post a question</h3>
-    <input id="new-question"
-           placeholder="What do you want to know about UK university life?">
-    <div class="row">
-      <select id="category">
-        <option value="academic">Academic</option>
-        <option value="arrival">Arrival and admin</option>
-        <option value="technology">Technology and AI</option>
-        <option value="general">General</option>
-      </select>
-      <select id="ai-model">
-        <option value="gpt">AI: GPT-4o-mini</option>
-        <option value="gemini">AI: Gemini Flash</option>
-      </select>
-      <button class="btn btn-primary" onclick="postQuestion()">Post</button>
-      <span id="status"></span>
-    </div>
-  </div>
-
-  <!-- All posts -->
-  <div id="posts-container"></div>
-</div>
-
-<script>
-const API   = 'http://localhost:8000';
-const token = localStorage.getItem('shefguide_token');
-
-if (!token) {
-  document.body.innerHTML =
-    '<div style="text-align:center;padding:60px;font-family:Arial">' +
-    '<p>Please <a href="index.html">log in</a> first.</p></div>';
-}
-
-window.onload = () => loadPosts();
-
-async function loadPosts() {
-  const r = await fetch(API + '/posts',
-    { headers: { Authorization: 'Bearer ' + token } });
-  const d = await r.json();
-  renderPosts(d.posts, 'posts-container');
-}
-
-function renderPosts(posts, containerId) {
-  const el = document.getElementById(containerId);
-  if (!posts.length) {
-    el.innerHTML = '<div class="empty">No questions yet. Be the first!</div>';
-    return;
-  }
-  el.innerHTML = posts.map(p => `
-    <div class="card">
-      <div class="q-text">${esc(p.question)}</div>
-      <div class="meta">
-        <span class="cat-tag">${p.category}</span>
-        ${new Date(p.created_at).toLocaleDateString('en-GB',
-          {day:'numeric',month:'short'})}
-        · ${p.reply_count || (p.replies||[]).length} replies
-      </div>
-
-      ${p.ai_answer
-        ? `<div class="ai-box">
-             <div class="ai-label">
-               AI answer <span class="cached">cached</span>
-             </div>
-             <div class="ai-text">${esc(p.ai_answer.text)}</div>
-             <div class="ai-meta">
-               ${p.ai_answer.model_used} · ${p.ai_answer.latency_sec}s
-             </div>
-           </div>`
-        : `<button class="btn btn-teal btn-sm"
-                   onclick="getAiAnswer('${p._id}')">
-             Get AI answer
-           </button>`
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Community Q&A | ShefGuide</title>
+    <link href="assets/favicon.ico" rel="icon" sizes="any" />
+    <link href="assets/images/favicon-32.png" rel="icon" sizes="32x32" type="image/png" />
+    <link href="assets/images/favicon-16.png" rel="icon" sizes="16x16" type="image/png" />
+    <link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon" />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
       }
-
-      <div class="replies">
-        ${(p.replies || []).map(r =>
-          `<div class="reply">${esc(r.text)}</div>`
-        ).join('')}
-        <input class="reply-input" id="ri-${p._id}"
-               placeholder="Add a reply or tip..."
-               onkeydown="if(event.key==='Enter')addReply('${p._id}')">
-        <div style="margin-top:6px">
-          <button class="btn btn-sm"
-                  onclick="addReply('${p._id}')"
-                  style="background:#f0f2f5;color:#333">
-            Post reply
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 300,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .fluid {
+        transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+        transition-duration: 500ms;
+      }
+      #mobile-menu {
+        transition:
+          opacity 500ms cubic-bezier(0.32, 0.72, 0, 1),
+          visibility 500ms cubic-bezier(0.32, 0.72, 0, 1);
+      }
+      #mobile-menu[data-open="false"] {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      #mobile-menu[data-open="false"] .menu-link {
+        transform: translateY(2rem);
+        opacity: 0;
+      }
+      .menu-link {
+        transition:
+          transform 600ms cubic-bezier(0.32, 0.72, 0, 1),
+          opacity 600ms cubic-bezier(0.32, 0.72, 0, 1);
+      }
+      #hamburger .bar-top {
+        transition:
+          transform 500ms cubic-bezier(0.32, 0.72, 0, 1),
+          top 300ms cubic-bezier(0.32, 0.72, 0, 1);
+      }
+      #hamburger .bar-bottom {
+        transition:
+          transform 500ms cubic-bezier(0.32, 0.72, 0, 1),
+          bottom 300ms cubic-bezier(0.32, 0.72, 0, 1);
+      }
+      #hamburger[data-open="true"] .bar-top {
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+      }
+      #hamburger[data-open="true"] .bar-bottom {
+        bottom: 50%;
+        transform: translateY(50%) rotate(-45deg);
+      }
+      @keyframes panel-in {
+        from {
+          opacity: 0;
+          transform: translateY(1.5rem);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .panel-in {
+        animation: panel-in 700ms cubic-bezier(0.32, 0.72, 0, 1) both;
+      }
+      @keyframes reveal-in {
+        from {
+          opacity: 0;
+          transform: translateY(2rem);
+          filter: blur(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+          filter: blur(0);
+        }
+      }
+      .reveal {
+        opacity: 0;
+        animation: reveal-in 900ms cubic-bezier(0.32, 0.72, 0, 1) forwards;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .panel-in,
+        .reveal {
+          animation: none;
+          opacity: 1;
+        }
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface": "#181c1e",
+              "primary-fixed-dim": "#abc9f2",
+              "surface-container-lowest": "#ffffff",
+              "primary-container": "#1a3a5c",
+              outline: "#73777f",
+              "on-secondary-fixed": "#002019",
+              "on-primary-fixed": "#001c37",
+              "secondary-fixed": "#8df6d9",
+              error: "#ba1a1a",
+              "surface-container-high": "#e5e8eb",
+              "inverse-primary": "#abc9f2",
+              "surface-bright": "#f7fafd",
+              "on-tertiary-fixed": "#291800",
+              "surface-tint": "#436084",
+              primary: "#002444",
+              background: "#f7fafd",
+              tertiary: "#331f00",
+              "on-primary": "#ffffff",
+              "on-error": "#ffffff",
+              "on-primary-container": "#87a4cc",
+              "error-container": "#ffdad6",
+              "primary-fixed": "#d2e4ff",
+              "on-primary-fixed-variant": "#2a486b",
+              "surface-dim": "#d7dadd",
+              "surface-container-highest": "#e0e3e6",
+              "on-secondary-fixed-variant": "#005142",
+              "tertiary-fixed": "#ffddb1",
+              "deep-navy": "#1A3A5C",
+              "tertiary-container": "#4f3300",
+              "outline-variant": "#c3c6cf",
+              "on-tertiary-fixed-variant": "#5f410c",
+              "on-secondary-container": "#00725e",
+              "surface-variant": "#e0e3e6",
+              "surface-container-low": "#f1f4f7",
+              "tertiary-fixed-dim": "#ecbf80",
+              "dark-text": "#0E1133",
+              surface: "#f7fafd",
+              "inverse-surface": "#2d3133",
+              "on-error-container": "#93000a",
+              "surface-container": "#ebeef1",
+              "secondary-container": "#8df6d9",
+              "on-background": "#181c1e",
+              "on-tertiary-container": "#c49b5f",
+              "surface-light": "#F4F7FA",
+              "pure-white": "#FFFFFF",
+              "teal-accent": "#148F77",
+              "on-secondary": "#ffffff",
+              "inverse-on-surface": "#eef1f4",
+              "secondary-fixed-dim": "#70d9bd",
+              secondary: "#006b58",
+              "on-tertiary": "#ffffff",
+              "on-surface-variant": "#43474e",
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+            spacing: {
+              "container-max": "1200px",
+              "margin-mobile": "20px",
+              "section-gap": "80px",
+              gutter: "24px",
+              "card-padding": "32px",
+            },
+            fontFamily: {
+              "label-md": ["Outfit"],
+              "headline-md": ["Outfit"],
+              "number-accent": ["Outfit"],
+              "title-lg": ["Outfit"],
+              "body-lg": ["Plus Jakarta Sans"],
+              "headline-md-mobile": ["Outfit"],
+              "display-lg-mobile": ["Outfit"],
+              "body-md": ["Plus Jakarta Sans"],
+              "display-lg": ["Outfit"],
+            },
+            fontSize: {
+              "label-md": [
+                "14px",
+                {
+                  lineHeight: "20px",
+                  letterSpacing: "0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-md": [
+                "32px",
+                { lineHeight: "40px", fontWeight: "600" },
+              ],
+              "number-accent": [
+                "56px",
+                {
+                  lineHeight: "1",
+                  letterSpacing: "-0.04em",
+                  fontWeight: "700",
+                },
+              ],
+              "title-lg": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+              "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+              "headline-md-mobile": [
+                "24px",
+                { lineHeight: "32px", fontWeight: "600" },
+              ],
+              "display-lg-mobile": [
+                "32px",
+                {
+                  lineHeight: "40px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "700",
+                },
+              ],
+              "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "display-lg": [
+                "48px",
+                {
+                  lineHeight: "56px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link href="assets/base.css" rel="stylesheet" />
+  </head>
+  <body class="bg-surface font-body-md text-on-surface">
+    <header
+      class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(26,58,92,0.15)] ring-1 ring-black/[0.03]"
+    >
+      <div class="h-20 w-full px-8 flex items-center justify-between">
+        <div class="flex items-center">
+          <img
+            alt="ShefGuide"
+            class="h-11 w-auto object-contain"
+            src="assets/images/logo-full.png"
+          />
+        </div>
+        <nav
+          class="hidden md:flex items-center gap-10"
+          data-active-classes="text-teal-accent font-semibold"
+        >
+          <a
+            class="text-body-md text-on-surface-variant hover:text-on-surface fluid"
+            data-path="chat"
+            href="chat.html"
+            >Chat</a
+          ><a
+            aria-current="page"
+            class="fluid text-teal-accent font-semibold"
+            data-path="community-qa"
+            href="qa.html"
+            >Community Q&A</a
+          ><a
+            class="text-body-md text-on-surface-variant hover:text-on-surface fluid"
+            data-path="checklist"
+            href="checklist.html"
+            >Checklist</a
+          ><a
+            class="text-body-md text-on-surface-variant hover:text-on-surface fluid"
+            data-path="about"
+            href="index.html"
+            >About</a
+          >
+        </nav>
+        <div class="flex items-center gap-2">
+          <button
+            id="btn-signin"
+            data-auth="guest-only"
+            class="hidden sm:block text-label-md px-4 py-2 text-primary hover:text-teal-accent fluid"
+          >
+            Sign In</button
+          ><button
+            id="btn-signup"
+            data-auth="guest-only"
+            class="group hidden sm:flex items-center gap-2 pl-6 pr-2 py-2 bg-secondary text-on-secondary rounded-full text-label-md font-semibold hover:bg-teal-accent fluid active:scale-[0.98] shadow-[0_10px_30px_-10px_rgba(0,107,88,0.5)]"
+          >
+            Get Started
+            <span
+              class="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center fluid group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105"
+            >
+              <span class="material-symbols-outlined text-[15px]"
+                >arrow_forward</span
+              >
+            </span>
+          </button>
+          <div
+            id="nav-avatar"
+            data-role="avatar"
+            data-auth="user-only"
+            style="display: none"
+            class="w-9 h-9 rounded-full bg-primary flex items-center justify-center ml-2"
+          >
+            <span class="material-symbols-outlined text-on-primary text-[20px]"
+              >person</span
+            >
+          </div>
+          <button
+            id="hamburger"
+            data-open="false"
+            aria-label="Toggle menu"
+            aria-expanded="false"
+            class="md:hidden relative w-9 h-9 flex items-center justify-center shrink-0"
+          >
+            <span
+              class="bar-top absolute w-5 h-[1.5px] bg-deep-navy rounded-full"
+              style="top: 14px"
+            ></span>
+            <span
+              class="bar-bottom absolute w-5 h-[1.5px] bg-deep-navy rounded-full"
+              style="bottom: 14px"
+            ></span>
           </button>
         </div>
       </div>
-    </div>`).join('');
-}
+    </header>
+    <!-- Mobile Menu Overlay -->
+    <div
+      id="mobile-menu"
+      data-open="false"
+      class="fixed inset-0 z-40 bg-surface/90 backdrop-blur-3xl flex flex-col items-center justify-center gap-2"
+    >
+      <a
+        href="chat.html"
+        class="menu-link font-headline-md text-4xl text-deep-navy py-3"
+        style="transition-delay: 80ms"
+        >Chat</a
+      >
+      <a
+        href="qa.html"
+        class="menu-link font-headline-md text-4xl text-teal-accent py-3"
+        style="transition-delay: 140ms"
+        >Community Q&A</a
+      >
+      <a
+        href="checklist.html"
+        class="menu-link font-headline-md text-4xl text-deep-navy py-3"
+        style="transition-delay: 200ms"
+        >Checklist</a
+      >
+      <a
+        href="index.html"
+        class="menu-link font-headline-md text-4xl text-deep-navy py-3"
+        style="transition-delay: 260ms"
+        >About</a
+      >
+    </div>
+    <main class="w-full pt-20 bg-surface">
+      <div
+        class="flex flex-col w-full max-w-container-max mx-auto px-margin-mobile pb-section-gap min-h-screen"
+      >
+        <div
+          class="reveal relative w-full rounded-[2.5rem] bg-surface-container-low mt-8 p-8 md:p-12 shadow-[0_30px_70px_-25px_rgba(26,58,92,0.15)] ring-1 ring-black/[0.03] overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8"
+        >
+          <div
+            class="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none"
+          ></div>
+          <div class="relative z-10 max-w-2xl">
+            <span
+              class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-teal-accent/8 ring-1 ring-teal-accent/15 text-[10px] uppercase tracking-[0.2em] font-semibold text-teal-accent mb-5"
+              >Ask Anything</span
+            >
+            <h1
+              class="font-display-lg text-display-lg-mobile md:text-display-lg text-deep-navy mb-4"
+            >
+              Community Q&A
+            </h1>
+            <p
+              class="font-body-lg text-body-lg text-on-surface-variant max-w-xl"
+            >
+              Ask questions about UK university life. Get answers from other
+              students and AI — answers are saved so you never ask twice.
+            </p>
+          </div>
+          <div class="relative z-10 w-full md:w-auto flex-shrink-0">
+            <div
+              class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-secondary-container flex items-center justify-center shadow-[0_25px_50px_-15px_rgba(0,107,88,0.35)] relative"
+            >
+              <span
+                class="material-symbols-outlined text-[48px] md:text-[64px] text-on-secondary-container"
+                >forum</span
+              >
+              <div
+                class="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-[0_10px_25px_-8px_rgba(0,36,68,0.5)]"
+              >
+                <span
+                  class="material-symbols-outlined text-on-primary text-[24px]"
+                  >smart_toy</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-full mt-12 relative z-20">
+          <div class="relative max-w-3xl mx-auto -mt-16">
+            <div
+              class="p-1.5 rounded-full bg-black/[0.03] ring-1 ring-black/[0.05] shadow-[0_30px_60px_-20px_rgba(26,58,92,0.2)] focus-within:ring-teal-accent/30 fluid"
+            >
+              <div
+                class="bg-surface-container-lowest rounded-full p-2 flex items-center gap-3 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]"
+              >
+                <span class="material-symbols-outlined text-outline ml-4"
+                  >search</span
+                >
+                <label class="sr-only" for="search-input"
+                  >Search existing questions</label
+                >
+                <input
+                  id="search-input"
+                  class="flex-1 bg-transparent border-none outline-none font-body-md text-on-surface placeholder:text-outline-variant py-3 px-2"
+                  placeholder="Search before posting — your question may already be answered..."
+                  type="text"
+                />
+              </div>
+            </div>
+            <div
+              class="absolute top-full left-0 right-0 mt-4 bg-surface-container-lowest rounded-2xl shadow-[0_30px_60px_-20px_rgba(26,58,92,0.25)] ring-1 ring-black/[0.04] overflow-hidden hidden"
+              id="search-dropdown"
+            >
+              <div
+                class="p-4 bg-surface-container-low border-b border-surface-variant flex items-center gap-2"
+              >
+                <span class="material-symbols-outlined text-primary text-[20px]"
+                  >manage_search</span
+                >
+                <span
+                  class="font-label-md text-on-surface-variant"
+                  id="search-dropdown-label"
+                  >Existing questions matching your search:</span
+                >
+              </div>
+              <div class="p-2 space-y-2" id="search-results-list"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-section-gap">
+          <div class="panel-in lg:col-span-4 flex flex-col gap-6">
+            <div
+              class="bg-surface-container-lowest rounded-[1.75rem] p-6 shadow-[0_25px_60px_-25px_rgba(26,58,92,0.2)] ring-1 ring-black/[0.04] relative overflow-hidden"
+            >
+              <h3
+                class="font-title-lg text-title-lg text-deep-navy flex items-center gap-2 mb-4"
+              >
+                <span class="material-symbols-outlined">edit_square</span>
+                Post a question
+              </h3>
+              <label class="sr-only" for="new-question">Your question</label>
+              <textarea
+                id="new-question"
+                class="w-full bg-surface-light rounded-xl p-4 font-body-md text-on-surface ring-1 ring-outline-variant/40 focus:ring-2 focus:ring-teal-accent/40 focus:outline-none fluid resize-none mb-4"
+                placeholder="What do you want to know about UK university life?"
+                rows="4"
+              ></textarea>
+              <div class="space-y-4">
+                <div>
+                  <label
+                    class="font-label-md text-on-surface-variant mb-2 block"
+                    >Category</label
+                  >
+                  <div class="flex flex-wrap gap-2" id="category-picker">
+                    <button
+                      type="button"
+                      data-category="academic"
+                      class="cat-btn px-3 py-1.5 rounded-full bg-primary/10 text-primary font-label-md text-[13px] hover:bg-primary/20 fluid"
+                    >
+                      Academic
+                    </button>
+                    <button
+                      type="button"
+                      data-category="arrival"
+                      class="cat-btn px-3 py-1.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[13px] hover:bg-surface-variant fluid"
+                    >
+                      Arrival & Admin
+                    </button>
+                    <button
+                      type="button"
+                      data-category="technology"
+                      class="cat-btn px-3 py-1.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[13px] hover:bg-surface-variant fluid"
+                    >
+                      Tech & AI
+                    </button>
+                    <button
+                      type="button"
+                      data-category="general"
+                      class="cat-btn px-3 py-1.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[13px] hover:bg-surface-variant fluid"
+                    >
+                      General
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center justify-between pt-4 border-t border-surface-variant"
+                >
+                  <div class="flex items-center gap-2">
+                    <span
+                      class="material-symbols-outlined text-outline-variant text-[20px]"
+                      >smart_toy</span
+                    >
+                    <label class="sr-only" for="post-model"
+                      >AI model to answer this question</label
+                    >
+                    <select
+                      id="post-model"
+                      class="bg-transparent font-label-md text-on-surface-variant border-none outline-none cursor-pointer text-[13px]"
+                    >
+                      <option value="gpt">GPT-4o-mini</option>
+                      <option value="gemini">Gemini Flash</option>
+                    </select>
+                  </div>
+                  <button
+                    id="post-btn"
+                    class="group flex items-center gap-2 bg-teal-accent text-on-secondary pl-5 pr-1.5 py-1.5 rounded-full font-label-md fluid hover:bg-secondary active:scale-[0.98] shadow-[0_15px_30px_-10px_rgba(20,143,119,0.5)]"
+                  >
+                    Post
+                    <span
+                      class="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center fluid group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105"
+                    >
+                      <span class="material-symbols-outlined text-[15px]"
+                        >arrow_upward</span
+                      >
+                    </span>
+                  </button>
+                </div>
+                <p id="post-status" class="text-[12px]"></p>
+              </div>
+            </div>
+            <div
+              class="bg-surface-container-low rounded-[1.75rem] p-6 relative overflow-hidden ring-1 ring-black/[0.03]"
+            >
+              <div
+                class="absolute -right-12 -bottom-12 w-48 h-48 bg-primary/5 rounded-full blur-2xl pointer-events-none"
+              ></div>
+              <h4 class="font-title-lg text-title-lg text-deep-navy mb-4">
+                Categories
+              </h4>
+              <div class="space-y-3" id="category-counts"></div>
+            </div>
+          </div>
+          <div class="panel-in lg:col-span-8 flex flex-col gap-6" style="animation-delay: 100ms">
+            <div class="flex items-center justify-between mb-2">
+              <h2
+                class="font-headline-md text-headline-md-mobile md:text-headline-md text-deep-navy"
+              >
+                Latest Questions
+              </h2>
+            </div>
+            <div id="posts-container" class="flex flex-col gap-6"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="w-full bg-surface-container-low mt-section-gap py-12">
+      <div
+        class="max-w-container-max mx-auto px-margin-mobile flex flex-col md:flex-row justify-between items-center gap-8"
+      >
+        <div class="flex flex-col items-center md:items-start gap-4">
+          <img
+            alt="ShefGuide"
+            class="h-9 w-auto opacity-80"
+            src="assets/images/logo-full.png"
+          />
+          <p
+            class="text-body-md text-on-surface-variant max-w-xs text-center md:text-left"
+          >
+            Empowering international students to navigate their new life with
+            confidence.
+          </p>
+        </div>
+        <div class="flex gap-8">
+          <a
+            class="text-label-md text-on-surface-variant hover:text-primary"
+            href="privacy.html"
+            >Privacy Policy</a
+          ><a
+            class="text-label-md text-on-surface-variant hover:text-primary"
+            href="terms.html"
+            >Terms of Service</a
+          ><a
+            class="text-label-md text-on-surface-variant hover:text-primary"
+            href="mailto:support@shefguide.edu"
+            >Contact Support</a
+          >
+        </div>
+      </div>
+      <div
+        class="max-w-container-max mx-auto px-margin-mobile mt-8 pt-8 border-t border-outline-variant text-center text-label-md text-on-surface-variant opacity-60"
+      >
+        © 2024 ShefGuide. All rights reserved.
+      </div>
+    </footer>
 
-async function postQuestion() {
-  const question = document.getElementById('new-question').value.trim();
-  const category = document.getElementById('category').value;
-  const model    = document.getElementById('ai-model').value;
-  const status   = document.getElementById('status');
-  if (!question) return;
+    <script src="assets/app.js"></script>
+    <script>
+      ShefGuide.requireAuth();
+      ShefGuide.wireHeader();
 
-  status.textContent = 'Posting...';
-  status.style.color = '#888';
+      // Mobile hamburger menu
+      const hamburger = document.getElementById("hamburger");
+      const mobileMenu = document.getElementById("mobile-menu");
+      hamburger.addEventListener("click", () => {
+        const open = hamburger.getAttribute("data-open") === "true";
+        hamburger.setAttribute("data-open", String(!open));
+        hamburger.setAttribute("aria-expanded", String(!open));
+        mobileMenu.setAttribute("data-open", String(!open));
+        document.body.style.overflow = open ? "" : "hidden";
+      });
+      mobileMenu.querySelectorAll(".menu-link").forEach((link) => {
+        link.addEventListener("click", () => {
+          hamburger.setAttribute("data-open", "false");
+          hamburger.setAttribute("aria-expanded", "false");
+          mobileMenu.setAttribute("data-open", "false");
+          document.body.style.overflow = "";
+        });
+      });
 
-  const r = await fetch(API + '/posts', {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json',
-               'Authorization': 'Bearer ' + token },
-    body: JSON.stringify({ question, category })
-  });
-  const d = await r.json();
+      const CATEGORY_LABELS = {
+        academic: "Academic",
+        arrival: "Arrival & Admin",
+        technology: "Tech & AI",
+        general: "General",
+      };
 
-  if (d.message === 'A similar question already exists') {
-    status.textContent = 'Similar question already exists — see below';
-    status.style.color = '#BA7517';
-  } else {
-    status.textContent = 'Posted!';
-    status.style.color = '#148F77';
-    document.getElementById('new-question').value = '';
-    // Auto-generate AI answer straight away
-    await getAiAnswer(d.post_id, model);
-  }
-  loadPosts();
-}
+      let selectedCategory = "academic";
+      document.querySelectorAll(".cat-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          selectedCategory = btn.dataset.category;
+          document.querySelectorAll(".cat-btn").forEach((b) => {
+            b.className =
+              "cat-btn px-3 py-1.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[13px] hover:bg-surface-variant fluid";
+          });
+          btn.className =
+            "cat-btn px-3 py-1.5 rounded-full bg-primary/10 text-primary font-label-md text-[13px] hover:bg-primary/20 fluid";
+        });
+      });
 
-async function getAiAnswer(postId, model) {
-  const m = model || document.getElementById('ai-model').value;
-  await fetch(`${API}/posts/${postId}/ai-answer`, {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json',
-               'Authorization': 'Bearer ' + token },
-    body: JSON.stringify({ model: m })
-  });
-  loadPosts();
-}
+      let allPosts = [];
 
-async function addReply(postId) {
-  const input = document.getElementById('ri-' + postId);
-  const text  = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  await fetch(`${API}/posts/${postId}/reply`, {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json',
-               'Authorization': 'Bearer ' + token },
-    body: JSON.stringify({ text })
-  });
-  loadPosts();
-}
+      function renderCategoryCounts() {
+        const counts = {};
+        allPosts.forEach((p) => {
+          counts[p.category] = (counts[p.category] || 0) + 1;
+        });
+        const el = document.getElementById("category-counts");
+        el.innerHTML = Object.keys(CATEGORY_LABELS)
+          .map(
+            (key) => `
+    <div class="flex items-center justify-between">
+      <span class="font-label-md text-on-surface-variant">${CATEGORY_LABELS[key]}</span>
+      <span class="bg-surface-container-highest text-on-surface-variant px-2 py-0.5 rounded-full text-[12px] font-label-md">${counts[key] || 0}</span>
+    </div>`,
+          )
+          .join("");
+      }
 
-let searchTimer;
-function searchPosts() {
-  const q  = document.getElementById('search-input').value.trim();
-  const el = document.getElementById('search-results');
-  clearTimeout(searchTimer);
-  if (q.length < 3) { el.innerHTML = ''; return; }
-  searchTimer = setTimeout(async () => {
-    const r = await fetch(
-      `${API}/posts/search/${encodeURIComponent(q)}`,
-      { headers: { Authorization: 'Bearer ' + token } }
-    );
-    const d = await r.json();
-    if (!d.results.length) { el.innerHTML = ''; return; }
-    el.innerHTML =
-      `<p style="font-size:12px;color:#888;margin-bottom:8px">
-         Existing questions matching "${esc(q)}":</p>`;
-    renderPosts(d.results, 'search-results');
-    // re-add the label (renderPosts replaces innerHTML)
-    el.insertAdjacentHTML('afterbegin',
-      `<p style="font-size:12px;color:#888;margin-bottom:8px">
-         Existing questions matching "${esc(q)}":</p>`);
-  }, 400);
-}
+      function postCardHtml(p) {
+        const catLabel = CATEGORY_LABELS[p.category] || p.category;
+        const replyCount =
+          p.reply_count !== undefined
+            ? p.reply_count
+            : (p.replies || []).length;
 
-const esc = s => (s||'')
-  .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-  .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-</script>
-</body>
+        const aiBlock = p.ai_answer
+          ? `<div class="bg-teal-accent/5 rounded-2xl p-5 ring-1 ring-teal-accent/20 relative overflow-hidden">
+         <div class="absolute top-0 right-0 p-3 flex items-center gap-2">
+           <span class="bg-teal-accent/10 text-teal-accent px-2 py-0.5 rounded-full text-[11px] font-label-md flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">bolt</span> Cached</span>
+         </div>
+         <div class="flex items-start gap-3 mb-2">
+           <div class="w-8 h-8 rounded-full bg-teal-accent flex items-center justify-center flex-shrink-0 shadow-sm shadow-teal-accent/30">
+             <span class="material-symbols-outlined text-white text-[18px]">smart_toy</span>
+           </div>
+           <h4 class="font-title-lg text-[16px] text-on-secondary-fixed-variant mt-1">AI Answer</h4>
+         </div>
+         <div class="font-body-md text-on-secondary-fixed-variant/80 ml-11">
+           <p>${ShefGuide.escapeHtml(p.ai_answer.text).replace(/\n/g, "<br>")}</p>
+         </div>
+         <div class="ml-11 mt-3 flex items-center gap-2 text-[12px] font-label-md text-on-secondary-fixed-variant/50">
+           <span>${ShefGuide.escapeHtml(p.ai_answer.model_used || "")}</span>
+           <span>·</span>
+           <span>${p.ai_answer.latency_sec ?? "?"}s generation</span>
+         </div>
+       </div>`
+          : `<div class="flex items-center justify-center p-6 border-2 border-dashed border-teal-accent/30 rounded-2xl bg-surface-light">
+         <button class="group ai-answer-btn flex items-center gap-3 pl-6 pr-2 py-2 rounded-full ring-2 ring-teal-accent text-teal-accent font-label-md hover:bg-teal-accent hover:text-white fluid active:scale-[0.98]" data-id="${p._id}">
+           Get AI Answer
+           <span class="w-8 h-8 rounded-full bg-teal-accent/10 group-hover:bg-white/15 flex items-center justify-center fluid group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105">
+             <span class="material-symbols-outlined text-[16px]">smart_toy</span>
+           </span>
+         </button>
+       </div>`;
+
+        const repliesHtml = (p.replies || [])
+          .map(
+            (r) => `
+    <div class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-[16px] text-on-tertiary-fixed">person</span></div>
+      <div class="bg-surface-container-low rounded-2xl rounded-tl-sm p-4 flex-1">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-[12px] text-on-surface-variant font-label-md">${ShefGuide.timeAgo(r.created_at)}</span>
+        </div>
+        <p class="font-body-md text-on-surface-variant text-[14px]">${ShefGuide.escapeHtml(r.text)}</p>
+      </div>
+    </div>`,
+          )
+          .join("");
+
+        return `
+    <div class="bg-surface-container-lowest rounded-[1.75rem] p-6 shadow-[0_20px_50px_-25px_rgba(26,58,92,0.15)] ring-1 ring-black/[0.03] flex flex-col gap-5 hover:-translate-y-0.5 fluid" data-post-id="${p._id}">
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex-1">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-md text-[13px]">${ShefGuide.escapeHtml(catLabel)}</span>
+            <span class="text-on-surface-variant font-label-md text-[12px]">Asked ${ShefGuide.timeAgo(p.created_at)}</span>
+          </div>
+          <h3 class="font-title-lg text-title-lg text-on-surface mb-2">${ShefGuide.escapeHtml(p.question)}</h3>
+        </div>
+      </div>
+      ${aiBlock}
+      <div class="pt-4 border-t border-surface-variant flex flex-col gap-4">
+        ${repliesHtml}
+        <div class="flex items-center gap-2">
+          <input class="reply-input flex-1 bg-surface-light rounded-full px-4 py-2 text-[13px] ring-1 ring-outline-variant/40 focus:ring-2 focus:ring-teal-accent/40 focus:outline-none fluid" placeholder="Add a reply or tip..." aria-label="Add a reply or tip" data-id="${p._id}"/>
+          <button class="reply-btn px-4 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[13px] hover:bg-surface-variant fluid active:scale-[0.98]" data-id="${p._id}">Reply</button>
+        </div>
+        <span class="font-label-md text-[13px] text-on-surface-variant self-end">${replyCount} repl${replyCount === 1 ? "y" : "ies"}</span>
+      </div>
+    </div>`;
+      }
+
+      function renderPosts() {
+        document.getElementById("posts-container").innerHTML = allPosts.length
+          ? allPosts.map(postCardHtml).join("")
+          : `<div class="text-center text-on-surface-variant py-16">No questions yet. Be the first to ask!</div>`;
+        renderCategoryCounts();
+        wirePostActions();
+      }
+
+      function wirePostActions() {
+        document.querySelectorAll(".ai-answer-btn").forEach((btn) => {
+          btn.addEventListener("click", () => getAiAnswer(btn.dataset.id, btn));
+        });
+        document.querySelectorAll(".reply-btn").forEach((btn) => {
+          btn.addEventListener("click", () => submitReply(btn.dataset.id));
+        });
+        document.querySelectorAll(".reply-input").forEach((input) => {
+          input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") submitReply(input.dataset.id);
+          });
+        });
+      }
+
+      async function loadPosts() {
+        const data = await ShefGuide.api("/posts", {
+          headers: ShefGuide.authHeaders(),
+        });
+        allPosts = data.posts;
+        renderPosts();
+      }
+
+      async function getAiAnswer(postId, triggerBtn) {
+        const model = document.getElementById("post-model").value;
+        const originalText = triggerBtn ? triggerBtn.innerHTML : null;
+        if (triggerBtn) {
+          triggerBtn.disabled = true;
+          triggerBtn.innerHTML =
+            '<span class="material-symbols-outlined animate-spin">progress_activity</span> Thinking...';
+        }
+        try {
+          await ShefGuide.ensureDisclosure();
+          await ShefGuide.api(`/posts/${postId}/ai-answer`, {
+            method: "POST",
+            headers: ShefGuide.authHeaders(true),
+            body: JSON.stringify({ model }),
+          });
+          await loadPosts();
+        } catch (err) {
+          if (triggerBtn) {
+            triggerBtn.disabled = false;
+            triggerBtn.innerHTML = originalText;
+          }
+          if (err.message !== "cancelled")
+            ShefGuide.showToast(
+              err.message || "Could not generate an answer.",
+              "error",
+            );
+        }
+      }
+
+      async function submitReply(postId) {
+        const input = document.querySelector(
+          `.reply-input[data-id="${postId}"]`,
+        );
+        if (!input) return;
+        const text = input.value.trim();
+        if (!text) return;
+        input.value = "";
+        try {
+          await ShefGuide.api(`/posts/${postId}/reply`, {
+            method: "POST",
+            headers: ShefGuide.authHeaders(true),
+            body: JSON.stringify({ text }),
+          });
+          await loadPosts();
+        } catch (err) {
+          ShefGuide.showToast(
+            err.message || "Could not post your reply.",
+            "error",
+          );
+        }
+      }
+
+      document
+        .getElementById("post-btn")
+        .addEventListener("click", async () => {
+          const postBtn = document.getElementById("post-btn");
+          const question = document.getElementById("new-question").value.trim();
+          const status = document.getElementById("post-status");
+          if (!question) return;
+
+          postBtn.disabled = true;
+          status.textContent = "Posting...";
+          status.style.color = "#888";
+          try {
+            const data = await ShefGuide.api("/posts", {
+              method: "POST",
+              headers: ShefGuide.authHeaders(true),
+              body: JSON.stringify({ question, category: selectedCategory }),
+            });
+            if (data.message === "A similar question already exists") {
+              status.textContent =
+                "A similar question already exists — see it below.";
+              status.style.color = "#BA7517";
+            } else {
+              status.textContent = "Posted! Generating an AI answer...";
+              status.style.color = "#148F77";
+              document.getElementById("new-question").value = "";
+              await getAiAnswer(data.post_id);
+              status.textContent = "Posted!";
+            }
+            await loadPosts();
+          } catch (err) {
+            status.textContent = err.message || "Could not post your question.";
+            status.style.color = "#c00";
+          } finally {
+            postBtn.disabled = false;
+          }
+        });
+
+      // ---- Search ----
+      let searchTimer;
+      const searchInput = document.getElementById("search-input");
+      const searchDropdown = document.getElementById("search-dropdown");
+      const searchResultsList = document.getElementById("search-results-list");
+
+      searchInput.addEventListener("input", () => {
+        const q = searchInput.value.trim();
+        clearTimeout(searchTimer);
+        if (q.length < 3) {
+          searchDropdown.classList.add("hidden");
+          return;
+        }
+        searchTimer = setTimeout(async () => {
+          const data = await ShefGuide.api(
+            `/posts/search/${encodeURIComponent(q)}`,
+            {
+              headers: ShefGuide.authHeaders(),
+            },
+          );
+          if (!data.results.length) {
+            searchDropdown.classList.add("hidden");
+            return;
+          }
+          document.getElementById("search-dropdown-label").textContent =
+            `Existing questions matching "${q}":`;
+          searchResultsList.innerHTML = data.results
+            .map(
+              (r) => `
+      <div class="p-4 rounded-xl bg-tertiary-fixed/10 hover:bg-tertiary-fixed/20 transition-colors">
+        <h4 class="font-title-lg text-title-lg text-deep-navy mb-1">${ShefGuide.escapeHtml(r.question)}</h4>
+        <span class="px-2.5 py-1 rounded-full bg-tertiary-fixed/30 text-on-tertiary-fixed font-label-md text-[12px]">${CATEGORY_LABELS[r.category] || r.category}</span>
+      </div>`,
+            )
+            .join("");
+          searchDropdown.classList.remove("hidden");
+        }, 400);
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!searchDropdown.contains(e.target) && e.target !== searchInput) {
+          searchDropdown.classList.add("hidden");
+        }
+      });
+
+      loadPosts();
+    </script>
+  </body>
 </html>

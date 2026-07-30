@@ -1,0 +1,286 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-surface":"#181c1e","primary-fixed-dim":"#abc9f2","surface-container-lowest":"#ffffff","primary-container":"#1a3a5c","outline":"#73777f","on-secondary-fixed":"#002019","on-primary-fixed":"#001c37","secondary-fixed":"#8df6d9","error":"#ba1a1a","surface-container-high":"#e5e8eb","inverse-primary":"#abc9f2","surface-bright":"#f7fafd","on-tertiary-fixed":"#291800","surface-tint":"#436084","primary":"#002444","background":"#f7fafd","tertiary":"#331f00","on-primary":"#ffffff","on-error":"#ffffff","on-primary-container":"#87a4cc","error-container":"#ffdad6","primary-fixed":"#d2e4ff","on-primary-fixed-variant":"#2a486b","surface-dim":"#d7dadd","surface-container-highest":"#e0e3e6","on-secondary-fixed-variant":"#005142","tertiary-fixed":"#ffddb1","deep-navy":"#1A3A5C","tertiary-container":"#4f3300","outline-variant":"#c3c6cf","on-tertiary-fixed-variant":"#5f410c","on-secondary-container":"#00725e","surface-variant":"#e0e3e6","surface-container-low":"#f1f4f7","tertiary-fixed-dim":"#ecbf80","dark-text":"#0E1133","surface":"#f7fafd","inverse-surface":"#2d3133","on-error-container":"#93000a","surface-container":"#ebeef1","secondary-container":"#8df6d9","on-background":"#181c1e","on-tertiary-container":"#c49b5f","surface-light":"#F4F7FA","pure-white":"#FFFFFF","teal-accent":"#148F77","on-secondary":"#ffffff","inverse-on-surface":"#eef1f4","secondary-fixed-dim":"#70d9bd","secondary":"#006b58","on-tertiary":"#ffffff","on-surface-variant":"#43474e"},"borderRadius":{"DEFAULT":"1rem","lg":"2rem","xl":"3rem","full":"9999px"},"spacing":{"container-max":"1200px","margin-mobile":"20px","section-gap":"80px","gutter":"24px","card-padding":"32px"},"fontFamily":{"label-md":["Inter"],"headline-md":["DM Sans"],"number-accent":["DM Sans"],"title-lg":["DM Sans"],"body-lg":["Inter"],"headline-md-mobile":["DM Sans"],"display-lg-mobile":["DM Sans"],"body-md":["Inter"],"display-lg":["DM Sans"]},"fontSize":{"label-md":["14px",{"lineHeight":"20px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-md":["32px",{"lineHeight":"40px","fontWeight":"600"}],"number-accent":["56px",{"lineHeight":"1","letterSpacing":"-0.04em","fontWeight":"700"}],"title-lg":["20px",{"lineHeight":"28px","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"headline-md-mobile":["24px",{"lineHeight":"32px","fontWeight":"600"}],"display-lg-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.01em","fontWeight":"700"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"display-lg":["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/></head><body class="bg-surface font-body-md text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full px-8 flex items-center justify-between"><div class="flex items-center gap-3"><img alt="ShefGuide logo" class="h-10 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLsNR0_0s2_4eb4qq2waWwx4ApNNlVg4UD-Al381J3r7frztPCzKlK9_0aSqb5MpfWUTeHnp-drCXVKNw7D-fMrcbxvYgh_P2HwxQHve7oAfWzdNhqd15br4nt-xvb_zJ0YWvshm4l2cqyKVnwmmr0KF8PpCQbPYNx-v9giVvqfJcP_4_VlvHf6ovMc9dazM4yKfA7WyqY2oyuBWWuQNf7sAY0-WdRs030NPFazTXR09S_kCo13mas45th2z"/><span class="font-title-lg text-title-lg text-deep-navy">ShefGuide</span></div><nav class="hidden md:flex items-center gap-10" data-active-classes="text-teal-accent font-semibold"><a aria-current="page" class="transition-colors text-teal-accent font-semibold" data-path="chat" href="#">Chat</a><a class="text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="community-qa" href="#">Community Q&A</a><a class="text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="checklist" href="#">Checklist</a><a class="text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a></nav><div class="flex items-center gap-4"><button class="hidden sm:block text-label-md px-4 py-2 text-primary hover:text-teal-accent">Sign In</button><button class="bg-secondary text-on-secondary px-6 py-2.5 rounded-full text-label-md font-semibold hover:bg-teal-accent transition-all transform hover:scale-105 shadow-sm">Get Started</button><div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center ml-2"><span class="material-symbols-outlined text-on-primary text-[20px]">person</span></div></div></div></header><main class="w-full pt-20 bg-surface"><div class="flex flex-col w-full h-[calc(100vh-5rem)]">
+<div class="w-full px-margin-mobile md:px-8 py-6 bg-surface/50 backdrop-blur-md flex flex-col md:flex-row md:items-center justify-between gap-4 sticky top-0 z-10 border-b border-surface-variant/50 shadow-[0_4px_24px_-8px_rgba(26,58,92,0.05)]">
+<div>
+<h1 class="font-headline-md text-headline-md text-deep-navy mb-1 tracking-tight">Chat with ShefGuide</h1>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-80 max-w-2xl">Ask about assignments, referencing, academic culture, or staying safe with AI tools.</p>
+</div>
+<div class="flex flex-wrap items-center gap-4">
+<div class="flex items-center bg-surface-container-low p-1.5 rounded-full shadow-inner ring-1 ring-inset ring-outline-variant/30">
+<button class="px-5 py-2 rounded-full font-label-md text-label-md text-on-primary bg-primary transition-all duration-300 shadow-sm transform hover:scale-[1.02]" id="model-gpt">
+          GPT-4o-mini
+        </button>
+<button class="px-5 py-2 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all duration-300" id="model-gemini">
+          Gemini 1.5 Flash
+        </button>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-primary-fixed/20 text-on-primary-fixed-variant rounded-full font-label-md text-[13px] border border-primary-fixed-dim/30 shadow-sm transition-all duration-300" id="data-badge">
+<div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+<span>OpenAI servers (US)</span>
+</div>
+</div>
+</div>
+<div class="flex-1 w-full max-w-[1600px] mx-auto p-4 md:p-8 flex flex-col lg:flex-row gap-6 overflow-y-auto lg:overflow-hidden custom-scrollbar">
+<div class="flex-1 min-h-[600px] lg:min-h-0 flex flex-col bg-surface-container-lowest rounded-[2.5rem] shadow-[0_8px_40px_-12px_rgba(26,58,92,0.08)] overflow-hidden relative group">
+<div class="absolute -top-32 -left-32 w-96 h-96 bg-primary-fixed-dim/20 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none transition-transform duration-[10s] ease-in-out group-hover:scale-110"></div>
+<div class="absolute -bottom-32 -right-32 w-96 h-96 bg-secondary-fixed/20 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none transition-transform duration-[15s] ease-in-out group-hover:scale-110"></div>
+<div class="flex-1 overflow-y-auto p-6 md:p-10 z-10 flex flex-col custom-scrollbar">
+<div class="flex flex-col items-center text-center m-auto w-full opacity-100 transition-opacity duration-500" id="empty-state">
+<div class="w-24 h-24 mb-6 rounded-[2rem] bg-surface-container flex items-center justify-center shadow-sm relative overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
+<span class="material-symbols-outlined text-[48px] text-teal-accent" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<div class="absolute inset-0 bg-gradient-to-tr from-teal-accent/10 to-transparent"></div>
+</div>
+<h2 class="font-title-lg text-title-lg text-deep-navy mb-3">How can I help you today?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mb-10">I'm here to assist with navigating university life, understanding assignments, and making the most of your studies at Sheffield.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-3xl">
+<button class="prompt-chip flex flex-col text-left p-5 rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all shadow-sm border border-transparent hover:border-outline-variant/30 group transform hover:-translate-y-1">
+<span class="material-symbols-outlined text-primary mb-2 group-hover:scale-110 transition-transform">article</span>
+<span class="font-label-md text-label-md text-deep-navy mb-1">Referencing Help</span>
+<span class="font-body-md text-[13px] text-on-surface-variant opacity-80">How do I reference a source in Harvard style?</span>
+</button>
+<button class="prompt-chip flex flex-col text-left p-5 rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all shadow-sm border border-transparent hover:border-outline-variant/30 group transform hover:-translate-y-1">
+<span class="material-symbols-outlined text-teal-accent mb-2 group-hover:scale-110 transition-transform">school</span>
+<span class="font-label-md text-label-md text-deep-navy mb-1">Academic Integrity</span>
+<span class="font-body-md text-[13px] text-on-surface-variant opacity-80">Is it okay to use ChatGPT for my coursework?</span>
+</button>
+<button class="prompt-chip flex flex-col text-left p-5 rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all shadow-sm border border-transparent hover:border-outline-variant/30 group transform hover:-translate-y-1">
+<span class="material-symbols-outlined text-secondary mb-2 group-hover:scale-110 transition-transform">edit_document</span>
+<span class="font-label-md text-label-md text-deep-navy mb-1">Assignment Structure</span>
+<span class="font-body-md text-[13px] text-on-surface-variant opacity-80">What's the difference between an essay and a report?</span>
+</button>
+<button class="prompt-chip flex flex-col text-left p-5 rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all shadow-sm border border-transparent hover:border-outline-variant/30 group transform hover:-translate-y-1">
+<span class="material-symbols-outlined text-tertiary-container mb-2 group-hover:scale-110 transition-transform">psychology</span>
+<span class="font-label-md text-label-md text-deep-navy mb-1">Critical Thinking</span>
+<span class="font-body-md text-[13px] text-on-surface-variant opacity-80">How do I show 'critical analysis' in my writing?</span>
+</button>
+</div>
+</div>
+<div class="hidden flex-col gap-6 w-full max-w-4xl mx-auto pb-4" id="chat-messages">
+<div class="flex gap-4 items-end justify-end opacity-0 transform translate-y-4 transition-all duration-500 ease-out" id="user-msg-template">
+<div class="bg-primary text-on-primary p-5 rounded-3xl rounded-br-sm shadow-md max-w-[85%] font-body-md text-[15px] leading-relaxed">
+                 How do I reference a source in Harvard style?
+              </div>
+</div>
+<div class="flex gap-4 items-start opacity-0 transform translate-y-4 transition-all duration-500 delay-200 ease-out" id="bot-msg-template">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex-shrink-0 flex items-center justify-center overflow-hidden border-2 border-surface-container-lowest shadow-sm">
+<img alt="ShefGuide Logo" class="w-6 h-6 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLsNR0_0s2_4eb4qq2waWwx4ApNNlVg4UD-Al381J3r7frztPCzKlK9_0aSqb5MpfWUTeHnp-drCXVKNw7D-fMrcbxvYgh_P2HwxQHve7oAfWzdNhqd15br4nt-xvb_zJ0YWvshm4l2cqyKVnwmmr0KF8PpCQbPYNx-v9giVvqfJcP_4_VlvHf6ovMc9dazM4yKfA7WyqY2oyuBWWuQNf7sAY0-WdRs030NPFazTXR09S_kCo13mas45th2z"/>
+</div>
+<div class="bg-surface-container-low text-on-surface p-6 rounded-3xl rounded-bl-sm shadow-sm border border-outline-variant/20 max-w-[90%] font-body-md text-[15px] leading-relaxed prose prose-sm prose-a:text-teal-accent">
+<p class="mb-3">Harvard referencing is a common author-date style used at Sheffield. The general format for a book reference in your bibliography looks like this:</p>
+<div class="bg-surface p-4 rounded-xl font-mono text-[13px] text-deep-navy border border-outline-variant/30 mb-3 shadow-inner">
+                    Author Surname, Initial(s). (Year of publication) <em>Title of book in italics</em>. Edition (if not the first). Place of publication: Publisher.
+                 </div>
+<p class="mb-2">For example:</p>
+<div class="bg-surface p-4 rounded-xl font-mono text-[13px] text-deep-navy border border-outline-variant/30 mb-3 shadow-inner">
+                    Smith, J. (2023) <em>Academic Writing for International Students</em>. 2nd edn. London: Routledge.
+                 </div>
+<p>In your text, you would cite it as: (Smith, 2023). <br/><br/>Would you like an example of how to reference a journal article or a website?</p>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 bg-surface-container-lowest/80 backdrop-blur-xl border-t border-surface-variant/30 z-20">
+<div class="max-w-4xl mx-auto relative flex items-end bg-surface-light rounded-[2rem] p-2 shadow-inner border border-outline-variant/40 focus-within:border-teal-accent/50 focus-within:ring-4 focus-within:ring-teal-accent/10 transition-all duration-300">
+<button aria-label="Add attachment" class="p-3 text-outline hover:text-primary transition-colors flex-shrink-0">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<textarea class="w-full bg-transparent border-none focus:ring-0 resize-none font-body-md text-on-surface py-4 px-2 max-h-32 custom-scrollbar placeholder:text-outline/70" id="chat-input" placeholder="Ask ShefGuide anything..." rows="1"></textarea>
+<button class="w-12 h-12 rounded-full bg-teal-accent text-pure-white flex items-center justify-center flex-shrink-0 m-1 shadow-md hover:shadow-lg hover:bg-secondary transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed" id="send-btn">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+<div class="text-center mt-3">
+<span class="font-label-md text-[11px] text-on-surface-variant/60">AI can make mistakes. Consider verifying important information with university guidelines.</span>
+</div>
+</div>
+</div>
+<div class="w-full lg:w-[400px] xl:w-[450px] flex-shrink-0 flex flex-col gap-6">
+<div class="bg-surface-container-lowest rounded-[2rem] p-6 shadow-[0_4px_24px_-8px_rgba(26,58,92,0.06)] flex flex-col h-full border border-surface-variant/40">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[22px]">description</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-deep-navy">Document Explainer</h3>
+</div>
+<button class="text-outline hover:text-deep-navy transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+<p class="font-body-md text-[14px] text-on-surface-variant mb-6 pl-13">Upload lecture slides, assignment briefs, or reading materials to ask specific questions about them.</p>
+<div class="flex-1 flex flex-col items-center justify-center p-8 border-2 border-dashed border-outline-variant/50 rounded-3xl bg-surface-light hover:bg-surface-container hover:border-teal-accent/50 transition-all cursor-pointer group" id="upload-zone">
+<div class="w-16 h-16 rounded-2xl bg-surface shadow-sm border border-outline-variant/20 flex items-center justify-center mb-4 group-hover:-translate-y-2 group-hover:shadow-md transition-all duration-300">
+<span class="material-symbols-outlined text-[32px] text-primary/60 group-hover:text-teal-accent transition-colors">cloud_upload</span>
+</div>
+<span class="font-label-md text-[15px] text-deep-navy mb-1">Drag & drop your file here</span>
+<span class="font-body-md text-[13px] text-on-surface-variant mb-4">Supports PDF, DOCX, TXT (Max 10MB)</span>
+<button class="px-6 py-2 rounded-full border border-outline-variant text-on-surface-variant font-label-md text-sm hover:bg-surface hover:text-primary transition-colors shadow-sm bg-surface-container-lowest">
+              Choose File
+           </button>
+</div>
+<div class="hidden flex-1 flex-col h-full" id="doc-active-state">
+<div class="p-4 bg-surface-container rounded-2xl flex items-center gap-4 mb-6 shadow-sm border border-outline-variant/20">
+<div class="w-12 h-12 rounded-xl bg-error-container text-on-error-container flex items-center justify-center shadow-inner flex-shrink-0">
+<span class="font-label-md font-bold text-xs">PDF</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-label-md text-[14px] text-deep-navy truncate">MGT101_Assignment_Brief_2024.pdf</h4>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-body-md text-[12px] text-on-surface-variant">2.4 MB</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-body-md text-[12px] text-on-surface-variant">4,210 words</span>
+</div>
+</div>
+<button class="text-outline hover:text-error transition-colors p-1" id="remove-doc-btn">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex-1 flex flex-col">
+<h5 class="font-label-md text-[13px] text-deep-navy uppercase tracking-wider mb-3 px-1 opacity-80">Document Q&A</h5>
+<div class="flex-1 overflow-y-auto mb-4 px-1 pb-2 custom-scrollbar">
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-4 shadow-sm mb-3">
+<p class="font-label-md text-[13px] text-primary mb-2">Q: What is the word count limit?</p>
+<p class="font-body-md text-[13px] text-on-surface-variant leading-relaxed">According to Section 3 of the brief, the word count is 2,500 words (+/- 10%), excluding references and appendices.</p>
+</div>
+</div>
+<div class="relative bg-surface rounded-xl p-1 shadow-inner border border-outline-variant/40 focus-within:border-secondary focus-within:ring-2 focus-within:ring-secondary/10">
+<input class="w-full bg-transparent border-none focus:ring-0 font-body-md text-[14px] py-3 pl-3 pr-10" placeholder="Ask about this document..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-surface-container-high text-primary flex items-center justify-center hover:bg-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">arrow_upward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<style>
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(115, 119, 127, 0.2);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(115, 119, 127, 0.4);
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btnGpt = document.getElementById('model-gpt');
+    const btnGemini = document.getElementById('model-gemini');
+    const dataBadge = document.getElementById('data-badge');
+    const badgeDot = dataBadge.querySelector('.w-2');
+    const badgeText = dataBadge.querySelector('span');
+
+    const toggleModel = (activeBtn, inactiveBtn, badgeStyleClass, badgeTextContent, dotColorClass) => {
+      activeBtn.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+      activeBtn.classList.remove('text-on-surface-variant', 'hover:text-on-surface');
+      
+      inactiveBtn.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+      inactiveBtn.classList.add('text-on-surface-variant', 'hover:text-on-surface');
+
+      dataBadge.className = `flex items-center gap-2 px-4 py-2 rounded-full font-label-md text-[13px] border shadow-sm transition-all duration-300 ${badgeStyleClass}`;
+      badgeText.textContent = badgeTextContent;
+      badgeDot.className = `w-2 h-2 rounded-full animate-pulse ${dotColorClass}`;
+    };
+
+    btnGpt.addEventListener('click', () => {
+      toggleModel(
+        btnGpt, 
+        btnGemini, 
+        'bg-primary-fixed/20 text-on-primary-fixed-variant border-primary-fixed-dim/30', 
+        'OpenAI servers (US)', 
+        'bg-blue-500'
+      );
+    });
+
+    btnGemini.addEventListener('click', () => {
+      toggleModel(
+        btnGemini, 
+        btnGpt, 
+        'bg-secondary-fixed/20 text-on-secondary-fixed-variant border-secondary-fixed-dim/30', 
+        'Google servers (EU/US)', 
+        'bg-emerald-500'
+      );
+    });
+
+    // Chat simulation
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+    const emptyState = document.getElementById('empty-state');
+    const chatMessages = document.getElementById('chat-messages');
+    const userMsgTemplate = document.getElementById('user-msg-template');
+    const botMsgTemplate = document.getElementById('bot-msg-template');
+    const promptChips = document.querySelectorAll('.prompt-chip');
+
+    const autoResize = () => {
+      chatInput.style.height = 'auto';
+      chatInput.style.height = chatInput.scrollHeight + 'px';
+      if(chatInput.value.trim() === '') chatInput.style.height = 'auto';
+    };
+
+    chatInput.addEventListener('input', autoResize);
+
+    const triggerSimulatedChat = (text = null) => {
+      const msgText = text || chatInput.value.trim();
+      if (!msgText) return;
+
+      if (!emptyState.classList.contains('hidden')) {
+        emptyState.classList.add('opacity-0');
+        setTimeout(() => {
+          emptyState.classList.add('hidden');
+          chatMessages.classList.remove('hidden');
+          chatMessages.classList.add('flex');
+          
+          setTimeout(() => {
+            userMsgTemplate.classList.remove('opacity-0', 'translate-y-4');
+            botMsgTemplate.classList.remove('opacity-0', 'translate-y-4');
+          }, 50);
+        }, 500);
+      }
+      
+      chatInput.value = '';
+      autoResize();
+    };
+
+    sendBtn.addEventListener('click', () => triggerSimulatedChat());
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        triggerSimulatedChat();
+      }
+    });
+
+    promptChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const text = chip.querySelector('span:nth-child(3)').textContent;
+        triggerSimulatedChat(text);
+      });
+    });
+
+    // Doc upload simulation
+    const uploadZone = document.getElementById('upload-zone');
+    const docActiveState = document.getElementById('doc-active-state');
+    const removeDocBtn = document.getElementById('remove-doc-btn');
+
+    uploadZone.addEventListener('click', () => {
+       uploadZone.classList.add('hidden');
+       docActiveState.classList.remove('hidden');
+       docActiveState.classList.add('flex');
+    });
+
+    removeDocBtn.addEventListener('click', () => {
+       docActiveState.classList.add('hidden');
+       docActiveState.classList.remove('flex');
+       uploadZone.classList.remove('hidden');
+    });
+
+  });
+</script></main><footer class="w-full bg-surface-container-low mt-section-gap py-12"><div class="max-w-container-max mx-auto px-margin-mobile flex flex-col md:flex-row justify-between items-center gap-8"><div class="flex flex-col items-center md:items-start gap-4"><img alt="ShefGuide logo" class="h-8 w-auto opacity-80" src="https://lh3.googleusercontent.com/aida/AP1WRLsNR0_0s2_4eb4qq2waWwx4ApNNlVg4UD-Al381J3r7frztPCzKlK9_0aSqb5MpfWUTeHnp-drCXVKNw7D-fMrcbxvYgh_P2HwxQHve7oAfWzdNhqd15br4nt-xvb_zJ0YWvshm4l2cqyKVnwmmr0KF8PpCQbPYNx-v9giVvqfJcP_4_VlvHf6ovMc9dazM4yKfA7WyqY2oyuBWWuQNf7sAY0-WdRs030NPFazTXR09S_kCo13mas45th2z"/><p class="text-body-md text-on-surface-variant max-w-xs text-center md:text-left">Empowering international students to navigate their new life with confidence.</p></div><div class="flex gap-8"><a class="text-label-md text-on-surface-variant hover:text-primary" href="#">Privacy Policy</a><a class="text-label-md text-on-surface-variant hover:text-primary" href="#">Terms of Service</a><a class="text-label-md text-on-surface-variant hover:text-primary" href="#">Contact Support</a></div></div><div class="max-w-container-max mx-auto px-margin-mobile mt-8 pt-8 border-t border-outline-variant text-center text-label-md text-on-surface-variant opacity-60">© 2024 ShefGuide. All rights reserved.</div></footer></body></html>

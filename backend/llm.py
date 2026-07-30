@@ -62,11 +62,11 @@ def ask_llm(messages: list, model: str = "gpt") -> dict:
         conversation += "ShefGuide:"
 
         response = gemini_client.models.generate_content(
-            model="gemini-1.5-flash",
+            model="gemini-flash-latest",
             contents=conversation
         )
         reply      = response.text
-        model_used = "Gemini 3.5 Flash (Google)"
+        model_used = "Gemini Flash (Google)"
 
     else:
         raise ValueError(f"Unknown model: {model}")

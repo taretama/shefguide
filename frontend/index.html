@@ -1,280 +1,1014 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>ShefGuide</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, sans-serif; background: #f0f2f5; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-    .container { background: white; border-radius: 12px; padding: 32px; width: 680px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
-    h1 { color: #1A3A5C; font-size: 24px; margin-bottom: 4px; }
-    p.sub { color: #888; font-size: 13px; margin-bottom: 24px; }
-    input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 10px; }
-    button { padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; }
-    .btn-primary { background: #1A3A5C; color: white; margin-right: 8px; }
-    .btn-secondary { background: #f0f2f5; color: #333; }
-    #chat-box { border: 1px solid #eee; border-radius: 8px; height: 380px; overflow-y: auto; padding: 16px; margin: 16px 0; }
-    .msg { padding: 10px 14px; border-radius: 8px; margin: 6px 0; max-width: 88%; font-size: 14px; line-height: 1.5; }
-    .user { background: #1A3A5C; color: white; margin-left: auto; }
-    .ai { background: #f0f7ee; color: #1C2833; border: 1px solid #d0e8d0; }
-    .row { display: flex; gap: 8px; align-items: center; }
-    select { padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
-    #msg-input { flex: 1; margin-bottom: 0; }
-    .badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; margin-right: 4px; }
-    .cloud-badge { background: #E6F1FB; color: #185FA5; }
-    .local-badge { background: #EAF3DE; color: #3B6D11; }
-    #hidden { display: none; }
-  </style>
-</head>
-<body>
-<div class="container">
-  <h1>ShefGuide</h1>
-  <p class="sub">AI academic support for international students in UK higher education</p>
-
-  <div id="auth-section">
-    <input id="email" type="email" placeholder="University email">
-    <input id="password" type="password" placeholder="Password">
-    <button class="btn-primary" onclick="login()">Log in</button>
-    <button class="btn-secondary" onclick="register()">Register</button>
-    <p id="auth-msg" style="color:#c00;font-size:13px;margin-top:8px"></p>
-  </div>
-
-  <div id="chat-section" style="display:none">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-   <select id="model" onchange="updateBadge()">
-    <option value="gpt">GPT-4o-mini — OpenAI</option>
-    <option value="gemini">Gemini 2.5 Flash — Google</option>
-   </select>
-
-   <span id="model-badge"
-         style="font-size:11px;padding:3px 8px;border-radius:4px;
-                background:#E6F1FB;color:#0C447C">
-     OpenAI servers
-   </span>
-</div>
-
-<a href="qa.html"
-     style="display:inline-block;margin-bottom:14px;font-size:13px;
-            color:#148F77;background:#EAF3DE;padding:6px 12px;
-            border-radius:6px;text-decoration:none">
-    Community Q&A — ask questions, get AI answers
-</a>
-
-<div id="chat-box"></div>
-
-<div class="row">
-  <input id="msg-input" placeholder="Ask about assignments, referencing, UK academic life..." onkeydown="if(event.key==='Enter')send()">
-  <button class="btn-primary" onclick="send()">Send</button>
-</div>
-
-
-<!-- DOCUMENT EXPLAINER START -->
-<div style="margin-top:20px;padding-top:16px;border-top:1px solid #eee">
-
-  <p style="font-size:13px;font-weight:500;color:#1A3A5C;margin-bottom:8px">
-    Document Explainer — upload an assignment brief or policy PDF
-  </p>
-
-  <input type="file" id="pdf-file" accept=".pdf"
-         style="font-size:13px;margin-bottom:8px">
-
-  <button onclick="uploadDoc()"
-          style="background:#1A3A5C;color:white;border:none;
-                 padding:8px 16px;border-radius:6px;font-size:13px;cursor:pointer">
-    Upload PDF
-  </button>
-
-  <span id="upload-status"
-        style="font-size:12px;color:#666;margin-left:8px"></span>
-
-
-  <div id="doc-section" style="display:none;margin-top:12px">
-
-    <input id="doc-q" type="text"
-           placeholder="Ask a question about your document..."
-           style="width:74%;padding:8px;border:1px solid #ddd;
-                  border-radius:6px;font-size:13px"
-           onkeydown="if(event.key==='Enter')askDoc()">
-
-    <button onclick="askDoc()"
-            style="background:#148F77;color:white;border:none;
-                   padding:8px 14px;border-radius:6px;font-size:13px;
-                   cursor:pointer;margin-left:6px">
-      Ask
-    </button>
-
-    <div id="doc-reply"
-         style="display:none;margin-top:10px;padding:12px;
-                background:#f0fdf4;border-radius:6px;
-                font-size:13px;line-height:1.6">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>ShefGuide | Your AI Guide to Studying in the UK</title>
+    <link href="assets/favicon.ico" rel="icon" sizes="any" />
+    <link href="assets/images/favicon-32.png" rel="icon" sizes="32x32" type="image/png" />
+    <link href="assets/images/favicon-16.png" rel="icon" sizes="16x16" type="image/png" />
+    <link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon" />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      .marquee-track {
+        animation: marquee 28s linear infinite;
+      }
+      @keyframes marquee {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .marquee-track {
+          animation: none;
+        }
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 300,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .fluid {
+        transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+        transition-duration: 700ms;
+      }
+      #mobile-menu {
+        transition:
+          opacity 500ms cubic-bezier(0.32, 0.72, 0, 1),
+          visibility 500ms cubic-bezier(0.32, 0.72, 0, 1);
+      }
+      #mobile-menu[data-open="false"] {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      #mobile-menu[data-open="false"] .menu-link {
+        transform: translateY(3rem);
+        opacity: 0;
+      }
+      .menu-link {
+        transition:
+          transform 600ms cubic-bezier(0.32, 0.72, 0, 1),
+          opacity 600ms cubic-bezier(0.32, 0.72, 0, 1);
+      }
+      #hamburger .bar-top {
+        transition:
+          transform 500ms cubic-bezier(0.32, 0.72, 0, 1),
+          top 300ms cubic-bezier(0.32, 0.72, 0, 1);
+      }
+      #hamburger .bar-bottom {
+        transition:
+          transform 500ms cubic-bezier(0.32, 0.72, 0, 1),
+          bottom 300ms cubic-bezier(0.32, 0.72, 0, 1);
+      }
+      #hamburger[data-open="true"] .bar-top {
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+      }
+      #hamburger[data-open="true"] .bar-bottom {
+        bottom: 50%;
+        transform: translateY(50%) rotate(-45deg);
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(4rem);
+        filter: blur(8px);
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed-variant": "#2a486b",
+              "outline-variant": "#c3c6cf",
+              "surface-dim": "#d7dadd",
+              "inverse-surface": "#2d3133",
+              "on-tertiary": "#ffffff",
+              "on-error-container": "#93000a",
+              "deep-navy": "#1A3A5C",
+              "on-background": "#181c1e",
+              "on-primary-fixed": "#001c37",
+              "surface-container-low": "#f1f4f7",
+              "surface-tint": "#436084",
+              "on-surface": "#181c1e",
+              "on-primary": "#ffffff",
+              "tertiary-fixed-dim": "#ecbf80",
+              "on-secondary-fixed": "#002019",
+              "primary-fixed": "#d2e4ff",
+              "primary-fixed-dim": "#abc9f2",
+              "on-error": "#ffffff",
+              surface: "#f7fafd",
+              background: "#f7fafd",
+              outline: "#73777f",
+              "primary-container": "#1a3a5c",
+              primary: "#002444",
+              "inverse-on-surface": "#eef1f4",
+              "on-secondary": "#ffffff",
+              "surface-container-highest": "#e0e3e6",
+              "secondary-fixed-dim": "#70d9bd",
+              error: "#ba1a1a",
+              "surface-container-lowest": "#ffffff",
+              "on-surface-variant": "#43474e",
+              "surface-variant": "#e0e3e6",
+              tertiary: "#331f00",
+              "secondary-fixed": "#8df6d9",
+              "teal-accent": "#148F77",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed": "#291800",
+              "surface-bright": "#f7fafd",
+              secondary: "#006b58",
+              "secondary-container": "#8df6d9",
+              "on-primary-container": "#87a4cc",
+              "tertiary-container": "#4f3300",
+              "on-secondary-container": "#00725e",
+              "on-tertiary-fixed-variant": "#5f410c",
+              "surface-container": "#ebeef1",
+              "on-secondary-fixed-variant": "#005142",
+              "pure-white": "#FFFFFF",
+              "on-tertiary-container": "#c49b5f",
+              "inverse-primary": "#abc9f2",
+              "dark-text": "#0E1133",
+              "surface-container-high": "#e5e8eb",
+              "surface-light": "#F4F7FA",
+              "tertiary-fixed": "#ffddb1",
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+            spacing: {
+              gutter: "24px",
+              "margin-mobile": "20px",
+              "container-max": "1200px",
+              "card-padding": "32px",
+              "section-gap": "80px",
+            },
+            fontFamily: {
+              "display-lg-mobile": ["Outfit"],
+              "display-lg": ["Outfit"],
+              "label-md": ["Outfit"],
+              "body-lg": ["Plus Jakarta Sans"],
+              "body-md": ["Plus Jakarta Sans"],
+              "number-accent": ["Outfit"],
+              "title-lg": ["Outfit"],
+              "headline-md-mobile": ["Outfit"],
+              "headline-md": ["Outfit"],
+            },
+            fontSize: {
+              "display-lg-mobile": [
+                "32px",
+                {
+                  lineHeight: "40px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "700",
+                },
+              ],
+              "display-lg": [
+                "48px",
+                {
+                  lineHeight: "56px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "label-md": [
+                "14px",
+                {
+                  lineHeight: "20px",
+                  letterSpacing: "0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+              "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "number-accent": [
+                "56px",
+                {
+                  lineHeight: "1",
+                  letterSpacing: "-0.04em",
+                  fontWeight: "700",
+                },
+              ],
+              "title-lg": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+              "headline-md-mobile": [
+                "24px",
+                { lineHeight: "32px", fontWeight: "600" },
+              ],
+              "headline-md": [
+                "32px",
+                { lineHeight: "40px", fontWeight: "600" },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link href="assets/base.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  </head>
+  <body class="bg-surface font-body-md text-on-surface">
+    <header class="fixed top-4 md:top-6 w-full z-50 px-gutter">
+      <div
+        id="nav-pill"
+        class="h-16 w-full max-w-container-max mx-auto px-3 pl-6 flex items-center justify-between rounded-full bg-pure-white/80 backdrop-blur-xl ring-1 ring-black/[0.04] shadow-[0_20px_50px_-12px_rgba(26,58,92,0.12)] fluid"
+      >
+        <div class="flex items-center">
+          <img
+            alt="ShefGuide"
+            class="h-10 w-auto object-contain"
+            src="assets/images/logo-full.png"
+          />
+        </div>
+        <nav
+          class="hidden lg:flex items-center gap-1"
+          data-active-classes="text-teal-accent font-semibold bg-teal-accent/8"
+        >
+          <a
+            class="px-4 py-2 rounded-full text-body-md text-on-surface-variant hover:text-deep-navy hover:bg-surface-container fluid"
+            data-path="chat"
+            href="chat.html"
+            >Chat</a
+          ><a
+            class="px-4 py-2 rounded-full text-body-md text-on-surface-variant hover:text-deep-navy hover:bg-surface-container fluid"
+            data-path="community-qa"
+            href="qa.html"
+            >Community Q&A</a
+          ><a
+            class="px-4 py-2 rounded-full text-body-md text-on-surface-variant hover:text-deep-navy hover:bg-surface-container fluid"
+            data-path="checklist"
+            href="checklist.html"
+            >Checklist</a
+          ><a
+            class="px-4 py-2 rounded-full text-body-md text-on-surface-variant hover:text-deep-navy hover:bg-surface-container fluid"
+            data-path="about"
+            href="index.html"
+            >About</a
+          >
+        </nav>
+        <div class="flex items-center gap-2">
+          <button
+            id="btn-signin"
+            data-auth="guest-only"
+            class="hidden sm:inline-flex px-5 py-2 rounded-full text-label-md text-deep-navy hover:bg-surface-container fluid"
+          >
+            Sign In</button
+          ><button
+            id="btn-signup"
+            data-auth="guest-only"
+            class="hidden sm:inline-flex px-6 py-2.5 rounded-full bg-teal-accent text-pure-white text-label-md font-semibold hover:scale-105 active:scale-[0.98] fluid shadow-[0_10px_30px_-8px_rgba(20,143,119,0.45)]"
+          >
+            Sign Up
+          </button>
+          <div
+            id="nav-avatar"
+            data-role="avatar"
+            data-auth="user-only"
+            style="display: none"
+            class="ml-2 w-9 h-9 rounded-full bg-primary flex items-center justify-center"
+          >
+            <span class="material-symbols-outlined text-on-primary text-[18px]"
+              >person</span
+            >
+          </div>
+          <button
+            id="hamburger"
+            data-open="false"
+            aria-label="Toggle menu"
+            aria-expanded="false"
+            class="lg:hidden relative w-9 h-9 flex items-center justify-center shrink-0"
+          >
+            <span
+              class="bar-top absolute w-5 h-[1.5px] bg-deep-navy rounded-full"
+              style="top: 14px"
+            ></span>
+            <span
+              class="bar-bottom absolute w-5 h-[1.5px] bg-deep-navy rounded-full"
+              style="bottom: 14px"
+            ></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <!-- Mobile Menu Overlay -->
+    <div
+      id="mobile-menu"
+      data-open="false"
+      class="fixed inset-0 z-40 bg-surface/90 backdrop-blur-3xl flex flex-col items-center justify-center gap-2"
+    >
+      <a
+        href="chat.html"
+        class="menu-link font-display-lg text-4xl text-deep-navy py-3"
+        style="transition-delay: 80ms"
+        >Chat</a
+      >
+      <a
+        href="qa.html"
+        class="menu-link font-display-lg text-4xl text-deep-navy py-3"
+        style="transition-delay: 140ms"
+        >Community Q&A</a
+      >
+      <a
+        href="checklist.html"
+        class="menu-link font-display-lg text-4xl text-deep-navy py-3"
+        style="transition-delay: 200ms"
+        >Checklist</a
+      >
+      <a
+        href="index.html"
+        class="menu-link font-display-lg text-4xl text-deep-navy py-3"
+        style="transition-delay: 260ms"
+        >About</a
+      >
     </div>
+    <main class="w-full pt-20 bg-surface overflow-x-hidden max-w-full">
+      <div class="flex flex-col w-full">
+        <!-- Hero -->
+        <section
+          class="relative w-full overflow-hidden pb-section-gap pt-24 md:pt-32"
+        >
+          <div class="absolute inset-0 -z-20">
+            <img
+              alt=""
+              aria-hidden="true"
+              class="w-full h-full object-cover opacity-[0.07] grayscale"
+              src="https://picsum.photos/seed/sheffield-campus/1920/1080"
+            />
+          </div>
+          <div
+            class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_50%_at_50%_20%,rgba(20,143,119,0.10),transparent)]"
+          ></div>
+          <div
+            class="absolute inset-0 bg-gradient-to-b from-surface via-surface/95 to-surface -z-10"
+          ></div>
+          <div
+            class="max-w-container-max mx-auto px-gutter flex flex-col items-center text-center"
+          >
+            <span
+              class="reveal inline-flex items-center gap-2 rounded-full px-3 py-1 bg-teal-accent/8 ring-1 ring-teal-accent/15 text-[10px] uppercase tracking-[0.2em] font-semibold text-teal-accent mb-6"
+              >AI-Powered Student Support</span
+            >
+            <h1
+              id="hero-heading"
+              class="reveal font-display-lg text-[clamp(2.5rem,5.5vw,4.25rem)] leading-[1.05] text-deep-navy tracking-tight max-w-5xl"
+            >
+              Your AI guide to studying in the UK, built for international students
+            </h1>
+            <p
+              id="hero-copy"
+              class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mt-6"
+            >
+              Ask about assignments, referencing, and admin. Get instant,
+              judgment-free answers day or night.
+            </p>
+            <!-- Search / Ask Bar (double-bezel) -->
+            <div
+              class="reveal relative w-full max-w-xl mt-10 p-1.5 rounded-full bg-black/[0.03] ring-1 ring-black/[0.05]"
+            >
+              <div
+                class="relative flex items-center bg-pure-white rounded-full shadow-[0_20px_45px_-15px_rgba(26,58,92,0.18)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)] p-2 pl-6 focus-within:ring-2 focus-within:ring-teal-accent/40 fluid"
+              >
+                <span class="material-symbols-outlined text-outline"
+                  >search</span
+                >
+                <label class="sr-only" for="hero-ask-input"
+                  >Ask a question about UK university life</label
+                >
+                <input
+                  id="hero-ask-input"
+                  class="flex-1 bg-transparent border-none outline-none px-4 font-body-md text-deep-navy placeholder:text-outline h-12"
+                  placeholder="Ask anything about UK university life..."
+                  type="text"
+                />
+                <button
+                  id="hero-ask-btn"
+                  class="group h-12 pl-6 pr-2 rounded-full bg-deep-navy text-pure-white font-label-md text-label-md hover:bg-teal-accent fluid shadow-md flex items-center gap-3 active:scale-[0.98]"
+                >
+                  Ask AI
+                  <span
+                    class="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center fluid group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105"
+                  >
+                    <span class="material-symbols-outlined text-[16px]"
+                      >send</span
+                    >
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div class="reveal flex flex-wrap items-center justify-center gap-4 mt-8">
+              <button
+                id="hero-start-chat"
+                class="group pl-8 pr-2 py-2 rounded-full bg-teal-accent text-pure-white font-label-md text-label-md shadow-[0_20px_40px_-12px_rgba(20,143,119,0.5)] hover:-translate-y-0.5 fluid flex items-center gap-3 active:scale-[0.98]"
+              >
+                Start Chatting
+                <span
+                  class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center fluid group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105"
+                >
+                  <span class="material-symbols-outlined text-[18px]">chat</span>
+                </span>
+              </button>
+              <button
+                id="hero-browse-qa"
+                class="px-8 py-3.5 rounded-full bg-pure-white text-deep-navy font-label-md text-label-md ring-1 ring-black/[0.06] hover:ring-deep-navy/20 hover:bg-surface-container fluid flex items-center gap-2 active:scale-[0.98]"
+              >
+                Browse Community Q&A
+              </button>
+            </div>
+            <div
+              id="hero-image-wrap"
+              class="relative w-full max-w-4xl mt-20 p-2 rounded-[3.25rem] bg-black/[0.03] ring-1 ring-black/[0.05] shadow-[0_40px_80px_-30px_rgba(26,58,92,0.25)]"
+            >
+              <div
+                class="relative w-full aspect-[16/9] rounded-[2.75rem] overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.5)]"
+              >
+                <img
+                  alt="International student using ShefGuide on a laptop"
+                  class="w-full h-full object-cover"
+                  src="assets/images/hero-student-new.jpg"
+                />
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-deep-navy/30 via-transparent to-transparent"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Features -->
+        <section class="w-full py-32 md:py-40 bg-surface-container-low">
+          <div class="max-w-container-max mx-auto px-gutter">
+            <div class="max-w-2xl mb-16">
+              <span
+                class="reveal inline-flex items-center gap-2 rounded-full px-3 py-1 bg-primary/8 ring-1 ring-primary/15 text-[10px] uppercase tracking-[0.2em] font-semibold text-primary mb-5"
+                >Platform</span
+              >
+              <h2
+                class="reveal font-display-lg text-display-lg-mobile md:text-display-lg text-deep-navy mb-4"
+              >
+                Everything you need to settle in and keep up
+              </h2>
+              <p class="font-body-lg text-body-lg text-on-surface-variant">
+                One place for academic support, admin help, and a community of
+                students who've been through it too.
+              </p>
+            </div>
+            <div
+              class="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[minmax(200px,auto)] grid-flow-dense"
+            >
+              <div
+                class="feature-card md:col-span-2 md:row-span-2 bg-primary text-on-primary rounded-[2rem] p-card-padding shadow-xl shadow-deep-navy/10 flex flex-col justify-between"
+              >
+                <div>
+                  <div
+                    class="w-14 h-14 rounded-full bg-on-primary/10 flex items-center justify-center mb-6"
+                  >
+                    <span
+                      class="material-symbols-outlined text-[28px]"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >chat_bubble</span
+                    >
+                  </div>
+                  <h3 class="font-title-lg text-title-lg mb-3">Dual-AI Chat</h3>
+                  <p class="font-body-md text-body-md text-on-primary/80">
+                    Access both GPT-4o-mini and Gemini for nuanced, accurate
+                    answers to any university-related question, day or night.
+                  </p>
+                </div>
+                <a
+                  class="inline-flex items-center gap-1 font-label-md text-pure-white hover:gap-2 fluid mt-6"
+                  href="chat.html"
+                  >Try it now
+                  <span class="material-symbols-outlined text-[16px]"
+                    >arrow_forward</span
+                  ></a
+                >
+              </div>
+              <div
+                class="feature-card md:col-span-2 md:row-span-1 bg-pure-white rounded-[2rem] p-card-padding shadow-[0_25px_60px_-20px_rgba(26,58,92,0.15)] ring-1 ring-black/[0.04]"
+              >
+                <div
+                  class="w-14 h-14 rounded-full bg-secondary-fixed flex items-center justify-center mb-6"
+                >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[28px]"
+                    style="font-variation-settings: &quot;FILL&quot; 1"
+                    >description</span
+                  >
+                </div>
+                <h3 class="font-title-lg text-title-lg text-deep-navy mb-3">
+                  Document Explainer
+                </h3>
+                <p
+                  class="font-body-md text-body-md text-on-surface-variant mb-4"
+                >
+                  Upload a tenancy agreement, visa letter, or assignment brief
+                  and ask it questions directly.
+                </p>
+                <a
+                  class="inline-flex items-center gap-1 font-label-md text-teal-accent hover:gap-2 fluid"
+                  href="chat.html"
+                  >Upload a doc
+                  <span class="material-symbols-outlined text-[16px]"
+                    >arrow_forward</span
+                  ></a
+                >
+              </div>
+              <div
+                class="feature-card md:col-span-1 md:row-span-1 bg-pure-white rounded-[2rem] p-card-padding shadow-[0_25px_60px_-20px_rgba(26,58,92,0.15)] ring-1 ring-black/[0.04]"
+              >
+                <div
+                  class="w-14 h-14 rounded-full bg-primary-fixed-dim flex items-center justify-center mb-6"
+                >
+                  <span
+                    class="material-symbols-outlined text-primary text-[28px]"
+                    style="font-variation-settings: &quot;FILL&quot; 1"
+                    >groups</span
+                  >
+                </div>
+                <h3 class="font-title-lg text-title-lg text-deep-navy mb-3">
+                  Community Q&A
+                </h3>
+                <p
+                  class="font-body-md text-body-md text-on-surface-variant mb-4"
+                >
+                  Real answers from other students, backed by AI.
+                </p>
+                <a
+                  class="inline-flex items-center gap-1 font-label-md text-teal-accent hover:gap-2 fluid"
+                  href="qa.html"
+                  >Explore Q&A
+                  <span class="material-symbols-outlined text-[16px]"
+                    >arrow_forward</span
+                  ></a
+                >
+              </div>
+              <div
+                class="feature-card md:col-span-1 md:row-span-1 bg-teal-accent/5 rounded-[2rem] p-card-padding ring-1 ring-teal-accent/20"
+              >
+                <div
+                  class="w-14 h-14 rounded-full bg-secondary-fixed-dim flex items-center justify-center mb-6"
+                >
+                  <span
+                    class="material-symbols-outlined text-on-secondary-fixed-variant text-[28px]"
+                    style="font-variation-settings: &quot;FILL&quot; 1"
+                    >check_circle</span
+                  >
+                </div>
+                <h3 class="font-title-lg text-title-lg text-deep-navy mb-3">
+                  Personal Checklist
+                </h3>
+                <p
+                  class="font-body-md text-body-md text-on-surface-variant mb-4"
+                >
+                  A step-by-step arrival guide built for your course and home
+                  country.
+                </p>
+                <a
+                  class="inline-flex items-center gap-1 font-label-md text-teal-accent hover:gap-2 fluid"
+                  href="checklist.html"
+                  >Get checklist
+                  <span class="material-symbols-outlined text-[16px]"
+                    >arrow_forward</span
+                  ></a
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Trust Marquee -->
+        <section class="w-full py-16 bg-surface border-y border-outline-variant/15 overflow-hidden">
+          <div class="relative flex w-max marquee-track">
+            <div class="flex items-center gap-16 pr-16">
+              <span class="font-display-lg text-[28px] text-outline-variant">University of Sheffield</span>
+              <span class="font-display-lg text-[28px] text-outline-variant">University of Leeds</span>
+              <span class="font-display-lg text-[28px] text-outline-variant">University of Manchester</span>
+              <span class="font-display-lg text-[28px] text-outline-variant">Sheffield Hallam</span>
+              <span class="font-display-lg text-[28px] text-outline-variant">King's College London</span>
+            </div>
+            <div class="flex items-center gap-16 pr-16" aria-hidden="true">
+              <span class="font-display-lg text-[28px] text-outline-variant">University of Sheffield</span>
+              <span class="font-display-lg text-[28px] text-outline-variant">University of Leeds</span>
+              <span class="font-display-lg text-[28px] text-outline-variant">University of Manchester</span>
+              <span class="font-display-lg text-[28px] text-outline-variant">Sheffield Hallam</span>
+              <span class="font-display-lg text-[28px] text-outline-variant">King's College London</span>
+            </div>
+          </div>
+        </section>
+        <!-- Testimonials -->
+        <section class="w-full py-32 md:py-40 bg-surface">
+          <div class="max-w-container-max mx-auto px-gutter">
+            <div class="max-w-2xl mb-16">
+              <span
+                class="reveal inline-flex items-center gap-2 rounded-full px-3 py-1 bg-teal-accent/8 ring-1 ring-teal-accent/15 text-[10px] uppercase tracking-[0.2em] font-semibold text-teal-accent mb-5"
+                >Voices</span
+              >
+              <h2
+                class="reveal font-display-lg text-display-lg-mobile md:text-display-lg text-deep-navy mb-4"
+              >
+                Students say it feels like having a friend who already knows
+                the rules
+              </h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div
+                class="testimonial-card p-2 rounded-[2.25rem] bg-black/[0.03] ring-1 ring-black/[0.05]"
+              >
+                <div
+                  class="bg-surface-container-low rounded-[1.875rem] p-card-padding flex flex-col gap-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]"
+                >
+                  <img
+                    alt=""
+                    class="w-12 h-12 rounded-full object-cover"
+                    src="assets/images/avatar-1.png"
+                  />
+                  <p class="font-body-lg text-body-lg text-deep-navy">
+                    "I didn't know what a tenancy deposit scheme was until
+                    ShefGuide walked me through it in two minutes."
+                  </p>
+                  <span
+                    class="text-label-md font-label-md text-on-surface-variant"
+                    >Amara O. — MSc Data Science</span
+                  >
+                </div>
+              </div>
+              <div
+                class="testimonial-card p-2 rounded-[2.25rem] bg-black/[0.03] ring-1 ring-black/[0.05]"
+              >
+                <div
+                  class="bg-surface-container-low rounded-[1.875rem] p-card-padding flex flex-col gap-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]"
+                >
+                  <img
+                    alt=""
+                    class="w-12 h-12 rounded-full object-cover"
+                    src="assets/images/avatar-2.png"
+                  />
+                  <p class="font-body-lg text-body-lg text-deep-navy">
+                    "Uploaded my visa letter and it explained every line. No
+                    more googling acronyms at 1am."
+                  </p>
+                  <span
+                    class="text-label-md font-label-md text-on-surface-variant"
+                    >Jian W. — BEng Civil Engineering</span
+                  >
+                </div>
+              </div>
+              <div
+                class="testimonial-card p-2 rounded-[2.25rem] bg-black/[0.03] ring-1 ring-black/[0.05]"
+              >
+                <div
+                  class="bg-surface-container-low rounded-[1.875rem] p-card-padding flex flex-col gap-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]"
+                >
+                  <img
+                    alt=""
+                    class="w-12 h-12 rounded-full object-cover"
+                    src="assets/images/avatar-3.png"
+                  />
+                  <p class="font-body-lg text-body-lg text-deep-navy">
+                    "The community Q&A is where I actually found honest
+                    answers about halls versus private housing."
+                  </p>
+                  <span
+                    class="text-label-md font-label-md text-on-surface-variant"
+                    >Sofia R. — LLB Law</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- CTA Banner -->
+        <section class="w-full py-32 md:py-40">
+          <div class="max-w-container-max mx-auto px-gutter">
+            <div
+              class="relative overflow-hidden rounded-[3.25rem] bg-deep-navy p-2 ring-1 ring-white/10 shadow-[0_50px_100px_-30px_rgba(26,58,92,0.4)]"
+            >
+              <div
+                class="relative rounded-[2.75rem] px-8 py-20 md:py-28 text-center flex flex-col items-center overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)]"
+              >
+                <div
+                  class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_60%_at_50%_0%,rgba(20,143,119,0.35),transparent)]"
+                ></div>
+                <span
+                  class="reveal inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/8 ring-1 ring-white/15 text-[10px] uppercase tracking-[0.2em] font-semibold text-pure-white/80 mb-6"
+                  >Get Started</span
+                >
+                <h2
+                  class="reveal font-display-lg text-display-lg-mobile md:text-display-lg text-pure-white max-w-3xl"
+                >
+                  Stop guessing. Start asking.
+                </h2>
+                <p
+                  class="font-body-lg text-body-lg text-pure-white/70 max-w-xl mt-4"
+                >
+                  Free to start, no judgment, built for international
+                  students navigating the UK.
+                </p>
+                <div
+                  class="flex flex-wrap items-center justify-center gap-4 mt-10"
+                >
+                  <button
+                    id="cta-start-chat"
+                    class="group pl-8 pr-2 py-2 rounded-full bg-teal-accent text-pure-white font-label-md text-label-md shadow-[0_20px_40px_-12px_rgba(20,143,119,0.5)] hover:-translate-y-0.5 fluid flex items-center gap-3 active:scale-[0.98]"
+                  >
+                    Start Chatting
+                    <span
+                      class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center fluid group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105"
+                    >
+                      <span class="material-symbols-outlined text-[18px]"
+                        >arrow_outward</span
+                      >
+                    </span>
+                  </button>
+                  <button
+                    id="cta-signup"
+                    class="px-8 py-3.5 rounded-full bg-pure-white text-deep-navy font-label-md text-label-md hover:bg-surface-container fluid active:scale-[0.98]"
+                  >
+                    Create Free Account
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer
+      class="w-full bg-surface-container-low pt-section-gap pb-12 border-t border-outline-variant/30"
+    >
+      <div class="max-w-container-max mx-auto px-gutter">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-12">
+          <div class="col-span-1 md:col-span-1">
+            <div class="flex items-center mb-6">
+              <img
+                alt="ShefGuide"
+                class="h-9 w-auto"
+                src="assets/images/logo-full.png"
+              />
+            </div>
+            <p class="text-on-surface-variant text-body-md">
+              Empowering international students with AI-driven support for a
+              seamless transition.
+            </p>
+          </div>
+          <div class="flex flex-col gap-4">
+            <h4 class="font-title-lg text-deep-navy">Platform</h4>
+            <a
+              class="text-on-surface-variant hover:text-teal-accent transition-colors"
+              href="chat.html"
+              >Chat</a
+            ><a
+              class="text-on-surface-variant hover:text-teal-accent transition-colors"
+              href="qa.html"
+              >Community Q&A</a
+            ><a
+              class="text-on-surface-variant hover:text-teal-accent transition-colors"
+              href="checklist.html"
+              >Checklist</a
+            >
+          </div>
+          <div class="flex flex-col gap-4">
+            <h4 class="font-title-lg text-deep-navy">Company</h4>
+            <a
+              class="text-on-surface-variant hover:text-teal-accent transition-colors"
+              href="index.html"
+              >About</a
+            ><a
+              class="text-on-surface-variant hover:text-teal-accent transition-colors"
+              href="privacy.html"
+              >Privacy Policy</a
+            ><a
+              class="text-on-surface-variant hover:text-teal-accent transition-colors"
+              href="terms.html"
+              >Terms of Service</a
+            >
+          </div>
+          <div class="flex flex-col gap-4">
+            <h4 class="font-title-lg text-deep-navy">Contact</h4>
+            <a
+              class="flex items-center gap-2 text-on-surface-variant hover:text-teal-accent transition-colors"
+              href="mailto:support@shefguide.edu"
+              ><span class="material-symbols-outlined text-teal-accent"
+                >mail</span
+              ><span>support@shefguide.edu</span></a
+            >
+            <div class="flex items-center gap-2 text-on-surface-variant">
+              <span class="material-symbols-outlined text-teal-accent"
+                >location_on</span
+              ><span>Sheffield, United Kingdom</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="pt-8 border-t border-outline-variant/30 text-center text-on-surface-variant text-label-md"
+        >
+          © 2024 ShefGuide. All rights reserved.
+        </div>
+      </div>
+    </footer>
 
-  </div>
+    <script src="assets/app.js"></script>
+    <script>
+      ShefGuide.wireHeader();
 
-</div>
-<!-- DOCUMENT EXPLAINER END -->
-</div> 
+      document.getElementById("btn-signin").addEventListener("click", () => {
+        window.location.href = "auth.html?mode=login";
+      });
+      document.getElementById("btn-signup").addEventListener("click", () => {
+        window.location.href = "auth.html?mode=register";
+      });
 
-<script>
-const API = 'http://localhost:8000';
-let token = '', sessionId = null, messages = [];
+      document
+        .getElementById("hero-start-chat")
+        .addEventListener("click", () => {
+          window.location.href = ShefGuide.isLoggedIn()
+            ? "chat.html"
+            : "auth.html?next=chat.html";
+        });
+      document
+        .getElementById("hero-browse-qa")
+        .addEventListener("click", () => {
+          window.location.href = ShefGuide.isLoggedIn()
+            ? "qa.html"
+            : "auth.html?next=qa.html";
+        });
 
-function updateBadge() {
-  const model = document.getElementById('model').value;
-  const badge = document.getElementById('model-badge');
+      function goAskAI() {
+        const q = document.getElementById("hero-ask-input").value.trim();
+        const target = ShefGuide.isLoggedIn()
+          ? "chat.html" + (q ? "?q=" + encodeURIComponent(q) : "")
+          : "auth.html?next=" +
+            encodeURIComponent(
+              "chat.html" + (q ? "?q=" + encodeURIComponent(q) : ""),
+            );
+        window.location.href = target;
+      }
+      document
+        .getElementById("hero-ask-btn")
+        .addEventListener("click", goAskAI);
+      document
+        .getElementById("hero-ask-input")
+        .addEventListener("keydown", (e) => {
+          if (e.key === "Enter") goAskAI();
+        });
 
-  if (model === 'gemini') {
-    badge.textContent = 'Google servers';
-    badge.style.background = '#EAF3DE';
-    badge.style.color = '#27500A';
-  } else {
-    badge.textContent = 'OpenAI servers';
-    badge.style.background = '#E6F1FB';
-    badge.style.color = '#0C447C';
-  }
-}
+      document
+        .getElementById("cta-start-chat")
+        .addEventListener("click", () => {
+          window.location.href = ShefGuide.isLoggedIn()
+            ? "chat.html"
+            : "auth.html?next=chat.html";
+        });
+      document.getElementById("cta-signup").addEventListener("click", () => {
+        window.location.href = "auth.html?mode=register";
+      });
 
-async function register() {
-  const r = await fetch(API + '/auth/register', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      email: document.getElementById('email').value,
-      password: document.getElementById('password').value,
-      university: 'University of Sheffield',
-      home_country: 'Nigeria',
-      programme: 'MSc Cybersecurity and AI'
-    })
-  });
-  const d = await r.json();
-  if (d.token) { token = d.token; showChat(); }
-  else document.getElementById('auth-msg').textContent = d.detail || 'Error';
-}
+      // Mobile hamburger menu
+      const hamburger = document.getElementById("hamburger");
+      const mobileMenu = document.getElementById("mobile-menu");
+      hamburger.addEventListener("click", () => {
+        const open = hamburger.getAttribute("data-open") === "true";
+        hamburger.setAttribute("data-open", String(!open));
+        hamburger.setAttribute("aria-expanded", String(!open));
+        mobileMenu.setAttribute("data-open", String(!open));
+        document.body.style.overflow = open ? "" : "hidden";
+      });
+      mobileMenu.querySelectorAll(".menu-link").forEach((link) => {
+        link.addEventListener("click", () => {
+          hamburger.setAttribute("data-open", "false");
+          hamburger.setAttribute("aria-expanded", "false");
+          mobileMenu.setAttribute("data-open", "false");
+          document.body.style.overflow = "";
+        });
+      });
+    </script>
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
 
-async function login() {
-  const r = await fetch(API + '/auth/login', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      email: document.getElementById('email').value,
-      password: document.getElementById('password').value
-    })
-  });
-  const d = await r.json();
-  if (d.token) { token = d.token; showChat(); }
-  else document.getElementById('auth-msg').textContent = 'Wrong email or password';
-}
+      // Nav pill shrinks slightly on scroll
+      ScrollTrigger.create({
+        start: "top -40",
+        onUpdate: (self) => {
+          const pill = document.getElementById("nav-pill");
+          if (self.progress > 0 || self.direction === 1) {
+            pill.classList.toggle("shadow-lg", window.scrollY > 40);
+          }
+        },
+      });
 
-function showChat() {
-  localStorage.setItem('shefguide_token', token);
-  document.getElementById('auth-section').style.display = 'none';
-  document.getElementById('chat-section').style.display = 'block';
-  addMsg('ShefGuide', "Hello! I'm here to help with UK academic life. Ask me anything about assignments, referencing, academic culture, or staying safe when using AI tools.");
-}
+      // Scrubbing text reveal on hero copy
+      const copyWords = document.getElementById("hero-copy");
+      copyWords.innerHTML = copyWords.textContent
+        .split(" ")
+        .map((w) => `<span style="opacity:0.15">${w} </span>`)
+        .join("");
+      gsap.to(copyWords.querySelectorAll("span"), {
+        opacity: 1,
+        stagger: 0.04,
+        scrollTrigger: {
+          trigger: copyWords,
+          start: "top 90%",
+          end: "top 55%",
+          scrub: true,
+        },
+      });
 
-async function send() {
-  const input = document.getElementById('msg-input');
-  const text = input.value.trim();
+      // Hero image scale-in on load
+      gsap.fromTo(
+        "#hero-image-wrap",
+        { scale: 0.9, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 1, ease: "power3.out", delay: 0.2 },
+      );
 
-  if (!text) return;
+      // Generic heavy fade-up-blur reveal for eyebrows/headings/CTA groups
+      gsap.utils.toArray(".reveal").forEach((el, i) => {
+        const inHero = el.closest("section")?.contains(
+          document.getElementById("hero-heading"),
+        );
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.9,
+          ease: "power3.out",
+          delay: inHero ? 0.1 + i * 0.08 : 0,
+          scrollTrigger: inHero
+            ? undefined
+            : { trigger: el, start: "top 85%" },
+        });
+      });
 
-  const model = document.getElementById('model').value;
+      // Feature cards fade/scale on scroll
+      gsap.utils.toArray(".feature-card").forEach((card, i) => {
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 40, scale: 0.96 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.7,
+            ease: "power2.out",
+            delay: i * 0.05,
+            scrollTrigger: {
+              trigger: card,
+              start: "top 88%",
+            },
+          },
+        );
+      });
 
-  input.value = '';
-
-  addMsg('You', text);
-
-  messages.push({
-    role: 'user',
-    content: text
-  });
-
-  const r = await fetch(API + '/chat', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    },
-    body: JSON.stringify({
-      messages,
-      model,
-      session_id: sessionId
-    })
-  });
-
-  const d = await r.json();
-
-  if (!r.ok || !d.reply) {
-    addMsg('ShefGuide (error)', 'Something went wrong: ' + (d.detail ? JSON.stringify(d.detail) : 'unknown error'));
-    return;
-  }
-
-  sessionId = d.session_id;
-
-  messages.push({
-    role: 'assistant',
-    content: d.reply
-  });
-
-  addMsg('ShefGuide (' + d.model_used + ')', d.reply);
-}
-
-function addMsg(from, text) {
-  const box = document.getElementById('chat-box');
-  const div = document.createElement('div');
-  div.className = 'msg ' + (from === 'You' ? 'user' : 'ai');
-  div.innerHTML = (from !== 'You' ? '<strong>' + from + ':</strong><br>' : '') + text.replace(/\n/g, '<br>');
-  box.appendChild(div);
-  box.scrollTop = box.scrollHeight;
-}
-
-async function uploadDoc() {
-  const fileInput = document.getElementById('pdf-file');
-  const status    = document.getElementById('upload-status');
-  if (!fileInput.files[0]) {
-    status.textContent = 'Please select a PDF first.';
-    return;
-  }
-  const form = new FormData();
-  form.append('file', fileInput.files[0]);
-  status.textContent = 'Uploading...';
-
-  const r = await fetch(API + '/document/upload', {
-    method:  'POST',
-    headers: { Authorization: 'Bearer ' + token },
-    body:    form
-  });
-  const d = await r.json();
-
-  if (r.ok) {
-    status.textContent = `Uploaded: ${d.word_count} words`;
-    status.style.color = '#148F77';
-    document.getElementById('doc-section').style.display = 'block';
-  } else {
-    status.textContent = d.detail || 'Upload failed';
-    status.style.color = '#c00';
-  }
-}
-
-async function askDoc() {
-  const question  = document.getElementById('doc-q').value.trim();
-  const replyBox  = document.getElementById('doc-reply');
-  const model     = document.getElementById('model').value;
-  if (!question) return;
-
-  replyBox.style.display = 'block';
-  replyBox.textContent   = 'Thinking...';
-
-  const r = await fetch(API + '/document/ask', {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json',
-               'Authorization': 'Bearer ' + token },
-    body: JSON.stringify({ question, model })
-  });
-  const d = await r.json();
-  replyBox.innerHTML = d.reply.replace(/\n/g, '<br>');
-}
-
-</script>
-</body>
+      // Testimonial cards image scale + fade as they enter/leave viewport
+      gsap.utils.toArray(".testimonial-card").forEach((card) => {
+        gsap.fromTo(
+          card,
+          { opacity: 0.2, scale: 0.85 },
+          {
+            opacity: 1,
+            scale: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 95%",
+              end: "top 55%",
+              scrub: true,
+            },
+          },
+        );
+      });
+    </script>
+  </body>
 </html>
