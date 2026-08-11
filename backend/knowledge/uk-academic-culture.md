@@ -1,7 +1,10 @@
 # UK academic culture and study expectations
 
-> Curated general guidance for the ShefGuide prototype. This is the project's
-> own knowledge base, not an official University of Sheffield publication.
+> Curated guidance for the ShefGuide prototype. ShefGuide serves
+> international students across UK higher education generally, not one
+> institution, so the guidance below describes teaching formats and
+> expectations shared across UK universities, illustrated in places with
+> one named university's published wording as a concrete example.
 
 ## Independent study
 
@@ -12,16 +15,32 @@ starting points rather than complete requirements. Students arriving from
 systems with more directed teaching frequently report this as the single
 largest adjustment.
 
-## Lectures, seminars, tutorials, and labs
+## Lectures
 
-A lecture introduces material to a large group and is mostly one-directional.
-A seminar is a smaller discussion-based session where students are expected
-to have prepared in advance and to contribute. A tutorial is smaller again
-and may be one-to-one or in small groups. Labs and workshops are practical
-sessions.
+A lecture is a large-group session led by the lecturer, with students
+taking notes, and it typically involves less interaction than other forms
+of teaching. Sound general practice — reflected, for example, in the
+University of Sheffield's own study-skills guidance — is to do some
+preliminary reading before a lecture rather than arriving cold, to take
+notes that summarise or paraphrase what the lecturer is saying rather than
+writing everything down word-for-word, and to revise those notes afterwards
+to check the core concepts have actually landed (University of Sheffield,
+"How to make the most of lectures"). Recordings are commonly available
+afterwards for review at many institutions, though this varies.
 
-Contributing in seminars is normally expected rather than optional, and
-silence is sometimes read as lack of preparation rather than politeness.
+## Seminars
+
+A seminar is much smaller than a lecture — typical group sizes vary by
+institution and department, but are commonly in the range of roughly 8 to
+20 students, as illustrated by the University of Sheffield's own guidance
+(University of Sheffield, "How to make the most of seminars") — and is far
+more interactive: it is built around discussion and debate rather than
+one-directional delivery. Students are generally expected to prepare
+beforehand (background reading, and thinking through the discussion
+questions in advance) and to participate actively during the session,
+including tolerating imperfect first attempts at expressing an idea out
+loud. Contributing is normally expected rather than optional, and silence
+is sometimes read as lack of preparation rather than politeness.
 
 ## Office hours
 
@@ -38,11 +57,11 @@ academic concerns that are not specific to a single module.
 
 ## Feedback and grading
 
-UK grading bands differ from many other systems, and marks in the 60s and 70s
-represent strong work at postgraduate level. A mark that appears low by the
-standards of another country may in fact be a good result. Written feedback
-is intended to be acted upon in later assignments rather than to justify the
-mark alone.
+UK grading bands differ from many other systems, and marks in the 60s and
+70s represent strong work at postgraduate level. A mark that appears low by
+the standards of another country may in fact be a good result. Written
+feedback is intended to be acted upon in later assignments rather than to
+justify the mark alone.
 
 ## Extensions and extenuating circumstances
 
@@ -53,22 +72,38 @@ before the submission deadline is usually required.
 
 ## Asking questions
 
-Asking for clarification of an assessment brief is normal practice and is not
-penalised. Module leaders generally prefer questions in advance to
+Asking for clarification of an assessment brief is normal practice and is
+not penalised. Module leaders generally prefer questions in advance to
 misinterpretations discovered at marking.
 
 ---
 
 ## Provenance
 
-- **Authored by:** the researcher, as part of the ShefGuide artefact.
-- **Basis:** general, widely-held conventions of UK higher education. Written
-  at a level of generality that holds across UK institutions.
-- **Status:** prototype content. Not institutional policy, and not a substitute
-  for it. Where a claim would depend on a specific institution's rules, the
-  text defers to the module handbook, the library guide, or the relevant
-  support service rather than asserting a rule.
-- **Sources consulted:** none recorded. If this file is later replaced with or
-  grounded in published institutional guidance, list the page title, publisher,
-  URL, and date accessed here so the content is traceable and citable.
-- **Last reviewed:** 2026-08-05.
+- **Authored by:** the researcher, drafted with AI assistance as part of the
+  ShefGuide artefact, and grounded in the published source listed below.
+- **Basis:** the underlying teaching formats (lectures, seminars,
+  independent study) and expectations are general conventions shared across
+  UK higher education, since ShefGuide serves students across the whole
+  sector rather than one institution. The University of Sheffield's own
+  study-skills pages are cited as one concrete, named illustration of these
+  conventions in practice — including a specific seminar-size figure that is
+  Sheffield's own stated range and may differ at another institution — not
+  asserted as a universal, cross-institution number. The sections on office
+  hours, personal tutors, grading, and extenuating circumstances describe
+  further conventions that are common across UK institutions but were not
+  verified against a single named source, and remain general prototype
+  content pending further grounding.
+- **Status:** prototype content, written for general applicability across UK
+  institutions. A specific department's own induction materials or student
+  handbook are authoritative for that department's actual practice.
+- **Sources consulted:**
+  - University of Sheffield (n.d.) "How to make the most of lectures."
+    StudySkills@Sheffield.
+    https://sheffield.ac.uk/study-skills/university/lectures-seminars/lectures
+    (accessed 2026-08-11).
+  - University of Sheffield (n.d.) "How to make the most of seminars."
+    StudySkills@Sheffield.
+    https://sheffield.ac.uk/study-skills/university/lectures-seminars/seminars
+    (accessed 2026-08-11).
+- **Last reviewed:** 2026-08-11.

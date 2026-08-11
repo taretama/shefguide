@@ -1,179 +1,41 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Your Arrival Checklist | ShefGuide</title>
+    <meta name="description" content="A step-by-step UK university arrival guide tailored to your specific university, programme, and home country." />
+    <meta name="theme-color" content="#1A3A5C" />
+    <meta name="color-scheme" content="light" />
+    <title>Your Personalised Arrival Checklist | ShefGuide</title>
     <link href="assets/favicon.ico" rel="icon" sizes="any" />
     <link href="assets/images/favicon-32.png" rel="icon" sizes="32x32" type="image/png" />
     <link href="assets/images/favicon-16.png" rel="icon" sizes="16x16" type="image/png" />
-    <link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon" />
-    <style>
-      @layer base {
-        html,
-        body {
-          margin: 0;
-          padding: 0;
-        }
-        body {
-          overscroll-behavior: none;
-        }
-        main > :first-child {
-          margin-top: 0 !important;
-        }
-        main > :last-child {
-          margin-bottom: 0 !important;
-        }
-      }
-      ::-webkit-scrollbar {
-        display: none;
-      }
-      .material-symbols-outlined {
-        font-variation-settings:
-          "FILL" 0,
-          "wght" 300,
-          "GRAD" 0,
-          "opsz" 24;
-      }
-      .fluid {
-        transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
-        transition-duration: 500ms;
-      }
-      #mobile-menu {
-        transition:
-          opacity 500ms cubic-bezier(0.32, 0.72, 0, 1),
-          visibility 500ms cubic-bezier(0.32, 0.72, 0, 1);
-      }
-      #mobile-menu[data-open="false"] {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-      #mobile-menu[data-open="false"] .menu-link {
-        transform: translateY(2rem);
-        opacity: 0;
-      }
-      .menu-link {
-        transition:
-          transform 600ms cubic-bezier(0.32, 0.72, 0, 1),
-          opacity 600ms cubic-bezier(0.32, 0.72, 0, 1);
-      }
-      #hamburger .bar-top {
-        transition:
-          transform 500ms cubic-bezier(0.32, 0.72, 0, 1),
-          top 300ms cubic-bezier(0.32, 0.72, 0, 1);
-      }
-      #hamburger .bar-bottom {
-        transition:
-          transform 500ms cubic-bezier(0.32, 0.72, 0, 1),
-          bottom 300ms cubic-bezier(0.32, 0.72, 0, 1);
-      }
-      #hamburger[data-open="true"] .bar-top {
-        top: 50%;
-        transform: translateY(-50%) rotate(45deg);
-      }
-      #hamburger[data-open="true"] .bar-bottom {
-        bottom: 50%;
-        transform: translateY(50%) rotate(-45deg);
-      }
-      @keyframes panel-in {
-        from {
-          opacity: 0;
-          transform: translateY(1.5rem);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .panel-in {
-        animation: panel-in 700ms cubic-bezier(0.32, 0.72, 0, 1) both;
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .panel-in {
-          animation: none;
-        }
-      }
-      @keyframes reveal-in {
-        from {
-          opacity: 0;
-          transform: translateY(2rem);
-          filter: blur(6px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-          filter: blur(0);
-        }
-      }
-      .reveal {
-        opacity: 0;
-        animation: reveal-in 900ms cubic-bezier(0.32, 0.72, 0, 1) forwards;
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .reveal {
-          animation: none;
-          opacity: 1;
-        }
-      }
-    </style>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script id="tailwind-config">
       tailwind.config = {
+        darkMode: "class",
         theme: {
           extend: {
             colors: {
-              "on-primary-container": "#87a4cc",
-              "surface-light": "#F4F7FA",
-              "surface-variant": "#e0e3e6",
-              "secondary-fixed-dim": "#70d9bd",
-              "on-error-container": "#93000a",
-              "surface-tint": "#436084",
-              "dark-text": "#0E1133",
-              "error-container": "#ffdad6",
-              "secondary-fixed": "#8df6d9",
-              "pure-white": "#FFFFFF",
-              "on-secondary-fixed": "#002019",
-              "tertiary-fixed-dim": "#ecbf80",
-              "surface-container-low": "#f1f4f7",
-              "on-tertiary-fixed-variant": "#5f410c",
-              "inverse-on-surface": "#eef1f4",
-              "on-secondary-fixed-variant": "#005142",
-              secondary: "#006b58",
-              "on-primary-fixed-variant": "#2a486b",
-              "on-error": "#ffffff",
-              "on-secondary-container": "#00725e",
-              "primary-container": "#1a3a5c",
-              "inverse-primary": "#abc9f2",
-              "on-tertiary": "#ffffff",
-              "surface-dim": "#d7dadd",
-              "on-secondary": "#ffffff",
-              "on-primary-fixed": "#001c37",
-              "primary-fixed-dim": "#abc9f2",
-              "surface-container-high": "#e5e8eb",
-              "outline-variant": "#c3c6cf",
-              outline: "#73777f",
-              "on-tertiary-fixed": "#291800",
-              tertiary: "#331f00",
-              "inverse-surface": "#2d3133",
-              primary: "#002444",
-              "on-surface-variant": "#43474e",
-              surface: "#f7fafd",
-              "primary-fixed": "#d2e4ff",
-              "surface-container-highest": "#e0e3e6",
-              "surface-bright": "#f7fafd",
-              background: "#f7fafd",
-              "teal-accent": "#148F77",
-              "on-primary": "#ffffff",
-              "on-surface": "#181c1e",
-              "tertiary-container": "#4f3300",
-              "surface-container-lowest": "#ffffff",
-              "secondary-container": "#8df6d9",
               "deep-navy": "#1A3A5C",
-              "surface-container": "#ebeef1",
-              error: "#ba1a1a",
-              "tertiary-fixed": "#ffddb1",
-              "on-tertiary-container": "#c49b5f",
-              "on-background": "#181c1e",
+              primary: "#002444",
+              "primary-container": "#1A3A5C",
+              "teal-accent": "#148F77",
+              secondary: "#006B58",
+              "secondary-fixed": "#8DF6D9",
+              "surface": "#F7FAFD",
+              "surface-light": "#F4F7FA",
+              "surface-container-low": "#F1F4F7",
+              "surface-container": "#EBEEF1",
+              "surface-container-high": "#E5E8EB",
+              "surface-container-highest": "#E0E3E6",
+              "surface-container-lowest": "#FFFFFF",
+              "pure-white": "#FFFFFF",
+              "on-surface": "#181C1E",
+              "on-surface-variant": "#43474E",
+              outline: "#73777F",
+              "outline-variant": "#C3C6CF",
             },
             borderRadius: {
               DEFAULT: "1rem",
@@ -182,695 +44,250 @@
               full: "9999px",
             },
             spacing: {
-              "section-gap": "80px",
               gutter: "24px",
-              "container-max": "1200px",
-              "card-padding": "32px",
               "margin-mobile": "20px",
+              "container-max": "1200px",
+              "section-gap": "80px",
             },
             fontFamily: {
-              "display-lg": ["Outfit"],
-              "title-lg": ["Outfit"],
-              "headline-md-mobile": ["Outfit"],
-              "headline-md": ["Outfit"],
-              "display-lg-mobile": ["Outfit"],
-              "body-lg": ["Plus Jakarta Sans"],
-              "number-accent": ["Outfit"],
-              "label-md": ["Outfit"],
-              "body-md": ["Plus Jakarta Sans"],
-            },
-            fontSize: {
-              "display-lg": [
-                "48px",
-                {
-                  lineHeight: "56px",
-                  letterSpacing: "-0.02em",
-                  fontWeight: "700",
-                },
-              ],
-              "title-lg": ["20px", { lineHeight: "28px", fontWeight: "600" }],
-              "headline-md-mobile": [
-                "24px",
-                { lineHeight: "32px", fontWeight: "600" },
-              ],
-              "headline-md": [
-                "32px",
-                { lineHeight: "40px", fontWeight: "600" },
-              ],
-              "display-lg-mobile": [
-                "32px",
-                {
-                  lineHeight: "40px",
-                  letterSpacing: "-0.01em",
-                  fontWeight: "700",
-                },
-              ],
-              "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
-              "number-accent": [
-                "56px",
-                {
-                  lineHeight: "1",
-                  letterSpacing: "-0.04em",
-                  fontWeight: "700",
-                },
-              ],
-              "label-md": [
-                "14px",
-                {
-                  lineHeight: "20px",
-                  letterSpacing: "0.02em",
-                  fontWeight: "600",
-                },
-              ],
-              "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              display: ["DM Sans", "sans-serif"],
+              body: ["Inter", "sans-serif"],
             },
           },
         },
       };
     </script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet" />
     <link href="assets/base.css" rel="stylesheet" />
   </head>
-  <body class="bg-background font-body-md text-on-background">
-    <header
-      class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(26,58,92,0.15)] ring-1 ring-black/[0.03]"
-    >
-      <div
-        class="h-20 max-w-[1200px] mx-auto px-margin-mobile lg:px-gutter flex items-center justify-between"
-      >
-        <div class="flex items-center">
-          <img
-            alt="ShefGuide"
-            class="h-11 w-auto object-contain"
-            src="assets/images/logo-full.png"
-          />
-        </div>
-        <nav
-          class="hidden md:flex items-center gap-8"
-          data-active-classes="text-teal-accent font-semibold"
-        >
-          <a
-            class="font-label-md text-label-md text-on-surface-variant hover:text-teal-accent fluid"
-            data-path="chat"
-            href="chat.html"
-            >Chat</a
-          ><a
-            class="font-label-md text-label-md text-on-surface-variant hover:text-teal-accent fluid"
-            data-path="community-qa"
-            href="qa.html"
-            >Community Q&A</a
-          ><a
-            aria-current="page"
-            class="fluid text-teal-accent font-semibold"
-            data-path="checklist"
-            href="checklist.html"
-            >Checklist</a
-          ><a
-            class="font-label-md text-label-md text-on-surface-variant hover:text-teal-accent fluid"
-            data-path="about"
-            href="index.html"
-            >About</a
-          >
+  <body class="bg-surface font-body text-on-surface antialiased">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header Navigation -->
+    <header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+      <div class="h-20 w-full max-w-container-max mx-auto px-8 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3" aria-label="ShefGuide home">
+          <img alt="ShefGuide logo" class="h-8 w-auto object-contain" src="assets/images/logo-full.png" />
+        </a>
+        <nav class="hidden md:flex items-center gap-8" data-active-classes="text-teal-accent font-semibold" aria-label="Primary">
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="chat" href="chat.html">Chat</a>
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="community-qa" href="qa.html">Community Q&amp;A</a>
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="checklist" href="checklist.html">Checklist</a>
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="history" href="history.html">History</a>
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="about" href="index.html">About</a>
         </nav>
-        <div class="flex items-center gap-2">
-          <a
-            id="btn-signin"
-            data-auth="guest-only"
-            class="hidden sm:block font-label-md text-label-md text-deep-navy hover:text-teal-accent px-4 py-2 fluid"
-            href="auth.html?mode=login"
-            >Sign In</a
-          ><a
-            id="btn-signup"
-            data-auth="guest-only"
-            class="group hidden sm:flex items-center gap-2 pl-6 pr-2 py-2 bg-teal-accent text-on-primary font-label-md text-label-md rounded-full fluid active:scale-[0.98] shadow-[0_10px_30px_-10px_rgba(20,143,119,0.5)]"
-            href="auth.html?mode=register"
-            >Get Started
-            <span
-              class="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center fluid group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105"
-            >
-              <span class="material-symbols-outlined text-[15px]"
-                >arrow_forward</span
-              >
-            </span>
-          </a>
-          <div
-            id="nav-avatar"
-            data-role="avatar"
-            data-auth="user-only"
-            style="display: none"
-            class="ml-2 w-8 h-8 rounded-full bg-primary flex items-center justify-center"
-          >
-            <span class="material-symbols-outlined text-on-primary text-[18px]"
-              >person</span
-            >
+        <div class="flex items-center gap-3">
+          <div id="nav-avatar" data-role="avatar" data-auth="user-only" style="display: none" class="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center cursor-pointer shadow-sm hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-[19px]">person</span>
           </div>
-          <button
-            id="hamburger"
-            data-open="false"
-            aria-label="Toggle menu"
-            aria-expanded="false"
-            class="md:hidden relative w-9 h-9 flex items-center justify-center shrink-0"
-          >
-            <span
-              class="bar-top absolute w-5 h-[1.5px] bg-deep-navy rounded-full"
-              style="top: 14px"
-            ></span>
-            <span
-              class="bar-bottom absolute w-5 h-[1.5px] bg-deep-navy rounded-full"
-              style="bottom: 14px"
-            ></span>
-          </button>
         </div>
       </div>
     </header>
-    <!-- Mobile Menu Overlay -->
-    <div
-      id="mobile-menu"
-      data-open="false"
-      class="fixed inset-0 z-40 bg-surface/90 backdrop-blur-3xl flex flex-col items-center justify-center gap-2"
-    >
-      <a
-        href="chat.html"
-        class="menu-link font-headline-md text-4xl text-deep-navy py-3"
-        style="transition-delay: 80ms"
-        >Chat</a
-      >
-      <a
-        href="qa.html"
-        class="menu-link font-headline-md text-4xl text-deep-navy py-3"
-        style="transition-delay: 140ms"
-        >Community Q&A</a
-      >
-      <a
-        href="checklist.html"
-        class="menu-link font-headline-md text-4xl text-teal-accent py-3"
-        style="transition-delay: 200ms"
-        >Checklist</a
-      >
-      <a
-        href="index.html"
-        class="menu-link font-headline-md text-4xl text-deep-navy py-3"
-        style="transition-delay: 260ms"
-        >About</a
-      >
-    </div>
-    <main class="w-full pt-20 bg-background">
-      <div
-        class="flex flex-col w-full font-body-md text-on-background pb-section-gap relative"
-      >
-        <div
-          class="max-w-[1200px] mx-auto w-full px-margin-mobile lg:px-gutter mt-16 mb-12"
-        >
-          <div
-            class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8"
-          >
-            <div class="max-w-2xl">
-              <div
-                class="reveal flex w-max items-center gap-2 px-4 py-2 bg-surface-container-high rounded-full mb-6 text-label-md text-on-surface-variant ring-1 ring-black/[0.04] shadow-[0_10px_25px_-15px_rgba(26,58,92,0.2)]"
-                id="profile-chip"
-              >
-                <span>Loading your profile...</span>
-              </div>
-              <h1
-                class="reveal font-display-lg text-display-lg-mobile md:text-display-lg text-deep-navy mb-4 tracking-tight"
-              >
-                Your Arrival Checklist
-              </h1>
-              <p class="reveal font-body-lg text-body-lg text-on-surface-variant">
-                A step-by-step guide tailored to your university, programme, and
-                home country. We've organized everything you need to settle in
-                smoothly.
-              </p>
+
+    <main id="main" tabindex="-1" class="w-full pt-20 bg-surface">
+      <div class="flex flex-col w-full max-w-container-max mx-auto px-margin-mobile pb-section-gap min-h-screen">
+        
+        <!-- Header Profile Banner -->
+        <div class="mt-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+          <div class="max-w-2xl">
+            <div id="profile-pill" class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-high rounded-full mb-4 text-xs font-semibold text-deep-navy shadow-sm">
+              <span>🎓 MSc Student</span>
+              <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+              <span>University of Sheffield</span>
             </div>
-            <div
-              class="reveal p-2 rounded-[2.25rem] bg-black/[0.03] ring-1 ring-black/[0.05] shadow-[0_30px_70px_-25px_rgba(26,58,92,0.2)] min-w-[280px] relative overflow-hidden"
-              id="progress-card"
-            >
-              <div
-                class="absolute -right-4 -top-4 w-24 h-24 bg-teal-accent/10 rounded-full blur-xl pointer-events-none"
-              ></div>
-              <div
-                class="relative bg-surface-container-lowest p-6 rounded-[1.875rem] flex items-center gap-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]"
-              >
-              <div class="relative w-16 h-16 flex-shrink-0">
-                <svg
-                  class="w-full h-full transform -rotate-90"
-                  viewbox="0 0 100 100"
-                >
-                  <circle
-                    class="text-surface-container"
-                    cx="50"
-                    cy="50"
-                    fill="none"
-                    r="45"
-                    stroke="currentColor"
-                    stroke-width="8"
-                  ></circle>
-                  <circle
-                    class="text-teal-accent transition-all duration-1000 ease-out"
-                    cx="50"
-                    cy="50"
-                    fill="none"
-                    id="progress-ring"
-                    r="45"
-                    stroke="currentColor"
-                    stroke-dasharray="283"
-                    stroke-dashoffset="283"
-                    stroke-width="8"
-                  ></circle>
-                </svg>
-                <div
-                  class="absolute inset-0 flex items-center justify-center font-label-md text-label-md text-deep-navy"
-                  id="progress-percent"
-                >
-                  0%
-                </div>
-              </div>
-              <div class="flex flex-col">
-                <span
-                  class="font-title-lg text-[18px] font-semibold text-deep-navy"
-                  id="progress-count"
-                  >0 of 0 tasks</span
-                >
-                <span
-                  class="font-label-md text-label-md text-teal-accent"
-                  id="progress-message"
-                  >Let's get started!</span
-                >
-              </div>
-              </div>
+            <h1 class="font-display text-3xl md:text-5xl font-bold text-deep-navy mb-3 tracking-tight">Your Arrival Checklist</h1>
+            <p class="font-body text-sm md:text-base text-on-surface-variant">A step-by-step guide tailored to your university, programme, and home country. We've organized everything you need to settle in smoothly.</p>
+          </div>
+
+          <!-- Progress Ring Card -->
+          <div class="bg-surface-container-lowest p-6 rounded-[2rem] shadow-card border border-outline-variant/20 min-w-[280px] flex items-center gap-6 relative overflow-hidden">
+            <div class="relative w-16 h-16 shrink-0">
+              <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                <circle class="text-surface-container" cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-width="8"></circle>
+                <circle id="progress-ring" class="text-teal-accent transition-all duration-700 ease-out" cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-dasharray="283" stroke-dashoffset="283" stroke-width="8"></circle>
+              </svg>
+              <div id="progress-percent" class="absolute inset-0 flex items-center justify-center font-display font-bold text-sm text-deep-navy">0%</div>
+            </div>
+            <div class="flex flex-col">
+              <span id="progress-count" class="font-display font-bold text-base text-deep-navy">0 of 0 tasks</span>
+              <span id="progress-message" class="font-body text-xs text-teal-accent font-semibold">Let's get started!</span>
             </div>
           </div>
         </div>
-        <div
-          class="max-w-[1200px] mx-auto w-full px-margin-mobile lg:px-gutter grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12"
-        >
-          <div
-            class="lg:col-span-8 flex flex-col gap-6"
-            id="checklist-accordion"
-          >
-            <div
-              class="panel-in bg-surface-container-lowest rounded-[2.5rem] shadow-[0_30px_70px_-25px_rgba(26,58,92,0.15)] ring-1 ring-black/[0.03] p-10 text-center"
-              id="checklist-empty"
-            >
-              <div
-                class="w-16 h-16 rounded-2xl bg-surface-container flex items-center justify-center mx-auto mb-4 shadow-[0_15px_30px_-15px_rgba(26,58,92,0.2)]"
-              >
-                <span
-                  class="material-symbols-outlined text-[28px] text-teal-accent"
-                  >checklist</span
-                >
-              </div>
-              <h2 class="font-title-lg text-title-lg text-deep-navy mb-2">
-                No checklist yet
-              </h2>
-              <p
-                class="font-body-md text-on-surface-variant mb-6 max-w-md mx-auto"
-              >
-                We'll generate a personalised arrival checklist based on your
-                university, programme, and home country.
-              </p>
-              <button
-                id="generate-btn"
-                class="group inline-flex items-center gap-3 pl-8 pr-2 py-2 rounded-full bg-teal-accent text-white font-label-md font-semibold hover:bg-deep-navy fluid active:scale-[0.98] shadow-[0_20px_40px_-15px_rgba(20,143,119,0.5)]"
-              >
-                Generate my checklist
-                <span
-                  class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center fluid group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105"
-                >
-                  <span class="material-symbols-outlined text-[18px]"
-                    >auto_awesome</span
-                  >
-                </span>
-              </button>
-            </div>
-            <div id="checklist-groups" class="hidden flex-col gap-6"></div>
+
+        <!-- Accordion Task List Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          <div id="checklist-accordion" class="lg:col-span-8 flex flex-col gap-6">
+            <div class="p-10 text-center text-xs text-outline bg-white rounded-[2rem] border border-outline-variant/20 animate-pulse">Loading checklist...</div>
           </div>
-          <div class="panel-in lg:col-span-4 flex flex-col gap-6" style="animation-delay: 150ms">
-            <div
-              class="bg-primary text-on-primary rounded-[2rem] p-8 shadow-[0_30px_70px_-25px_rgba(0,36,68,0.4)] relative overflow-hidden group"
-            >
-              <div
-                class="absolute top-0 right-0 w-32 h-32 bg-primary-fixed/20 rounded-full blur-2xl transform translate-x-1/2 -translate-y-1/2 fluid group-hover:scale-150"
-              ></div>
-              <div class="relative z-10">
-                <div
-                  class="w-12 h-12 bg-on-primary/10 rounded-xl flex items-center justify-center mb-6"
-                >
-                  <span class="material-symbols-outlined text-[24px]"
-                    >forum</span
-                  >
-                </div>
-                <h3 class="font-title-lg text-title-lg mb-3">
-                  Need help with any of these?
-                </h3>
-                <p class="font-body-md text-sm text-on-primary/80 mb-8">
-                  Our community of international students and AI guide are here
-                  to help you navigate your arrival.
-                </p>
-                <a
-                  class="group/cta inline-flex items-center justify-between w-full bg-pure-white text-primary font-label-md pl-6 pr-2 py-2 rounded-full hover:-translate-y-0.5 fluid shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] active:scale-[0.98]"
-                  href="chat.html"
-                >
-                  Ask ShefGuide
-                  <span
-                    class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center fluid group-hover/cta:translate-x-1 group-hover/cta:-translate-y-[1px] group-hover/cta:scale-105"
-                  >
-                    <span class="material-symbols-outlined text-[18px]"
-                      >arrow_forward</span
-                    >
-                  </span>
-                </a>
+
+          <!-- Helper Card Sidebar -->
+          <div class="lg:col-span-4 flex flex-col gap-6">
+            <div class="bg-deep-navy text-white rounded-[2rem] p-6 shadow-card relative overflow-hidden">
+              <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-teal-accent">help</span>
               </div>
+              <h3 class="font-display font-bold text-lg mb-2">Questions about these steps?</h3>
+              <p class="font-body text-xs text-white/80 leading-relaxed mb-6">Chat with ShefGuide's AI assistant or post your question on the Community Q&amp;A Board for student advice.</p>
+              <a href="chat.html" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-teal-accent text-white font-body text-xs font-semibold hover:bg-white hover:text-deep-navy transition-all shadow-sm">
+                <span>Ask ShefGuide AI</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </a>
             </div>
           </div>
+
         </div>
+
       </div>
     </main>
-    <footer
-      class="w-full bg-surface-container-low py-section-gap mt-section-gap"
-    >
-      <div
-        class="max-w-[1200px] mx-auto px-margin-mobile lg:px-gutter grid grid-cols-1 md:grid-cols-4 gap-12"
-      >
-        <div class="col-span-1 md:col-span-1">
-          <div class="flex items-center mb-6">
-            <img
-              class="h-9 w-auto"
-              alt="ShefGuide"
-              src="assets/images/logo-full.png"
-            />
-          </div>
-          <p class="text-on-surface-variant font-body-md text-label-md">
-            Empowering international students through seamless transitions and
-            community-led guidance.
+
+    <!-- Footer -->
+    <footer class="w-full border-t border-outline-variant/30 bg-surface">
+      <div class="max-w-container-max mx-auto px-gutter py-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="flex flex-col gap-2">
+          <img alt="ShefGuide Logo" class="h-7 w-auto self-start opacity-90" src="assets/images/logo-full.png" />
+          <p class="text-xs text-on-surface-variant max-w-[40ch]">
+            An MSc dissertation project. Designed for international higher education support.
           </p>
         </div>
-        <div class="flex flex-col gap-4">
-          <h4
-            class="font-label-md text-label-md text-deep-navy uppercase tracking-wider"
-          >
-            Platform
-          </h4>
-          <a
-            class="text-on-surface-variant hover:text-teal-accent text-sm"
-            href="checklist.html"
-            >The Checklist</a
-          ><a
-            class="text-on-surface-variant hover:text-teal-accent text-sm"
-            href="chat.html"
-            >Chat</a
-          ><a
-            class="text-on-surface-variant hover:text-teal-accent text-sm"
-            href="qa.html"
-            >Community Q&A</a
-          >
-        </div>
-        <div class="flex flex-col gap-4">
-          <h4
-            class="font-label-md text-label-md text-deep-navy uppercase tracking-wider"
-          >
-            Company
-          </h4>
-          <a
-            class="text-on-surface-variant hover:text-teal-accent text-sm"
-            href="index.html"
-            >About</a
-          >
-        </div>
-        <div class="flex flex-col gap-4">
-          <h4
-            class="font-label-md text-label-md text-deep-navy uppercase tracking-wider"
-          >
-            Contact
-          </h4>
-          <a
-            class="text-on-surface-variant hover:text-teal-accent text-sm"
-            href="mailto:support@shefguide.edu"
-            >support@shefguide.edu</a
-          >
-        </div>
-      </div>
-      <div
-        class="max-w-[1200px] mx-auto px-margin-mobile lg:px-gutter mt-16 pt-8 border-t border-outline-variant/30 text-center text-on-surface-variant text-sm"
-      >
-        © 2024 ShefGuide. All rights reserved.
+        <nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-on-surface-variant" aria-label="Footer">
+          <a class="hover:text-teal-accent transition-colors" href="privacy.html">Privacy Policy</a>
+          <a class="hover:text-teal-accent transition-colors" href="terms.html">Terms of Service</a>
+          <a class="hover:text-teal-accent transition-colors" href="mailto:support@shefguide.edu">Contact Support</a>
+        </nav>
       </div>
     </footer>
 
     <script src="assets/app.js"></script>
     <script>
-      ShefGuide.requireAuth();
+      ShefGuide.requireAccount("view your personalized checklist");
       ShefGuide.wireHeader();
 
-      // Mobile hamburger menu
-      const hamburger = document.getElementById("hamburger");
-      const mobileMenu = document.getElementById("mobile-menu");
-      hamburger.addEventListener("click", () => {
-        const open = hamburger.getAttribute("data-open") === "true";
-        hamburger.setAttribute("data-open", String(!open));
-        hamburger.setAttribute("aria-expanded", String(!open));
-        mobileMenu.setAttribute("data-open", String(!open));
-        document.body.style.overflow = open ? "" : "hidden";
-      });
-      mobileMenu.querySelectorAll(".menu-link").forEach((link) => {
-        link.addEventListener("click", () => {
-          hamburger.setAttribute("data-open", "false");
-          hamburger.setAttribute("aria-expanded", "false");
-          mobileMenu.setAttribute("data-open", "false");
-          document.body.style.overflow = "";
-        });
-      });
+      const profilePill = document.getElementById("profile-pill");
+      const progressRing = document.getElementById("progress-ring");
+      const progressPercent = document.getElementById("progress-percent");
+      const progressCount = document.getElementById("progress-count");
+      const progressMessage = document.getElementById("progress-message");
+      const accordionContainer = document.getElementById("checklist-accordion");
 
-      const PRIORITY_GROUPS = [
-        {
-          key: "urgent",
-          title: "Before You Arrive",
-          icon: "flight_takeoff",
-          iconClass: "bg-primary/5 text-primary",
-        },
-        {
-          key: "first_week",
-          title: "Your First Week",
-          icon: "event_upcoming",
-          iconClass: "bg-secondary/5 text-secondary",
-        },
-        {
-          key: "first_month",
-          title: "Your First Month",
-          icon: "explore",
-          iconClass: "bg-tertiary/5 text-tertiary",
-        },
-      ];
+      let sectionsData = [];
 
-      const DONE_KEY =
-        "shefguide_checklist_done_" + (ShefGuide.getUserId() || "anon");
-      function getDoneSet() {
-        try {
-          return new Set(JSON.parse(localStorage.getItem(DONE_KEY) || "[]"));
-        } catch (e) {
-          return new Set();
-        }
-      }
-      function saveDoneSet(set) {
-        localStorage.setItem(DONE_KEY, JSON.stringify([...set]));
+      function updateProgress(total, completed) {
+        const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
+        const circumference = 283;
+        const offset = circumference - (pct / 100) * circumference;
+        progressRing.style.strokeDashoffset = offset;
+        progressPercent.textContent = pct + "%";
+        progressCount.textContent = `${completed} of ${total} tasks`;
+
+        if (pct === 100) progressMessage.textContent = "All tasks completed! Congratulations!";
+        else if (pct > 50) progressMessage.textContent = "More than halfway there!";
+        else if (pct > 0) progressMessage.textContent = "You're off to a great start!";
+        else progressMessage.textContent = "Time to begin!";
       }
 
-      let tasks = [];
-
-      async function loadProfile() {
-        try {
-          const me = await ShefGuide.api("/me", {
-            headers: ShefGuide.authHeaders(),
-          });
-          document.getElementById("profile-chip").innerHTML = `
-      <span>🎓 ${ShefGuide.escapeHtml(me.programme)}</span>
-      <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
-      <span>${ShefGuide.escapeHtml(me.university)}</span>
-      <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
-      <span>🌍 ${ShefGuide.escapeHtml(me.home_country)}</span>`;
-        } catch (e) {
-          document.getElementById("profile-chip").innerHTML =
-            "<span>Your profile</span>";
-        }
-      }
-
-      function updateProgress() {
-        const done = getDoneSet();
-        const total = tasks.length;
-        const completed = tasks.filter((t) => done.has(t.task)).length;
-        const pct = total ? Math.round((completed / total) * 100) : 0;
-
-        document.getElementById("progress-percent").textContent = pct + "%";
-        document.getElementById("progress-count").textContent =
-          `${completed} of ${total} tasks`;
-        document
-          .getElementById("progress-ring")
-          .setAttribute("stroke-dashoffset", 283 - (283 * pct) / 100);
-
-        const msgEl = document.getElementById("progress-message");
-        if (total === 0) msgEl.textContent = "Let's get started!";
-        else if (pct === 0) msgEl.textContent = "Time to begin!";
-        else if (pct < 50) msgEl.textContent = "You're off to a great start!";
-        else if (pct < 100) msgEl.textContent = "Almost there!";
-        else msgEl.textContent = "You're all set!";
-      }
-
-      function taskRowHtml(t) {
-        const done = getDoneSet().has(t.task);
+      function taskItemMarkup(task, sectionIdx) {
+        const checked = !!task.completed;
         return `
-    <div class="flex items-start gap-4 p-4 rounded-2xl fluid hover:bg-surface ${done ? "opacity-60" : ""}" data-task="${ShefGuide.escapeHtml(t.task)}">
-      <button class="task-check w-6 h-6 mt-1 flex-shrink-0 rounded-md ring-2 flex items-center justify-center fluid focus:outline-none focus:ring-2 focus:ring-teal-accent/50 focus:ring-offset-2 ${done ? "ring-teal-accent bg-teal-accent text-on-primary" : "ring-outline-variant hover:ring-teal-accent bg-transparent"}">
-        ${done ? '<span class="material-symbols-outlined text-[16px] font-bold">check</span>' : ""}
-      </button>
-      <div class="flex-1">
-        <h3 class="font-label-md text-[16px] font-semibold text-deep-navy ${done ? "line-through decoration-outline-variant decoration-2" : ""}">${ShefGuide.escapeHtml(t.task)}</h3>
-        <p class="font-body-md text-sm text-on-surface-variant mt-1">${ShefGuide.escapeHtml(t.explanation || "")}</p>
-      </div>
-    </div>`;
-      }
-
-      function groupHtml(group, groupTasks, isFirst) {
-        if (!groupTasks.length) return "";
-        const doneCount = groupTasks.filter((t) =>
-          getDoneSet().has(t.task),
-        ).length;
-        return `
-    <div class="panel-in bg-surface-container-lowest rounded-[2.5rem] shadow-[0_20px_60px_-25px_rgba(26,58,92,0.15)] ring-1 ring-black/[0.03] overflow-hidden fluid group ${isFirst ? "is-active" : ""}" data-accordion-item="">
-      <button aria-expanded="${isFirst}" class="w-full px-8 py-6 flex items-center justify-between text-left focus:outline-none">
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 rounded-2xl ${group.iconClass} flex items-center justify-center">
-            <span class="material-symbols-outlined text-[24px]">${group.icon}</span>
+      <div class="flex items-start gap-4 p-4 rounded-2xl transition-colors ${checked ? "bg-surface-container-low/50 opacity-60" : "bg-surface-container-low hover:bg-surface-container"}">
+        <button type="button" data-task-id="${task.id}" class="task-checkbox w-6 h-6 mt-0.5 shrink-0 rounded-md border-2 ${checked ? "border-teal-accent bg-teal-accent text-white" : "border-outline-variant hover:border-teal-accent bg-transparent"} flex items-center justify-center transition-colors">
+          ${checked ? '<span class="material-symbols-outlined text-[16px] font-bold">check</span>' : ""}
+        </button>
+        <div class="flex-1">
+          <div class="flex items-center justify-between gap-2">
+            <h3 class="font-body font-semibold text-sm text-deep-navy ${checked ? "line-through text-outline" : ""}">${ShefGuide.escapeHtml(task.title)}</h3>
+            ${task.priority === "high" ? '<span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-body text-[10px] font-bold uppercase tracking-wider">High Priority</span>' : ""}
           </div>
-          <div>
-            <h2 class="font-title-lg text-title-lg text-deep-navy">${group.title}</h2>
-            <p class="font-label-md text-label-md text-on-surface-variant mt-1">${doneCount} of ${groupTasks.length} completed</p>
-          </div>
+          ${task.description ? `<p class="font-body text-xs text-on-surface-variant mt-1 leading-relaxed">${ShefGuide.escapeHtml(task.description)}</p>` : ""}
         </div>
-        <div class="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-on-surface-variant group-[.is-active]:rotate-180 fluid">
-          <span class="material-symbols-outlined">expand_more</span>
-        </div>
-      </button>
-      <div class="px-8 pb-8 pt-2 grid gap-4 accordion-content ${isFirst ? "opacity-100 h-auto" : "h-0 overflow-hidden opacity-0"}">
-        ${groupTasks.map(taskRowHtml).join("")}
-      </div>
-    </div>`;
+      </div>`;
       }
 
       function renderChecklist() {
-        const container = document.getElementById("checklist-groups");
-        const empty = document.getElementById("checklist-empty");
+        let total = 0;
+        let completed = 0;
 
-        if (!tasks.length) {
-          empty.classList.remove("hidden");
-          container.classList.add("hidden");
-          container.classList.remove("flex");
-          updateProgress();
-          return;
-        }
+        accordionContainer.innerHTML = sectionsData
+          .map((sec, idx) => {
+            const secTotal = sec.tasks.length;
+            const secCompleted = sec.tasks.filter((t) => t.completed).length;
+            total += secTotal;
+            completed += secCompleted;
 
-        empty.classList.add("hidden");
-        container.classList.remove("hidden");
-        container.classList.add("flex");
+            return `
+        <div class="interactive-card bg-surface-container-lowest rounded-[2rem] shadow-card border border-outline-variant/20 overflow-hidden transition-all duration-300">
+          <button type="button" class="sec-toggle-btn w-full px-8 py-6 flex items-center justify-between text-left focus:outline-none cursor-pointer" data-sec-idx="${idx}">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-teal-accent/10 text-teal-accent flex items-center justify-center shadow-sm">
+                <span class="material-symbols-outlined text-2xl">${sec.icon || "checklist"}</span>
+              </div>
+              <div>
+                <h2 class="font-display font-bold text-lg text-deep-navy">${ShefGuide.escapeHtml(sec.title)}</h2>
+                <p class="font-body text-xs text-on-surface-variant mt-0.5">${secCompleted} of ${secTotal} completed</p>
+              </div>
+            </div>
+            <span class="material-symbols-outlined text-outline transition-transform duration-300">expand_more</span>
+          </button>
+          <div class="sec-body px-8 pb-8 pt-2 grid gap-3">
+            ${sec.tasks.map((t) => taskItemMarkup(t, idx)).join("")}
+          </div>
+        </div>`;
+          })
+          .join("");
 
-        container.innerHTML = PRIORITY_GROUPS.map((g, i) => {
-          const groupTasks = tasks.filter((t) => t.priority === g.key);
-          return groupHtml(g, groupTasks, i === 0);
-        }).join("");
+        updateProgress(total, completed);
 
-        wireAccordion();
-        wireCheckboxes();
-        updateProgress();
-      }
-
-      function wireAccordion() {
-        document.querySelectorAll("[data-accordion-item]").forEach((item) => {
-          const button = item.querySelector("button");
-          const content = item.querySelector(".accordion-content");
-          button.addEventListener("click", () => {
-            const isActive = item.classList.contains("is-active");
-            document
-              .querySelectorAll("[data-accordion-item]")
-              .forEach((acc) => {
-                acc.classList.remove("is-active");
-                acc
-                  .querySelector("button")
-                  .setAttribute("aria-expanded", "false");
-                const c = acc.querySelector(".accordion-content");
-                c.style.height = "0px";
-                c.style.opacity = "0";
+        // Task checkbox toggle handler
+        accordionContainer.querySelectorAll(".task-checkbox").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const taskId = btn.dataset.taskId;
+            try {
+              const res = await ShefGuide.api("/checklist/toggle", {
+                method: "POST",
+                headers: ShefGuide.authHeaders(true),
+                body: JSON.stringify({ task_id: taskId }),
               });
-            if (!isActive) {
-              item.classList.add("is-active");
-              button.setAttribute("aria-expanded", "true");
-              content.style.height = content.scrollHeight + "px";
-              content.style.opacity = "1";
-              setTimeout(() => {
-                if (item.classList.contains("is-active"))
-                  content.style.height = "auto";
-              }, 300);
+              loadChecklist();
+            } catch (err) {
+              ShefGuide.showToast(err.message || "Failed to update task.", "error");
             }
           });
         });
       }
 
-      function wireCheckboxes() {
-        document.querySelectorAll(".task-check").forEach((box) => {
-          box.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const row = box.closest("[data-task]");
-            const taskName = row.dataset.task;
-            const done = getDoneSet();
-            if (done.has(taskName)) done.delete(taskName);
-            else done.add(taskName);
-            saveDoneSet(done);
-            renderChecklist();
-          });
-        });
-      }
-
       async function loadChecklist() {
-        const data = await ShefGuide.api("/checklist", {
-          headers: ShefGuide.authHeaders(),
-        });
-        tasks = data.tasks || [];
-        renderChecklist();
+        try {
+          // Profile info
+          try {
+            const prof = await ShefGuide.api("/me", { headers: ShefGuide.authHeaders() });
+            if (prof) {
+              profilePill.innerHTML = `
+                <span>🎓 ${ShefGuide.escapeHtml(prof.programme || "Student")}</span>
+                <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+                <span>${ShefGuide.escapeHtml(prof.university || "University")}</span>
+                ${prof.home_country ? `<span class="w-1 h-1 rounded-full bg-outline-variant"></span><span>🌍 ${ShefGuide.escapeHtml(prof.home_country)}</span>` : ""}`;
+            }
+          } catch (e) {}
+
+          let data = await ShefGuide.api("/checklist", { headers: ShefGuide.authHeaders() });
+
+          if (!data.sections || data.sections.length === 0) {
+            accordionContainer.innerHTML = `<div class="p-10 text-center text-xs text-outline bg-white rounded-[2rem] border border-outline-variant/20 animate-pulse">Generating your personalised checklist...</div>`;
+            data = await ShefGuide.api("/checklist/generate", {
+              method: "POST",
+              headers: ShefGuide.authHeaders(true),
+            });
+          }
+
+          sectionsData = data.sections || [];
+          renderChecklist();
+        } catch (err) {
+          accordionContainer.innerHTML = `<div class="p-10 text-center text-xs text-red-600 bg-white rounded-[2rem]">Could not load your arrival checklist.</div>`;
+        }
       }
 
-      document
-        .getElementById("generate-btn")
-        .addEventListener("click", async () => {
-          const btn = document.getElementById("generate-btn");
-          const originalBtnHtml = btn.innerHTML;
-          btn.disabled = true;
-          btn.innerHTML =
-            '<span class="material-symbols-outlined animate-spin text-[18px] align-middle mr-1">progress_activity</span> Generating your checklist...';
-          try {
-            const data = await ShefGuide.api("/checklist/generate", {
-              method: "POST",
-              headers: ShefGuide.authHeaders(),
-            });
-            tasks = data.tasks || [];
-            renderChecklist();
-          } catch (err) {
-            btn.disabled = false;
-            btn.innerHTML = originalBtnHtml;
-            ShefGuide.showToast(
-              err.message ||
-                "Could not generate a checklist. Please try again.",
-              "error",
-            );
-          }
-        });
-
-      loadProfile();
       loadChecklist();
     </script>
   </body>

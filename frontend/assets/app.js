@@ -1,6 +1,16 @@
 // Shared helpers used by every ShefGuide page.
 window.ShefGuide = (function () {
-  const API = 'http://localhost:8000';
+  // Local dev talks to the backend on localhost. When the frontend is
+  // served remotely (e.g. a Cloudflare tunnel link sent to someone else),
+  // "localhost" would resolve to THEIR machine, not this one - so it falls
+  // back to this session's backend tunnel URL instead.
+  const API = (function () {
+    const host = window.location.hostname;
+    if (host === 'localhost' || host === '127.0.0.1' || host === '') {
+      return 'http://localhost:8000';
+    }
+    return 'https://hair-anaheim-modeling-population.trycloudflare.com';
+  })();
 
   function getToken() { return localStorage.getItem('shefguide_token'); }
   function setToken(t) { localStorage.setItem('shefguide_token', t); }
@@ -23,28 +33,94 @@ window.ShefGuide = (function () {
     }
   }
 
+  // Guest mode: a visitor can use the AI chat without registering. The backend
+  // hands out a real (anonymous) session token, so every authenticated call
+  // works exactly as it does for a registered user - the difference is a small
+  // message allowance and a few account-only features.
+  function isGuest() {
+    const token = getToken();
+    if (!token) return false;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+      return payload.guest === true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Starts a guest session and sends the visitor on to `next`. Guests have no
+  // account record to store consent against on the server, but the disclosure
+  // still has to be shown before any AI call, so it is cleared here to make
+  // sure a fresh visitor sees it.
+  async function startGuest(next) {
+    const data = await api('/auth/guest', { method: 'POST' });
+    setToken(data.token);
+    localStorage.removeItem('shefguide_disclosure');
+    if (next) window.location.href = next;
+    return data;
+  }
+
   function authHeaders(json) {
     const h = { Authorization: 'Bearer ' + getToken() };
     if (json) h['Content-Type'] = 'application/json';
     return h;
   }
 
-  async function api(path, opts = {}) {
+  function buildApiError(res, data) {
+    let detailMsg = 'Request failed (' + res.status + ')';
+    if (data) {
+      if (typeof data.detail === 'string') {
+        detailMsg = data.detail;
+      } else if (Array.isArray(data.detail)) {
+        detailMsg = data.detail.map(d => (d && d.msg) ? d.msg : JSON.stringify(d)).join(', ');
+      } else if (typeof data.detail === 'object' && data.detail !== null) {
+        detailMsg = data.detail.msg || JSON.stringify(data.detail);
+      } else if (typeof data.message === 'string') {
+        detailMsg = data.message;
+      }
+    }
+    const err = new Error(detailMsg);
+    err.status = res.status;
+    err.data = data;
+    return err;
+  }
+
+  async function api(path, opts = {}, _retried = false) {
     const res = await fetch(API + path, opts);
     let data = null;
     try { data = await res.json(); } catch (e) { /* no body */ }
+
     if (!res.ok) {
       if (res.status === 401 && isLoggedIn()) {
+        // A guest token only lasts 6 hours and carries no password to log
+        // back in with — bouncing it to the login page reads as "you need an
+        // account" when the visitor never had one to begin with. Start a
+        // fresh guest session instead and silently retry the request once.
+        // isGuest() only decodes the payload (no signature check), so it
+        // still correctly reports true for a token that just expired.
+        if (isGuest() && !_retried) {
+          try {
+            const fresh = await fetch(API + '/auth/guest', { method: 'POST' }).then((r) => r.json());
+            setToken(fresh.token);
+            localStorage.removeItem('shefguide_disclosure');
+            const retryOpts = { ...opts };
+            if (retryOpts.headers && retryOpts.headers.Authorization) {
+              retryOpts.headers = { ...retryOpts.headers, Authorization: 'Bearer ' + fresh.token };
+            }
+            showToast('Your guest session had expired — started a new one.', 'info');
+            return api(path, retryOpts, true);
+          } catch (e) {
+            // Falls through to the same clear+redirect as any other 401.
+          }
+        }
         // Token expired or invalid — bounce back to login instead of
         // leaving the page stuck showing a raw error.
         clearToken();
         window.location.href = 'auth.html?next=' + encodeURIComponent(window.location.pathname.split('/').pop());
       }
-      const err = new Error((data && (data.detail || data.message)) || ('Request failed (' + res.status + ')'));
-      err.status = res.status;
-      err.data = data;
-      throw err;
+      throw buildApiError(res, data);
     }
+
     return data;
   }
 
@@ -56,10 +132,31 @@ window.ShefGuide = (function () {
     return true;
   }
 
+  // For pages a guest cannot use at all (the checklist needs profile details
+  // they have not given). Sends them to register rather than to a dead end.
+  function requireAccount(reason) {
+    if (!requireAuth()) return false;
+    if (isGuest()) {
+      const next = window.location.pathname.split('/').pop();
+      window.location.href =
+        'auth.html?mode=register&next=' + encodeURIComponent(next) +
+        (reason ? '&why=' + encodeURIComponent(reason) : '');
+      return false;
+    }
+    return true;
+  }
+
   function logout() {
     clearToken();
     window.location.href = 'index.html';
   }
+
+  // Pages that only call requireAuth() (any signed-in state, guest included)
+  // rather than requireAccount() (a full account only). A nav link to one of
+  // these is meant to work for a guest — checklist.html is deliberately left
+  // out, since it correctly needs a full account and should send an
+  // unauthenticated visitor to registration, not a silent guest session.
+  const GUEST_FRIENDLY_PATHS = new Set(['chat', 'history']);
 
   // Points every [data-path] nav link at the right page and shows/hides
   // sign-in-vs-signed-in header controls based on current login state.
@@ -68,18 +165,75 @@ window.ShefGuide = (function () {
       chat: 'chat.html',
       'community-qa': 'qa.html',
       checklist: 'checklist.html',
+      history: 'history.html',
       about: 'index.html'
     };
     document.querySelectorAll('[data-path]').forEach((el) => {
-      if (map[el.dataset.path]) el.setAttribute('href', map[el.dataset.path]);
+      if (!map[el.dataset.path]) return;
+      el.setAttribute('href', map[el.dataset.path]);
+
+      // Without this, a first-time visitor clicking "Chat" or "History" in
+      // the header has no token at all yet, and that page's own
+      // requireAuth() bounces them straight to login the instant it loads —
+      // even though both pages are meant to work without an account.
+      if (GUEST_FRIENDLY_PATHS.has(el.dataset.path)) {
+        el.addEventListener('click', async (e) => {
+          if (isLoggedIn()) return; // real navigation is fine as-is
+          e.preventDefault();
+          try {
+            await startGuest(map[el.dataset.path]);
+          } catch (err) {
+            showToast('Could not start guest session.', 'error');
+          }
+        });
+      }
     });
 
-    const logged = isLoggedIn();
+    // Mark the link for the current page as active. Pages hard-code this for
+    // their own link, but doing it here keeps every nav correct without each
+    // page having to remember - and is what makes a newly added page light up.
+    const here = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('nav[data-active-classes]').forEach((nav) => {
+      const activeClasses = nav.dataset.activeClasses.split(/\s+/).filter(Boolean);
+      nav.querySelectorAll('[data-path]').forEach((el) => {
+        if (map[el.dataset.path] !== here) return;
+        el.setAttribute('aria-current', 'page');
+        activeClasses.forEach((c) => el.classList.add(c));
+        // Drop the muted resting colour so the active class actually wins.
+        el.classList.remove('text-on-surface-variant');
+      });
+    });
+
+    // A guest session counts as signed-out for header purposes: they should
+    // still be offered Sign In / Sign Up, since converting them is the point.
+    const guest = isGuest();
+    const logged = isLoggedIn() && !guest;
     document.querySelectorAll('[data-auth="guest-only"]').forEach((el) => {
       el.style.display = logged ? 'none' : '';
     });
     document.querySelectorAll('[data-auth="user-only"]').forEach((el) => {
       el.style.display = logged ? '' : 'none';
+    });
+    document.querySelectorAll('[data-auth="guest-session-only"]').forEach((el) => {
+      el.style.display = guest ? '' : 'none';
+    });
+
+    document.querySelectorAll('#btn-signin, [data-action="signin"]').forEach((btn) => {
+      if (btn.dataset.wired === 'true') return;
+      btn.dataset.wired = 'true';
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'auth.html';
+      });
+    });
+
+    document.querySelectorAll('#btn-signup, [data-action="signup"]').forEach((btn) => {
+      if (btn.dataset.wired === 'true') return;
+      btn.dataset.wired = 'true';
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'auth.html?mode=register';
+      });
     });
 
     document.querySelectorAll('[data-role="avatar"]').forEach((avatar) => {
@@ -172,11 +326,11 @@ window.ShefGuide = (function () {
     toast.style.cssText = `position:fixed;top:24px;left:50%;
       background:${c.bg};color:${c.text};
       box-shadow:0 20px 45px -15px rgba(26,58,92,0.35), inset 0 0 0 1px ${c.ring};
-      padding:14px 22px;border-radius:9999px;font-family:'Outfit','Plus Jakarta Sans',sans-serif;
+      padding:14px 22px;border-radius:10px;font-family:'Public Sans',system-ui,sans-serif;
       font-size:14px;font-weight:500;display:flex;align-items:center;gap:8px;
       opacity:0;transform:translate(-50%,-16px);
       transition:opacity 400ms cubic-bezier(0.32,0.72,0,1),transform 400ms cubic-bezier(0.32,0.72,0,1);
-      z-index:10000;max-width:90vw;text-align:center;`;
+      z-index:var(--z-toast,120);max-width:90vw;text-align:center;`;
 
     const icon = document.createElement('span');
     icon.className = 'material-symbols-outlined';
@@ -210,17 +364,17 @@ window.ShefGuide = (function () {
       }
       const previouslyFocused = document.activeElement;
       const overlay = document.createElement('div');
-      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(14,17,51,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(14,17,51,0.5);z-index:var(--z-overlay,100);display:flex;align-items:center;justify-content:center;padding:20px;';
       overlay.innerHTML = `
-        <div role="dialog" aria-modal="true" aria-labelledby="disclosure-title" aria-describedby="disclosure-desc" style="background:#fff;border-radius:24px;max-width:440px;width:100%;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.2);font-family:Inter,sans-serif;">
-          <h3 id="disclosure-title" style="color:#1A3A5C;font-size:18px;font-weight:700;margin:0 0 12px;">Before you continue</h3>
-          <p id="disclosure-desc" style="color:#43474e;font-size:14px;line-height:1.6;margin:0 0 20px;">
+        <div role="dialog" aria-modal="true" aria-labelledby="disclosure-title" aria-describedby="disclosure-desc" style="background:#fff;border-radius:14px;max-width:440px;width:100%;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.2);font-family:Inter,sans-serif;">
+          <h3 id="disclosure-title" style="color:#131312;font-size:18px;font-weight:700;margin:0 0 12px;">Before you continue</h3>
+          <p id="disclosure-desc" style="color:#575754;font-size:14px;line-height:1.6;margin:0 0 20px;">
             ShefGuide's AI features send your message to OpenAI or Google's servers to generate a response.
             Please don't include sensitive personal data in your questions. Do you want to continue?
           </p>
           <div style="display:flex;gap:12px;justify-content:flex-end;">
-            <button id="disclosure-cancel" style="padding:10px 20px;border-radius:999px;border:1px solid #c3c6cf;background:#fff;color:#43474e;font-size:14px;cursor:pointer;">Cancel</button>
-            <button id="disclosure-accept" style="padding:10px 20px;border-radius:999px;border:none;background:#148F77;color:#fff;font-size:14px;font-weight:600;cursor:pointer;">I understand, continue</button>
+            <button id="disclosure-cancel" style="padding:10px 20px;border-radius:8px;border:1px solid #DCDCDA;background:#fff;color:#575754;font-size:14px;cursor:pointer;">Cancel</button>
+            <button id="disclosure-accept" style="padding:10px 20px;border-radius:8px;border:none;background:#A8461A;color:#fff;font-size:14px;font-weight:600;cursor:pointer;">I understand, continue</button>
           </div>
         </div>`;
       document.body.appendChild(overlay);
@@ -273,6 +427,61 @@ window.ShefGuide = (function () {
     });
   }
 
+  // In-app replacement for window.confirm(), which renders as a browser chrome
+  // dialog with no relation to the app's visual language and cannot be styled.
+  // Resolves true/false rather than throwing, so callers read as a plain if.
+  function confirmAction({ title, body, confirmLabel = 'Confirm', danger = false }) {
+    return new Promise((resolve) => {
+      const previouslyFocused = document.activeElement;
+      const overlay = document.createElement('div');
+      overlay.style.cssText =
+        'position:fixed;inset:0;background:rgba(14,17,51,0.5);backdrop-filter:blur(2px);' +
+        'z-index:var(--z-modal,110);display:flex;align-items:center;justify-content:center;padding:20px;';
+      const accent = danger ? '#9B1C1C' : '#A8461A';
+      overlay.innerHTML = `
+        <div role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-desc"
+             style="background:#fff;border-radius:14px;max-width:420px;width:100%;padding:28px 32px;
+                    box-shadow:0 30px 70px -20px rgba(26,58,92,0.4);
+                    font-family:'Public Sans',system-ui,sans-serif;">
+          <h3 id="confirm-title" style="color:#131312;font-family:'Bricolage Grotesque','Helvetica Neue',sans-serif;font-size:19px;font-weight:700;margin:0 0 10px;">${escapeHtml(title)}</h3>
+          <p id="confirm-desc" style="color:#575754;font-size:14px;line-height:1.6;margin:0 0 22px;">${escapeHtml(body)}</p>
+          <div style="display:flex;gap:10px;justify-content:flex-end;">
+            <button id="confirm-cancel" style="padding:10px 20px;border-radius:8px;border:1px solid #DCDCDA;background:#fff;color:#575754;font-family:'Bricolage Grotesque','Helvetica Neue',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Cancel</button>
+            <button id="confirm-ok" style="padding:10px 22px;border-radius:8px;border:none;background:${accent};color:#fff;font-family:'Bricolage Grotesque','Helvetica Neue',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">${escapeHtml(confirmLabel)}</button>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+
+      const cancelBtn = overlay.querySelector('#confirm-cancel');
+      const okBtn = overlay.querySelector('#confirm-ok');
+      const focusable = [cancelBtn, okBtn];
+      okBtn.focus();
+
+      function close(result) {
+        overlay.removeEventListener('keydown', onKey);
+        overlay.remove();
+        if (previouslyFocused && typeof previouslyFocused.focus === 'function') {
+          previouslyFocused.focus();
+        }
+        resolve(result);
+      }
+      function onKey(e) {
+        if (e.key === 'Escape') { e.preventDefault(); close(false); return; }
+        if (e.key !== 'Tab') return;
+        const idx = focusable.indexOf(document.activeElement);
+        e.preventDefault();
+        const next = e.shiftKey
+          ? (idx <= 0 ? focusable.length - 1 : idx - 1)
+          : (idx === focusable.length - 1 ? 0 : idx + 1);
+        focusable[next].focus();
+      }
+      overlay.addEventListener('keydown', onKey);
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) close(false); });
+      cancelBtn.onclick = () => close(false);
+      okBtn.onclick = () => close(true);
+    });
+  }
+
   function escapeHtml(s) {
     return (s || '')
       .replace(/&/g, '&amp;').replace(/</g, '&lt;')
@@ -294,6 +503,7 @@ window.ShefGuide = (function () {
 
   return {
     API, getToken, setToken, clearToken, isLoggedIn, getUserId, authHeaders, api,
-    requireAuth, logout, wireHeader, ensureDisclosure, escapeHtml, timeAgo, showToast
+    requireAuth, requireAccount, isGuest, startGuest, confirmAction,
+    logout, wireHeader, ensureDisclosure, escapeHtml, timeAgo, showToast
   };
 })();

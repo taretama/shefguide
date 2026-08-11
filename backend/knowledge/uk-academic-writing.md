@@ -1,38 +1,63 @@
 # UK academic writing and assessment
 
-> Curated general guidance for the ShefGuide prototype. This is the project's
-> own knowledge base, not an official University of Sheffield publication.
-> Students should always confirm details against their own module handbook.
+> Curated guidance for the ShefGuide prototype. ShefGuide serves
+> international students across UK higher education generally, not one
+> institution, so the guidance below describes conventions shared across
+> UK universities, illustrated in places with one named university's
+> published wording as a concrete example. Students should always confirm
+> details against their own module handbook.
 
 ## What "critically evaluate" means
 
 UK assessment briefs frequently ask students to "critically evaluate",
 "critically analyse", or "critically discuss". This does not mean criticise
-in a negative sense. It means weighing evidence rather than reporting it.
+in a negative sense. Across UK higher education, critical writing generally
+means demonstrating analytical and evaluative thinking: justifying to the
+reader why a source is relevant, weighing how strong the evidence for a
+claim actually is, and integrating different sources into a well-evidenced
+argument rather than just reporting what each one says in turn — this is
+how the University of Sheffield's own critical-writing guidance frames it,
+for example (University of Sheffield, "Critical writing").
 
 A descriptive answer says what a source claims. A critical answer says what
 the source claims, how strong the supporting evidence is, how it compares
 with competing accounts, and what follows from that. Marks are usually lost
 for description without judgement, not for having the "wrong" opinion.
 
-A practical structure for a critical paragraph: state the point, give the
-evidence, explain the limitation or counter-argument, then state what you
-conclude and why.
+## A common way to structure an essay
+
+Different UK universities teach slightly different structural frameworks
+for essay writing, but they converge on the same underlying shape:
+introduction, developed argument, conclusion. One widely-used version of
+this, taught at the University of Sheffield as the "hourglass model",
+illustrates the shape concretely (University of Sheffield, "How to
+structure and plan an essay"):
+
+- **Introduction (the funnel):** start broad with a hook to catch the
+  reader's attention, then narrow down to a single-sentence "mission
+  statement" or thesis that states what the essay will argue.
+- **Body (the stem):** stay narrowly focused — each paragraph should have a
+  topic sentence, supporting evidence, and a linking sentence that carries
+  the argument logically into the next paragraph.
+- **Conclusion (the base):** revisit the mission statement and show how the
+  essay has addressed it, then broaden back out to the wider implications or
+  remaining gaps.
+
+This is one named example of a structure taught in UK higher education, not
+a universal rule — a specific module or department may teach a different
+model, and its own guidance takes precedence. The underlying logic (start
+broad, argue narrowly, conclude by widening back out) is common across most
+versions.
 
 ## Essays versus reports
 
-An essay is continuous prose organised as an argument. It normally has an
-introduction, a developed line of reasoning across body paragraphs, and a
-conclusion. It usually does not use headings or bullet points.
-
-A report is structured and sectioned, typically with headings such as
-introduction, method, results, discussion, and conclusion. Reports often
-include tables and figures, and are read in sections rather than straight
-through.
-
-If a brief asks for a report and receives an essay, marks are commonly lost
-for structure even when the content is sound. The brief and the marking
-rubric decide the format, not personal preference.
+An essay is continuous prose organised as an argument, and it usually does
+not use headings or bullet points. A report is structured and sectioned,
+typically with headings such as introduction, method, results, discussion,
+and conclusion, and is read in sections rather than straight through. If a
+brief asks for a report and receives an essay, marks are commonly lost for
+structure even when the content is sound. The brief and the marking rubric
+decide the format, not personal preference.
 
 ## Reading the marking criteria
 
@@ -59,14 +84,29 @@ clarity more than adding further content.
 
 ## Provenance
 
-- **Authored by:** the researcher, as part of the ShefGuide artefact.
-- **Basis:** general, widely-held conventions of UK higher education. Written
-  at a level of generality that holds across UK institutions.
-- **Status:** prototype content. Not institutional policy, and not a substitute
-  for it. Where a claim would depend on a specific institution's rules, the
-  text defers to the module handbook, the library guide, or the relevant
-  support service rather than asserting a rule.
-- **Sources consulted:** none recorded. If this file is later replaced with or
-  grounded in published institutional guidance, list the page title, publisher,
-  URL, and date accessed here so the content is traceable and citable.
-- **Last reviewed:** 2026-08-05.
+- **Authored by:** the researcher, drafted with AI assistance as part of the
+  ShefGuide artefact, and grounded in the published source listed below.
+- **Basis:** the underlying structural principles (critical vs descriptive
+  writing, introduction-argument-conclusion shape) are general conventions
+  shared across UK higher education, since ShefGuide serves students across
+  the whole sector rather than one institution. The University of
+  Sheffield's own writing guidance is cited as one concrete, named
+  illustration of these principles in practice ("the hourglass model" is
+  explicitly Sheffield's own term for teaching this shape), not asserted as
+  a universal or cross-institution standard. The sections on
+  essays-versus-reports, marking rubrics, word limits, and planning describe
+  further conventions that are common across UK institutions but were not
+  verified against a single named source, and remain general prototype
+  content pending further grounding.
+- **Status:** prototype content, written for general applicability across UK
+  institutions. A specific module's assessment brief and marking rubric are
+  always authoritative over this file.
+- **Sources consulted:**
+  - University of Sheffield (n.d.) "How to structure and plan an essay."
+    StudySkills@Sheffield.
+    https://sheffield.ac.uk/study-skills/writing/academic/essay
+    (accessed 2026-08-11).
+  - University of Sheffield (n.d.) "Critical writing." StudySkills@Sheffield.
+    https://sheffield.ac.uk/study-skills/writing/critical
+    (accessed 2026-08-11).
+- **Last reviewed:** 2026-08-11.

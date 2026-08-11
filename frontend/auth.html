@@ -1,26 +1,40 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Sign in | ShefGuide</title>
+    <meta name="description" content="Sign in or create an account on ShefGuide to save your chat history, personalize your arrival checklist, and ask community questions." />
+    <meta name="theme-color" content="#1A3A5C" />
+    <meta name="color-scheme" content="light" />
+    <title>Sign In or Register | ShefGuide</title>
     <link href="assets/favicon.ico" rel="icon" sizes="any" />
     <link href="assets/images/favicon-32.png" rel="icon" sizes="32x32" type="image/png" />
     <link href="assets/images/favicon-16.png" rel="icon" sizes="16x16" type="image/png" />
-    <link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script id="tailwind-config">
       tailwind.config = {
+        darkMode: "class",
         theme: {
           extend: {
             colors: {
               "deep-navy": "#1A3A5C",
+              primary: "#002444",
+              "primary-container": "#1A3A5C",
               "teal-accent": "#148F77",
-              surface: "#f7fafd",
-              "surface-container-low": "#f1f4f7",
-              "surface-container": "#ebeef1",
-              "on-surface-variant": "#43474e",
-              "outline-variant": "#c3c6cf",
+              secondary: "#006B58",
+              surface: "#F7FAFD",
+              "surface-light": "#F4F7FA",
+              "surface-container-low": "#F1F4F7",
+              "surface-container": "#EBEEF1",
+              "surface-container-high": "#E5E8EB",
+              "surface-container-highest": "#E0E3E6",
+              "surface-container-lowest": "#FFFFFF",
               "pure-white": "#FFFFFF",
+              "on-surface": "#181C1E",
+              "on-surface-variant": "#43474E",
+              outline: "#73777F",
+              "outline-variant": "#C3C6CF",
             },
             borderRadius: {
               DEFAULT: "1rem",
@@ -29,404 +43,259 @@
               full: "9999px",
             },
             fontFamily: {
-              "title-lg": ["Outfit"],
-              "display-lg": ["Outfit"],
-              "body-md": ["Plus Jakarta Sans"],
-              "label-md": ["Outfit"],
+              display: ["DM Sans", "sans-serif"],
+              body: ["Inter", "sans-serif"],
             },
           },
         },
       };
     </script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet" />
     <link href="assets/base.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <style>
-      body {
-        margin: 0;
-      }
-      .material-symbols-outlined {
-        font-variation-settings:
-          "FILL" 0,
-          "wght" 300,
-          "GRAD" 0,
-          "opsz" 24;
-      }
-      .fluid {
-        transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
-        transition-duration: 500ms;
-      }
-      .grain::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        z-index: 50;
-        pointer-events: none;
-        opacity: 0.03;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      }
-      .reveal {
-        opacity: 0;
-        transform: translateY(2.5rem);
-        filter: blur(6px);
-      }
-    </style>
   </head>
-  <body
-    class="bg-surface font-body-md text-on-surface min-h-screen flex flex-col md:flex-row grain"
-  >
-    <!-- Brand Panel -->
-    <aside
-      class="hidden md:flex md:w-1/2 relative flex-col justify-between bg-deep-navy px-14 py-14 overflow-hidden"
-    >
-      <div
-        class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_60%_at_20%_0%,rgba(20,143,119,0.35),transparent)]"
-      ></div>
-      <a
-        href="index.html"
-        class="reveal inline-flex items-center w-max pl-3 pr-4 py-2 rounded-full bg-white/95 shadow-[0_10px_25px_-8px_rgba(0,0,0,0.3)] opacity-90 hover:opacity-100 fluid"
-      >
-        <img
-          alt="ShefGuide"
-          class="h-7 w-auto"
-          src="assets/images/logo-full.png"
-        />
-      </a>
-      <div class="max-w-md">
-        <span
-          class="reveal inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/8 ring-1 ring-white/15 text-[10px] uppercase tracking-[0.2em] font-semibold text-pure-white/80 mb-6"
-          >International Students</span
-        >
-        <h2
-          class="reveal font-display-lg text-[clamp(2rem,3vw,2.75rem)] leading-[1.1] text-pure-white tracking-tight mb-6"
-        >
-          Everything about UK student life, explained without the jargon.
-        </h2>
-        <div
-          class="reveal p-2 rounded-[1.75rem] bg-black/20 ring-1 ring-white/10"
-        >
-          <div
-            class="rounded-[1.375rem] bg-white/[0.04] p-6 flex flex-col gap-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)]"
-          >
-            <p class="text-pure-white/80 text-sm leading-relaxed">
-              "Uploaded my visa letter and it explained every line. No more
-              googling acronyms at 1am."
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                alt=""
-                class="w-9 h-9 rounded-full object-cover"
-                src="assets/images/avatar-2.png"
-              />
-              <span class="text-pure-white/60 text-xs"
-                >Jian W. — BEng Civil Engineering</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-      <span class="reveal text-pure-white/30 text-xs"
-        >© 2024 ShefGuide. All rights reserved.</span
-      >
-    </aside>
+  <body class="bg-surface font-body text-on-surface antialiased">
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- Mobile back link -->
-    <header class="md:hidden w-full py-6 px-8">
-      <a href="index.html" class="inline-flex items-center">
-        <img
-          alt="ShefGuide"
-          class="h-9 w-auto"
-          src="assets/images/logo-full.png"
-        />
-      </a>
+    <!-- Header Navigation -->
+    <header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+      <div class="h-20 w-full max-w-container-max mx-auto px-8 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3" aria-label="ShefGuide home">
+          <img alt="ShefGuide logo" class="h-8 w-auto object-contain" src="assets/images/logo-full.png" />
+        </a>
+        <nav class="hidden md:flex items-center gap-8" data-active-classes="text-teal-accent font-semibold" aria-label="Primary">
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="chat" href="chat.html">Chat</a>
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="community-qa" href="qa.html">Community Q&amp;A</a>
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="checklist" href="checklist.html">Checklist</a>
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="history" href="history.html">History</a>
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="about" href="index.html">About</a>
+        </nav>
+      </div>
     </header>
 
-    <main class="flex-1 flex items-center justify-center px-4 py-10 md:py-16">
-      <div
-        class="reveal w-full max-w-md p-2 rounded-[2.25rem] bg-black/[0.03] ring-1 ring-black/[0.05] shadow-[0_40px_80px_-30px_rgba(26,58,92,0.2)]"
-      >
-        <div
-          class="bg-white rounded-[1.875rem] p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]"
-        >
-          <div class="flex bg-surface-container-low rounded-full p-1.5 mb-8">
-            <button
-              id="tab-login"
-              class="flex-1 py-2.5 rounded-full text-sm font-semibold fluid"
-            >
-              Log in
-            </button>
-            <button
-              id="tab-register"
-              class="flex-1 py-2.5 rounded-full text-sm font-semibold fluid"
-            >
-              Register
-            </button>
+    <main id="main" tabindex="-1" class="w-full pt-20 bg-surface min-h-screen flex items-center justify-center py-12">
+      <div class="w-full max-w-4xl mx-auto px-margin-mobile grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left Column: Value Prop Showcase -->
+        <div class="lg:col-span-5 flex flex-col justify-center">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-accent/10 text-teal-accent text-xs font-semibold uppercase tracking-wider mb-4 w-fit">
+            <span>🎓 Student Account</span>
           </div>
-
-          <span
-            class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-teal-accent/8 ring-1 ring-teal-accent/15 text-[10px] uppercase tracking-[0.2em] font-semibold text-teal-accent mb-4"
-            >Account</span
-          >
-          <h1
-            id="form-title"
-            class="font-title-lg text-2xl font-bold text-deep-navy mb-1"
-          >
-            Welcome back
+          <h1 class="font-display text-3xl md:text-4xl font-bold text-deep-navy tracking-tight mb-4">
+            Welcome to ShefGuide
           </h1>
-          <p id="form-sub" class="text-sm text-on-surface-variant mb-6">
-            Log in to continue to ShefGuide.
+          <p class="font-body text-sm text-on-surface-variant leading-relaxed mb-6">
+            Sign in or register to unlock full access to personalized arrival checklists, saved AI chat histories, and community Q&amp;A discussions.
           </p>
 
-          <form id="auth-form" class="flex flex-col gap-4">
-            <div>
-              <label
-                for="email"
-                class="text-xs font-semibold text-on-surface-variant block mb-1.5"
-                >University email</label
-              >
-              <input
-                id="email"
-                type="email"
-                required
-                class="w-full px-4 py-3 rounded-xl bg-surface-container-low ring-1 ring-transparent focus:ring-2 focus:ring-teal-accent/40 focus:bg-white focus:outline-none fluid text-sm"
-              />
+          <div class="space-y-4">
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-teal-accent/10 text-teal-accent flex items-center justify-center shrink-0 mt-0.5">
+                <span class="material-symbols-outlined text-base">forum</span>
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-xs text-deep-navy">Saved Chat Transcripts</h3>
+                <p class="font-body text-[12px] text-on-surface-variant">Reopen past chats and continue conversations seamlessly.</p>
+              </div>
             </div>
-            <div>
-              <label
-                for="password"
-                class="text-xs font-semibold text-on-surface-variant block mb-1.5"
-                >Password</label
-              >
-              <input
-                id="password"
-                type="password"
-                required
-                class="w-full px-4 py-3 rounded-xl bg-surface-container-low ring-1 ring-transparent focus:ring-2 focus:ring-teal-accent/40 focus:bg-white focus:outline-none fluid text-sm"
-              />
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-teal-accent/10 text-teal-accent flex items-center justify-center shrink-0 mt-0.5">
+                <span class="material-symbols-outlined text-base">checklist</span>
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-xs text-deep-navy">Personalized Arrival Checklist</h3>
+                <p class="font-body text-[12px] text-on-surface-variant">Step-by-step tasks built around your programme &amp; country.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Auth Card Container -->
+        <div class="lg:col-span-7">
+          <div class="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-card border border-outline-variant/30">
+            
+            <!-- Auth Mode Switcher Tabs -->
+            <div class="flex bg-surface-container-low p-1.5 rounded-full mb-6 border border-outline-variant/30">
+              <button id="tab-login" class="flex-1 py-2.5 rounded-full font-body text-xs font-semibold text-white bg-deep-navy transition-all shadow-sm">
+                Log In
+              </button>
+              <button id="tab-register" class="flex-1 py-2.5 rounded-full font-body text-xs font-semibold text-on-surface-variant hover:text-on-surface transition-all">
+                Register
+              </button>
             </div>
 
-            <details id="register-fields" class="hidden group border border-outline-variant/40 rounded-xl bg-surface shadow-sm mb-4">
-              <summary class="text-sm font-semibold text-deep-navy cursor-pointer list-none px-4 py-3 flex items-center justify-between select-none hover:bg-surface-container-low transition-colors rounded-xl">
-                <span>Personalise your experience (Required)</span>
-                <span class="material-symbols-outlined transform group-open:rotate-180 transition-transform text-[20px] text-on-surface-variant">expand_more</span>
-              </summary>
-              <div class="px-4 pb-4 pt-3 flex flex-col gap-4 border-t border-outline-variant/20 mt-1">
-                <div>
-                  <label
-                    for="university"
-                    class="text-xs font-semibold text-on-surface-variant block mb-1.5"
-                    >University</label
-                  >
-                  <input
-                    id="university"
-                    type="text"
-                    value="University of Sheffield"
-                    class="w-full px-4 py-3 rounded-xl bg-surface-container-low ring-1 ring-transparent focus:ring-2 focus:ring-teal-accent/40 focus:bg-white focus:outline-none fluid text-sm"
-                  />
-                </div>
-                <div>
-                  <label
-                    for="home_country"
-                    class="text-xs font-semibold text-on-surface-variant block mb-1.5"
-                    >Home country</label
-                  >
-                  <input
-                    id="home_country"
-                    type="text"
-                    placeholder="e.g. Nigeria"
-                    class="w-full px-4 py-3 rounded-xl bg-surface-container-low ring-1 ring-transparent focus:ring-2 focus:ring-teal-accent/40 focus:bg-white focus:outline-none fluid text-sm"
-                  />
-                </div>
-                <div>
-                  <label
-                    for="programme"
-                    class="text-xs font-semibold text-on-surface-variant block mb-1.5"
-                    >Programme</label
-                  >
-                  <input
-                    id="programme"
-                    type="text"
-                    placeholder="e.g. MSc Cybersecurity and AI"
-                    class="w-full px-4 py-3 rounded-xl bg-surface-container-low ring-1 ring-transparent focus:ring-2 focus:ring-teal-accent/40 focus:bg-white focus:outline-none fluid text-sm"
-                  />
-                </div>
-                <div>
-                  <label
-                    for="arrival_date"
-                    class="text-xs font-semibold text-on-surface-variant block mb-1.5"
-                    >Expected Arrival Date</label
-                  >
-                  <input
-                    id="arrival_date"
-                    type="date"
-                    class="w-full px-4 py-3 rounded-xl bg-surface-container-low ring-1 ring-transparent focus:ring-2 focus:ring-teal-accent/40 focus:bg-white focus:outline-none fluid text-sm text-on-surface-variant"
-                  />
+            <!-- Login Form -->
+            <form id="form-login" class="space-y-4">
+              <div>
+                <label for="email" class="block font-body text-xs font-semibold text-deep-navy mb-1.5">Email Address</label>
+                <input id="email" type="email" required class="w-full px-4 py-3 rounded-xl bg-surface border border-outline-variant/40 font-body text-xs text-deep-navy focus:outline-none focus:border-teal-accent transition-colors" placeholder="student@sheffield.ac.uk" />
+              </div>
+              <div>
+                <label for="password" class="block font-body text-xs font-semibold text-deep-navy mb-1.5">Password</label>
+                <input id="password" type="password" required class="w-full px-4 py-3 rounded-xl bg-surface border border-outline-variant/40 font-body text-xs text-deep-navy focus:outline-none focus:border-teal-accent transition-colors" placeholder="••••••••" />
+              </div>
+              <button type="submit" class="w-full py-3.5 rounded-full bg-teal-accent text-white font-body text-xs font-semibold hover:bg-deep-navy transition-all shadow-md mt-2">
+                Log In
+              </button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="form-register" class="space-y-4 hidden">
+              <div>
+                <label for="reg-email" class="block font-body text-xs font-semibold text-deep-navy mb-1.5">Email Address</label>
+                <input id="reg-email" type="email" required class="w-full px-4 py-3 rounded-xl bg-surface border border-outline-variant/40 font-body text-xs text-deep-navy focus:outline-none focus:border-teal-accent transition-colors" placeholder="student@sheffield.ac.uk" />
+              </div>
+              <div>
+                <label for="reg-password" class="block font-body text-xs font-semibold text-deep-navy mb-1.5">Password</label>
+                <input id="reg-password" type="password" required class="w-full px-4 py-3 rounded-xl bg-surface border border-outline-variant/40 font-body text-xs text-deep-navy focus:outline-none focus:border-teal-accent transition-colors" placeholder="At least 8 characters" />
+              </div>
+
+              <!-- Accordion: Personalisation Details -->
+              <div class="border border-outline-variant/40 rounded-2xl p-4 bg-surface/50">
+                <button type="button" id="toggle-details-btn" class="w-full flex items-center justify-between text-left font-body text-xs font-semibold text-deep-navy focus:outline-none">
+                  <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-teal-accent text-base">person</span> Personalisation Details (Required)</span>
+                  <span class="material-symbols-outlined text-outline">expand_more</span>
+                </button>
+                <div id="details-body" class="mt-3 space-y-3">
+                  <div>
+                    <label for="reg-university" class="block font-body text-[11px] text-on-surface-variant mb-1">University</label>
+                    <input id="reg-university" type="text" required class="w-full px-3 py-2 rounded-lg bg-white border border-outline-variant/40 font-body text-xs text-deep-navy" placeholder="University of Sheffield" />
+                  </div>
+                  <div>
+                    <label for="reg-country" class="block font-body text-[11px] text-on-surface-variant mb-1">Home Country</label>
+                    <input id="reg-country" type="text" required class="w-full px-3 py-2 rounded-lg bg-white border border-outline-variant/40 font-body text-xs text-deep-navy" placeholder="e.g. China, Nigeria, India" />
+                  </div>
+                  <div>
+                    <label for="reg-programme" class="block font-body text-[11px] text-on-surface-variant mb-1">Programme of Study</label>
+                    <input id="reg-programme" type="text" required class="w-full px-3 py-2 rounded-lg bg-white border border-outline-variant/40 font-body text-xs text-deep-navy" placeholder="e.g. MSc Computer Science" />
+                  </div>
+                  <div>
+                    <label for="reg-arrival" class="block font-body text-[11px] text-on-surface-variant mb-1">Expected Arrival Date</label>
+                    <input id="reg-arrival" type="date" required class="w-full px-3 py-2 rounded-lg bg-white border border-outline-variant/40 font-body text-xs text-deep-navy" />
+                  </div>
                 </div>
               </div>
-            </details>
 
-            <p id="auth-error" class="text-sm text-red-600 hidden"></p>
+              <button type="submit" class="w-full py-3.5 rounded-full bg-teal-accent text-white font-body text-xs font-semibold hover:bg-deep-navy transition-all shadow-md mt-2">
+                Create Account
+              </button>
+            </form>
 
-            <button
-              type="submit"
-              id="submit-btn"
-              class="group mt-2 w-full pl-6 pr-2 py-2 rounded-full bg-teal-accent text-white font-semibold text-sm hover:bg-deep-navy fluid shadow-[0_20px_40px_-15px_rgba(20,143,119,0.5)] flex items-center justify-center gap-3 active:scale-[0.98]"
-            >
-              <span id="submit-label" class="flex-1 text-center">Log in</span>
-              <span
-                class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center fluid group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105 shrink-0"
-              >
-                <span class="material-symbols-outlined text-[18px]"
-                  >arrow_forward</span
-                >
-              </span>
-            </button>
-            <a
-              href="index.html"
-              class="mt-2 w-full py-3 rounded-full text-on-surface-variant text-sm font-semibold text-center hover:bg-surface-container transition-colors inline-block"
-            >
-              Back to home
-            </a>
-          </form>
+          </div>
         </div>
+
       </div>
     </main>
 
+    <!-- Footer -->
+    <footer class="w-full border-t border-outline-variant/30 bg-surface">
+      <div class="max-w-container-max mx-auto px-gutter py-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="flex flex-col gap-2">
+          <img alt="ShefGuide Logo" class="h-7 w-auto self-start opacity-90" src="assets/images/logo-full.png" />
+          <p class="text-xs text-on-surface-variant max-w-[40ch]">
+            An MSc dissertation project. Designed for international higher education support.
+          </p>
+        </div>
+        <nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-on-surface-variant" aria-label="Footer">
+          <a class="hover:text-teal-accent transition-colors" href="privacy.html">Privacy Policy</a>
+          <a class="hover:text-teal-accent transition-colors" href="terms.html">Terms of Service</a>
+          <a class="hover:text-teal-accent transition-colors" href="mailto:support@shefguide.edu">Contact Support</a>
+        </nav>
+      </div>
+    </footer>
+
     <script src="assets/app.js"></script>
     <script>
-      const params = new URLSearchParams(window.location.search);
-      let mode = params.get("mode") === "register" ? "register" : "login";
+      ShefGuide.wireHeader();
 
       const tabLogin = document.getElementById("tab-login");
       const tabRegister = document.getElementById("tab-register");
-      const registerFields = document.getElementById("register-fields");
-      const formTitle = document.getElementById("form-title");
-      const formSub = document.getElementById("form-sub");
-      const submitBtn = document.getElementById("submit-btn");
-      const submitLabel = document.getElementById("submit-label");
-      const authError = document.getElementById("auth-error");
+      const formLogin = document.getElementById("form-login");
+      const formRegister = document.getElementById("form-register");
 
-      function applyMode() {
-        const active = "bg-teal-accent text-white shadow-sm";
-        const inactive = "text-on-surface-variant";
-        tabLogin.className =
-          "flex-1 py-2.5 rounded-full text-sm font-semibold fluid " +
-          (mode === "login" ? active : inactive);
-        tabRegister.className =
-          "flex-1 py-2.5 rounded-full text-sm font-semibold fluid " +
-          (mode === "register" ? active : inactive);
-
-        if (mode === "register") {
-          registerFields.classList.remove("hidden");
-          registerFields.classList.add("block");
-          formTitle.textContent = "Create your account";
-          formSub.textContent =
-            "A few details so we can personalise your checklist and answers.";
-          submitLabel.textContent = "Create account";
+      function setMode(m) {
+        if (m === "login") {
+          tabLogin.className = "flex-1 py-2.5 rounded-full font-body text-xs font-semibold text-white bg-deep-navy transition-all shadow-sm";
+          tabRegister.className = "flex-1 py-2.5 rounded-full font-body text-xs font-semibold text-on-surface-variant hover:text-on-surface transition-all";
+          formLogin.classList.remove("hidden");
+          formRegister.classList.add("hidden");
         } else {
-          registerFields.classList.add("hidden");
-          registerFields.classList.remove("block");
-          formTitle.textContent = "Welcome back";
-          formSub.textContent = "Log in to continue to ShefGuide.";
-          submitLabel.textContent = "Log in";
+          tabRegister.className = "flex-1 py-2.5 rounded-full font-body text-xs font-semibold text-white bg-deep-navy transition-all shadow-sm";
+          tabLogin.className = "flex-1 py-2.5 rounded-full font-body text-xs font-semibold text-on-surface-variant hover:text-on-surface transition-all";
+          formRegister.classList.remove("hidden");
+          formLogin.classList.add("hidden");
         }
-        authError.classList.add("hidden");
       }
 
-      tabLogin.addEventListener("click", () => {
-        mode = "login";
-        applyMode();
-      });
-      tabRegister.addEventListener("click", () => {
-        mode = "register";
-        applyMode();
-      });
-      applyMode();
-
-      document
-        .getElementById("auth-form")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
-          authError.classList.add("hidden");
-          submitBtn.disabled = true;
-          const originalText = submitLabel.textContent;
-          submitLabel.textContent = "Please wait...";
-
-          const email = document.getElementById("email").value.trim();
-          const password = document.getElementById("password").value;
-
-          try {
-            let data;
-            if (mode === "register") {
-              const university =
-                document.getElementById("university").value.trim() ||
-                "University of Sheffield";
-              const home_country = document
-                .getElementById("home_country")
-                .value.trim();
-              const programme = document
-                .getElementById("programme")
-                .value.trim();
-              const arrival_date = document
-                .getElementById("arrival_date")
-                .value.trim();
-              if (!home_country || !programme || !arrival_date) {
-                document.getElementById("register-fields").open = true;
-                throw new Error(
-                  "Please fill in your home country, programme, and arrival date.",
-                );
-              }
-              data = await ShefGuide.api("/auth/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  email,
-                  password,
-                  university,
-                  home_country,
-                  programme,
-                  arrival_date,
-                }),
-              });
-            } else {
-              data = await ShefGuide.api("/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-              });
-            }
-            ShefGuide.setToken(data.token);
-            const next = params.get("next") || "chat.html";
-            window.location.href = next;
-          } catch (err) {
-            authError.textContent = err.message || "Something went wrong.";
-            authError.classList.remove("hidden");
-            submitBtn.disabled = false;
-            submitLabel.textContent = originalText;
-          }
+      const toggleDetailsBtn = document.getElementById("toggle-details-btn");
+      const detailsBody = document.getElementById("details-body");
+      if (toggleDetailsBtn && detailsBody) {
+        toggleDetailsBtn.addEventListener("click", () => {
+          detailsBody.classList.toggle("hidden");
+          const icon = toggleDetailsBtn.querySelector(".material-symbols-outlined:last-child");
+          if (icon) icon.textContent = detailsBody.classList.contains("hidden") ? "expand_more" : "expand_less";
         });
-
-      if (ShefGuide.isLoggedIn()) {
-        window.location.href = params.get("next") || "chat.html";
       }
-    </script>
-    <script>
-      gsap.utils.toArray(".reveal").forEach((el, i) => {
-        gsap.to(el, {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.9,
-          ease: "power3.out",
-          delay: 0.1 + i * 0.08,
-        });
+
+      tabLogin.addEventListener("click", () => setMode("login"));
+      tabRegister.addEventListener("click", () => setMode("register"));
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const modeParam = urlParams.get("mode");
+      const nextParam = urlParams.get("next") || "chat.html";
+      if (modeParam === "register") setMode("register");
+
+      // Handle Login
+      formLogin.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        try {
+          ShefGuide.showToast("Signing in...", "info");
+          const data = await ShefGuide.api("/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+          ShefGuide.setToken(data.token);
+          ShefGuide.showToast("Signed in successfully!", "success");
+          window.location.href = nextParam;
+        } catch (err) {
+          ShefGuide.showToast(err.message || "Invalid credentials.", "error");
+        }
+      });
+
+      // Handle Register
+      formRegister.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("reg-email").value.trim();
+        const password = document.getElementById("reg-password").value;
+        const university = document.getElementById("reg-university").value.trim();
+        const home_country = document.getElementById("reg-country").value.trim();
+        const programme = document.getElementById("reg-programme").value.trim();
+        const arrival_date = document.getElementById("reg-arrival").value;
+
+        try {
+          ShefGuide.showToast("Creating account...", "info");
+          const data = await ShefGuide.api("/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email,
+              password,
+              university,
+              home_country,
+              programme,
+              arrival_date,
+            }),
+          });
+          ShefGuide.setToken(data.token);
+          ShefGuide.showToast("Account created!", "success");
+          window.location.href = nextParam;
+        } catch (err) {
+          ShefGuide.showToast(err.message || "Registration failed.", "error");
+        }
       });
     </script>
   </body>

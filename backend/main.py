@@ -432,25 +432,84 @@ Return only the JSON array. No other text."""
    )
 
     raw = result["reply"]
-    
+
     # Clean the response in case GPT wraps it in markdown
     raw = raw.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
     tasks = json.loads(raw)
-    
+    sections = _group_checklist_tasks(tasks)
+
     checklists_collection.update_one(
         {"user_id": user_id},
-        {"$set": {"items": tasks, "updated_at": datetime.utcnow()}},
+        {"$set": {"sections": sections, "updated_at": datetime.utcnow()}},
         upsert=True
     )
-    return {"tasks": tasks}
+    return {"sections": sections}
+
+# Maps the LLM's flat "urgent"/"first_week"/"first_month" priority onto the
+# section grouping and icon the frontend renders as an accordion.
+_CHECKLIST_SECTIONS = [
+    ("urgent",      "Before You Arrive", "priority_high"),
+    ("first_week",  "First Week",        "event"),
+    ("first_month", "First Month",       "calendar_month"),
+]
+
+def _group_checklist_tasks(tasks: list) -> list:
+    sections = []
+    task_id = 0
+    for priority, title, icon in _CHECKLIST_SECTIONS:
+        section_tasks = []
+        for t in tasks:
+            if t.get("priority") != priority:
+                continue
+            task_id += 1
+            section_tasks.append({
+                "id": f"t{task_id}",
+                "title": t.get("task", ""),
+                "description": t.get("explanation", ""),
+                "priority": "high" if priority == "urgent" else None,
+                "completed": False,
+            })
+        if section_tasks:
+            sections.append({"title": title, "icon": icon, "tasks": section_tasks})
+    return sections
 
 @app.get("/checklist")
 def get_checklist(authorization: str = Header(...)):
     user_id = get_user(authorization)
     checklist = checklists_collection.find_one({"user_id": user_id})
     if not checklist:
-        return {"tasks": []}
-    return {"tasks": checklist["items"]}
+        return {"sections": []}
+    return {"sections": checklist.get("sections", [])}
+
+class ToggleTaskBody(BaseModel):
+    task_id: str
+
+@app.post("/checklist/toggle")
+def toggle_checklist_task(body: ToggleTaskBody, authorization: str = Header(...)):
+    user_id = get_user(authorization)
+    require_full_account(user_id, "Checklist tasks")
+    checklist = checklists_collection.find_one({"user_id": user_id})
+    if not checklist:
+        raise HTTPException(404, "No checklist found")
+
+    sections = checklist.get("sections", [])
+    found = False
+    for section in sections:
+        for task in section.get("tasks", []):
+            if task.get("id") == body.task_id:
+                task["completed"] = not task.get("completed", False)
+                found = True
+                break
+        if found:
+            break
+    if not found:
+        raise HTTPException(404, "Task not found")
+
+    checklists_collection.update_one(
+        {"user_id": user_id},
+        {"$set": {"sections": sections}}
+    )
+    return {"sections": sections}
 
 # ── COMMUNITY Q&A ─────────────────────────────────────────────────────────────
 
