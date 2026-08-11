@@ -1,99 +1,16 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Chat Dashboard | ShefGuide</title>
+    <meta name="description" content="Chat with ShefGuide's AI about assignments, referencing rules, or attach your module handbook PDF." />
+    <meta name="theme-color" content="#1A3A5C" />
+    <meta name="color-scheme" content="light" />
+    <title>Academic Chat Workspace | ShefGuide</title>
     <link href="assets/favicon.ico" rel="icon" sizes="any" />
     <link href="assets/images/favicon-32.png" rel="icon" sizes="32x32" type="image/png" />
     <link href="assets/images/favicon-16.png" rel="icon" sizes="16x16" type="image/png" />
-    <link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon" />
-    <style>
-      @layer base {
-        html,
-        body {
-          margin: 0;
-          padding: 0;
-        }
-        body {
-          overscroll-behavior: none;
-        }
-        main > :first-child {
-          margin-top: 0 !important;
-        }
-        main > :last-child {
-          margin-bottom: 0 !important;
-        }
-      }
-      ::-webkit-scrollbar {
-        display: none;
-      }
-      .material-symbols-outlined {
-        font-variation-settings:
-          "FILL" 0,
-          "wght" 300,
-          "GRAD" 0,
-          "opsz" 24;
-      }
-      .fluid {
-        transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
-        transition-duration: 500ms;
-      }
-      #mobile-menu {
-        transition:
-          opacity 500ms cubic-bezier(0.32, 0.72, 0, 1),
-          visibility 500ms cubic-bezier(0.32, 0.72, 0, 1);
-      }
-      #mobile-menu[data-open="false"] {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-      #mobile-menu[data-open="false"] .menu-link {
-        transform: translateY(2rem);
-        opacity: 0;
-      }
-      .menu-link {
-        transition:
-          transform 600ms cubic-bezier(0.32, 0.72, 0, 1),
-          opacity 600ms cubic-bezier(0.32, 0.72, 0, 1);
-      }
-      #hamburger .bar-top {
-        transition:
-          transform 500ms cubic-bezier(0.32, 0.72, 0, 1),
-          top 300ms cubic-bezier(0.32, 0.72, 0, 1);
-      }
-      #hamburger .bar-bottom {
-        transition:
-          transform 500ms cubic-bezier(0.32, 0.72, 0, 1),
-          bottom 300ms cubic-bezier(0.32, 0.72, 0, 1);
-      }
-      #hamburger[data-open="true"] .bar-top {
-        top: 50%;
-        transform: translateY(-50%) rotate(45deg);
-      }
-      #hamburger[data-open="true"] .bar-bottom {
-        bottom: 50%;
-        transform: translateY(50%) rotate(-45deg);
-      }
-      @keyframes panel-in {
-        from {
-          opacity: 0;
-          transform: translateY(1.5rem);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .panel-in {
-        animation: panel-in 700ms cubic-bezier(0.32, 0.72, 0, 1) both;
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .panel-in {
-          animation: none;
-        }
-      }
-    </style>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script id="tailwind-config">
       tailwind.config = {
@@ -101,58 +18,29 @@
         theme: {
           extend: {
             colors: {
-              "on-surface": "#181c1e",
-              "primary-fixed-dim": "#abc9f2",
-              "surface-container-lowest": "#ffffff",
-              "primary-container": "#1a3a5c",
-              outline: "#73777f",
-              "on-secondary-fixed": "#002019",
-              "on-primary-fixed": "#001c37",
-              "secondary-fixed": "#8df6d9",
-              error: "#ba1a1a",
-              "surface-container-high": "#e5e8eb",
-              "inverse-primary": "#abc9f2",
-              "surface-bright": "#f7fafd",
-              "on-tertiary-fixed": "#291800",
-              "surface-tint": "#436084",
-              primary: "#002444",
-              background: "#f7fafd",
-              tertiary: "#331f00",
-              "on-primary": "#ffffff",
-              "on-error": "#ffffff",
-              "on-primary-container": "#87a4cc",
-              "error-container": "#ffdad6",
-              "primary-fixed": "#d2e4ff",
-              "on-primary-fixed-variant": "#2a486b",
-              "surface-dim": "#d7dadd",
-              "surface-container-highest": "#e0e3e6",
-              "on-secondary-fixed-variant": "#005142",
-              "tertiary-fixed": "#ffddb1",
               "deep-navy": "#1A3A5C",
-              "tertiary-container": "#4f3300",
-              "outline-variant": "#c3c6cf",
-              "on-tertiary-fixed-variant": "#5f410c",
-              "on-secondary-container": "#00725e",
-              "surface-variant": "#e0e3e6",
-              "surface-container-low": "#f1f4f7",
-              "tertiary-fixed-dim": "#ecbf80",
-              "dark-text": "#0E1133",
-              surface: "#f7fafd",
-              "inverse-surface": "#2d3133",
-              "on-error-container": "#93000a",
-              "surface-container": "#ebeef1",
-              "secondary-container": "#8df6d9",
-              "on-background": "#181c1e",
-              "on-tertiary-container": "#c49b5f",
-              "surface-light": "#F4F7FA",
-              "pure-white": "#FFFFFF",
+              primary: "#002444",
+              "primary-container": "#1A3A5C",
+              "primary-fixed": "#D2E4FF",
+              "primary-fixed-dim": "#ABC9F2",
               "teal-accent": "#148F77",
-              "on-secondary": "#ffffff",
-              "inverse-on-surface": "#eef1f4",
-              "secondary-fixed-dim": "#70d9bd",
-              secondary: "#006b58",
-              "on-tertiary": "#ffffff",
-              "on-surface-variant": "#43474e",
+              secondary: "#006B58",
+              "secondary-fixed": "#8DF6D9",
+              "secondary-fixed-dim": "#70D9BD",
+              "secondary-container": "#8DF6D9",
+              "on-secondary-container": "#00725E",
+              surface: "#F7FAFD",
+              "surface-light": "#F4F7FA",
+              "surface-container-low": "#F1F4F7",
+              "surface-container": "#EBEEF1",
+              "surface-container-high": "#E5E8EB",
+              "surface-container-highest": "#E0E3E6",
+              "surface-container-lowest": "#FFFFFF",
+              "pure-white": "#FFFFFF",
+              "on-surface": "#181C1E",
+              "on-surface-variant": "#43474E",
+              outline: "#73777F",
+              "outline-variant": "#C3C6CF",
             },
             borderRadius: {
               DEFAULT: "1rem",
@@ -160,879 +48,391 @@
               xl: "3rem",
               full: "9999px",
             },
-            spacing: {
-              "container-max": "1200px",
-              "margin-mobile": "20px",
-              "section-gap": "80px",
-              gutter: "24px",
-              "card-padding": "32px",
-            },
             fontFamily: {
-              "label-md": ["Outfit"],
-              "headline-md": ["Outfit"],
-              "number-accent": ["Outfit"],
-              "title-lg": ["Outfit"],
-              "body-lg": ["Plus Jakarta Sans"],
-              "headline-md-mobile": ["Outfit"],
-              "display-lg-mobile": ["Outfit"],
-              "body-md": ["Plus Jakarta Sans"],
-              "display-lg": ["Outfit"],
-            },
-            fontSize: {
-              "label-md": [
-                "14px",
-                {
-                  lineHeight: "20px",
-                  letterSpacing: "0.02em",
-                  fontWeight: "600",
-                },
-              ],
-              "headline-md": [
-                "32px",
-                { lineHeight: "40px", fontWeight: "600" },
-              ],
-              "number-accent": [
-                "56px",
-                {
-                  lineHeight: "1",
-                  letterSpacing: "-0.04em",
-                  fontWeight: "700",
-                },
-              ],
-              "title-lg": ["20px", { lineHeight: "28px", fontWeight: "600" }],
-              "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
-              "headline-md-mobile": [
-                "24px",
-                { lineHeight: "32px", fontWeight: "600" },
-              ],
-              "display-lg-mobile": [
-                "32px",
-                {
-                  lineHeight: "40px",
-                  letterSpacing: "-0.01em",
-                  fontWeight: "700",
-                },
-              ],
-              "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
-              "display-lg": [
-                "48px",
-                {
-                  lineHeight: "56px",
-                  letterSpacing: "-0.02em",
-                  fontWeight: "700",
-                },
-              ],
+              display: ["DM Sans", "sans-serif"],
+              body: ["Inter", "sans-serif"],
             },
           },
         },
       };
     </script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet" />
     <link href="assets/base.css" rel="stylesheet" />
   </head>
-  <body class="bg-surface font-body-md text-on-surface">
-    <header
-      class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(26,58,92,0.15)] ring-1 ring-black/[0.03]"
-    >
-      <div class="h-20 w-full px-8 flex items-center justify-between">
-        <div class="flex items-center">
-          <img
-            alt="ShefGuide"
-            class="h-11 w-auto object-contain"
-            src="assets/images/logo-full.png"
-          />
-        </div>
-        <nav
-          class="hidden md:flex items-center gap-10"
-          data-active-classes="text-teal-accent font-semibold"
-        >
-          <a
-            aria-current="page"
-            class="fluid text-teal-accent font-semibold"
-            data-path="chat"
-            href="chat.html"
-            >Chat</a
-          ><a
-            class="text-body-md text-on-surface-variant hover:text-on-surface fluid"
-            data-path="community-qa"
-            href="qa.html"
-            >Community Q&A</a
-          ><a
-            class="text-body-md text-on-surface-variant hover:text-on-surface fluid"
-            data-path="checklist"
-            href="checklist.html"
-            >Checklist</a
-          ><a
-            class="text-body-md text-on-surface-variant hover:text-on-surface fluid"
-            data-path="about"
-            href="index.html"
-            >About</a
-          >
+  <body class="bg-surface font-body text-on-surface antialiased">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header Navigation -->
+    <header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+      <div class="h-20 w-full max-w-container-max mx-auto px-8 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3" aria-label="ShefGuide home">
+          <img alt="ShefGuide logo" class="h-8 w-auto object-contain" src="assets/images/logo-full.png" />
+        </a>
+        <nav class="hidden md:flex items-center gap-8" data-active-classes="text-teal-accent font-semibold" aria-label="Primary">
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="chat" href="chat.html">Chat</a>
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="community-qa" href="qa.html">Community Q&amp;A</a>
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="checklist" href="checklist.html">Checklist</a>
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="history" href="history.html">History</a>
+          <a class="font-body text-body-md text-on-surface-variant hover:text-deep-navy transition-colors" data-path="about" href="index.html">About</a>
         </nav>
-        <div class="flex items-center gap-2">
-          <button
-            id="btn-signin"
-            data-auth="guest-only"
-            class="hidden sm:block text-label-md px-4 py-2 text-primary hover:text-teal-accent fluid"
-          >
-            Sign In</button
-          ><button
-            id="btn-signup"
-            data-auth="guest-only"
-            class="group hidden sm:flex items-center gap-2 pl-6 pr-2 py-2 bg-secondary text-on-secondary rounded-full text-label-md font-semibold hover:bg-teal-accent fluid active:scale-[0.98] shadow-[0_10px_30px_-10px_rgba(0,107,88,0.5)]"
-          >
-            Get Started
-            <span
-              class="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center fluid group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105"
-            >
-              <span class="material-symbols-outlined text-[15px]"
-                >arrow_forward</span
-              >
-            </span>
+        <div class="flex items-center gap-3">
+          <button id="btn-signin" data-auth="guest-only" class="hidden sm:block font-body text-sm font-semibold text-deep-navy hover:text-teal-accent px-4 py-2">
+            Sign in
           </button>
-          <div
-            id="nav-avatar"
-            data-role="avatar"
-            data-auth="user-only"
-            style="display: none"
-            class="w-9 h-9 rounded-full bg-primary flex items-center justify-center ml-2"
-          >
-            <span class="material-symbols-outlined text-on-primary text-[20px]"
-              >person</span
-            >
+          <button id="btn-signup" data-auth="guest-only" class="bg-teal-accent text-white px-6 py-2.5 rounded-full font-body text-sm font-semibold hover:bg-deep-navy transition-all shadow-sm">
+            Create account
+          </button>
+          <div id="nav-avatar" data-role="avatar" data-auth="user-only" style="display: none" class="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center cursor-pointer shadow-sm hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-[19px]">person</span>
           </div>
-          <button
-            id="hamburger"
-            data-open="false"
-            aria-label="Toggle menu"
-            aria-expanded="false"
-            class="md:hidden relative w-9 h-9 flex items-center justify-center shrink-0"
-          >
-            <span
-              class="bar-top absolute w-5 h-[1.5px] bg-deep-navy rounded-full"
-              style="top: 14px"
-            ></span>
-            <span
-              class="bar-bottom absolute w-5 h-[1.5px] bg-deep-navy rounded-full"
-              style="bottom: 14px"
-            ></span>
-          </button>
         </div>
       </div>
     </header>
-    <!-- Mobile Menu Overlay -->
-    <div
-      id="mobile-menu"
-      data-open="false"
-      class="fixed inset-0 z-40 bg-surface/90 backdrop-blur-3xl flex flex-col items-center justify-center gap-2"
-    >
-      <a
-        href="chat.html"
-        class="menu-link font-headline-md text-4xl text-teal-accent py-3"
-        style="transition-delay: 80ms"
-        >Chat</a
-      >
-      <a
-        href="qa.html"
-        class="menu-link font-headline-md text-4xl text-deep-navy py-3"
-        style="transition-delay: 140ms"
-        >Community Q&A</a
-      >
-      <a
-        href="checklist.html"
-        class="menu-link font-headline-md text-4xl text-deep-navy py-3"
-        style="transition-delay: 200ms"
-        >Checklist</a
-      >
-      <a
-        href="index.html"
-        class="menu-link font-headline-md text-4xl text-deep-navy py-3"
-        style="transition-delay: 260ms"
-        >About</a
-      >
-    </div>
-    <main class="w-full pt-20 bg-surface">
+
+    <main id="main" tabindex="-1" class="w-full pt-20 bg-surface">
       <div class="flex flex-col w-full h-[calc(100vh-5rem)]">
-        <div
-          class="w-full px-margin-mobile md:px-8 py-6 bg-surface/50 backdrop-blur-md flex flex-col md:flex-row md:items-center justify-between gap-4 sticky top-0 z-10 shadow-[0_10px_30px_-15px_rgba(26,58,92,0.15)]"
-        >
+        <!-- Top Workspace Bar -->
+        <div class="w-full px-4 md:px-8 py-5 bg-surface/80 backdrop-blur-md flex flex-col md:flex-row md:items-center justify-between gap-4 sticky top-0 z-10 border-b border-outline-variant/30 shadow-sm">
           <div>
-            <h1
-              class="font-headline-md text-headline-md text-deep-navy mb-1 tracking-tight"
-            >
-              Chat with ShefGuide
-            </h1>
-            <p
-              class="font-body-md text-body-md text-on-surface-variant opacity-80 max-w-2xl"
-            >
-              Ask about assignments, referencing, academic culture, or staying
-              safe with AI tools.
-            </p>
+            <h1 class="font-display text-2xl md:text-3xl font-bold text-deep-navy mb-1 tracking-tight">Academic Chat Workspace</h1>
+            <p class="font-body text-xs md:text-sm text-on-surface-variant opacity-80">Ask questions about UK higher education. Users can choose between supported LLMs below.</p>
           </div>
           <div class="flex flex-wrap items-center gap-4">
-            <div
-              class="flex items-center bg-surface-container-low p-1.5 rounded-full shadow-[inset_0_2px_4px_rgba(26,58,92,0.06)] ring-1 ring-black/[0.03]"
-            >
-              <button
-                class="px-5 py-2 rounded-full font-label-md text-label-md text-on-primary bg-primary fluid shadow-[0_10px_25px_-10px_rgba(0,36,68,0.5)] transform hover:scale-[1.02]"
-                id="model-gpt"
-              >
+            <div class="flex items-center bg-surface-container-low p-1.5 rounded-full shadow-inner border border-outline-variant/30">
+              <button id="model-gpt" class="px-4 py-1.5 rounded-full font-body text-xs font-semibold text-white bg-deep-navy transition-all shadow-sm">
                 GPT-4o-mini
               </button>
-              <button
-                class="px-5 py-2 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface fluid"
-                id="model-gemini"
-              >
-                Gemini Flash
+              <button id="model-gemini" class="px-4 py-1.5 rounded-full font-body text-xs font-semibold text-on-surface-variant hover:text-on-surface transition-all">
+                Gemini 3.5 Flash
               </button>
             </div>
-            <div
-              class="flex items-center gap-2 px-4 py-2 bg-primary-fixed/20 text-on-primary-fixed-variant rounded-full font-label-md text-[13px] ring-1 ring-primary-fixed-dim/30 fluid"
-              id="data-badge"
-            >
-              <div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
-              <span>OpenAI servers (US)</span>
+            <div id="data-badge" class="flex items-center gap-2 px-3.5 py-1.5 bg-primary-fixed/20 text-deep-navy rounded-full font-body text-xs font-medium border border-primary-fixed-dim/30 shadow-sm">
+              <div class="w-2 h-2 rounded-full bg-teal-accent animate-pulse"></div>
+              <span id="data-badge-text">OpenAI servers (US)</span>
             </div>
           </div>
         </div>
-        <div
-          class="flex-1 w-full max-w-[1600px] mx-auto p-4 md:p-8 flex flex-col lg:flex-row gap-6 overflow-hidden"
-        >
-          <div
-            class="panel-in flex-1 flex flex-col bg-surface-container-lowest rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(26,58,92,0.12)] ring-1 ring-black/[0.03] overflow-hidden relative"
-          >
-            <div
-              class="flex-1 overflow-y-auto p-6 md:p-10 z-10 flex flex-col custom-scrollbar"
-            >
-              <div
-                class="flex-1 flex flex-col items-center justify-center text-center mt-8 md:mt-0 opacity-100 transition-opacity duration-500"
-                id="empty-state"
-              >
-                <div
-                  class="w-24 h-24 mb-6 rounded-[2rem] bg-surface-container flex items-center justify-center shadow-[0_20px_40px_-15px_rgba(26,58,92,0.15)] relative overflow-hidden transform hover:-translate-y-1 fluid"
-                >
-                  <span
-                    class="material-symbols-outlined text-[48px] text-teal-accent"
-                    style="font-variation-settings: &quot;FILL&quot; 1"
-                    >auto_awesome</span
-                  >
-                  <div
-                    class="absolute inset-0 bg-gradient-to-tr from-teal-accent/10 to-transparent"
-                  ></div>
-                </div>
-                <h2 class="font-title-lg text-title-lg text-deep-navy mb-3">
-                  How can I help you today?
-                </h2>
-                <p
-                  class="font-body-md text-body-md text-on-surface-variant max-w-md mb-10"
-                >
-                  I'm here to assist with navigating university life,
-                  understanding assignments, and making the most of your studies
-                  at Sheffield.
-                </p>
-                <div
-                  class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-3xl"
-                >
-                  <button
-                    class="prompt-chip flex flex-col text-left p-5 rounded-2xl bg-surface-container-low hover:bg-surface-container fluid shadow-[0_10px_30px_-15px_rgba(26,58,92,0.15)] ring-1 ring-transparent hover:ring-outline-variant/20 group transform hover:-translate-y-1 active:scale-[0.98]"
-                    data-prompt="How do I reference a source in Harvard style?"
-                  >
-                    <span
-                      class="material-symbols-outlined text-primary mb-2 group-hover:scale-110 transition-transform"
-                      >article</span
-                    >
-                    <span
-                      class="font-label-md text-label-md text-deep-navy mb-1"
-                      >Referencing Help</span
-                    >
-                    <span
-                      class="font-body-md text-[13px] text-on-surface-variant opacity-80"
-                      >How do I reference a source in Harvard style?</span
-                    >
-                  </button>
-                  <button
-                    class="prompt-chip flex flex-col text-left p-5 rounded-2xl bg-surface-container-low hover:bg-surface-container fluid shadow-[0_10px_30px_-15px_rgba(26,58,92,0.15)] ring-1 ring-transparent hover:ring-outline-variant/20 group transform hover:-translate-y-1 active:scale-[0.98]"
-                    data-prompt="Is it okay to use ChatGPT for my coursework?"
-                  >
-                    <span
-                      class="material-symbols-outlined text-teal-accent mb-2 group-hover:scale-110 transition-transform"
-                      >school</span
-                    >
-                    <span
-                      class="font-label-md text-label-md text-deep-navy mb-1"
-                      >Academic Integrity</span
-                    >
-                    <span
-                      class="font-body-md text-[13px] text-on-surface-variant opacity-80"
-                      >Is it okay to use ChatGPT for my coursework?</span
-                    >
-                  </button>
-                  <button
-                    class="prompt-chip flex flex-col text-left p-5 rounded-2xl bg-surface-container-low hover:bg-surface-container fluid shadow-[0_10px_30px_-15px_rgba(26,58,92,0.15)] ring-1 ring-transparent hover:ring-outline-variant/20 group transform hover:-translate-y-1 active:scale-[0.98]"
-                    data-prompt="What's the difference between an essay and a report?"
-                  >
-                    <span
-                      class="material-symbols-outlined text-secondary mb-2 group-hover:scale-110 transition-transform"
-                      >edit_document</span
-                    >
-                    <span
-                      class="font-label-md text-label-md text-deep-navy mb-1"
-                      >Assignment Structure</span
-                    >
-                    <span
-                      class="font-body-md text-[13px] text-on-surface-variant opacity-80"
-                      >What's the difference between an essay and a
-                      report?</span
-                    >
-                  </button>
-                  <button
-                    class="prompt-chip flex flex-col text-left p-5 rounded-2xl bg-surface-container-low hover:bg-surface-container fluid shadow-[0_10px_30px_-15px_rgba(26,58,92,0.15)] ring-1 ring-transparent hover:ring-outline-variant/20 group transform hover:-translate-y-1 active:scale-[0.98]"
-                    data-prompt="How do I show 'critical analysis' in my writing?"
-                  >
-                    <span
-                      class="material-symbols-outlined text-tertiary-container mb-2 group-hover:scale-110 transition-transform"
-                      >psychology</span
-                    >
-                    <span
-                      class="font-label-md text-label-md text-deep-navy mb-1"
-                      >Critical Thinking</span
-                    >
-                    <span
-                      class="font-body-md text-[13px] text-on-surface-variant opacity-80"
-                      >How do I show 'critical analysis' in my writing?</span
-                    >
-                  </button>
-                </div>
-              </div>
-              <div
-                class="hidden flex-col gap-6 w-full max-w-4xl mx-auto pb-4"
-                id="chat-messages"
-              ></div>
+
+        <!-- Main Workspace split area -->
+        <div class="flex-1 w-full max-w-[1600px] mx-auto p-4 md:p-6 flex flex-col lg:flex-row gap-6 overflow-y-auto lg:overflow-hidden custom-scrollbar">
+          
+          <!-- Chat Panel -->
+          <div class="flex-1 min-h-[500px] lg:min-h-0 flex flex-col bg-surface-container-lowest rounded-[2.5rem] shadow-card border border-outline-variant/20 overflow-hidden relative">
+            
+            <!-- Guest limit banner -->
+            <div id="guest-banner" data-auth="guest-session-only" style="display: none" class="px-6 py-2.5 bg-amber-50 border-b border-amber-200 text-amber-900 text-xs flex items-center justify-between gap-4 z-20">
+              <span id="guest-allowance-text">Guest trial session: questions remaining.</span>
+              <a href="auth.html?mode=register" class="font-semibold text-teal-accent hover:underline">Create free account &rarr;</a>
             </div>
-            <div
-              class="p-6 bg-surface-container-lowest/80 backdrop-blur-xl z-20 shadow-[0_-10px_30px_-20px_rgba(26,58,92,0.15)]"
-            >
-              <div
-                class="max-w-4xl mx-auto p-1.5 rounded-[2.25rem] bg-black/[0.03] ring-1 ring-black/[0.05] focus-within:ring-teal-accent/30 fluid"
-              >
-                <div
-                  class="relative flex items-end bg-surface-light rounded-[1.875rem] p-2 shadow-[inset_0_1px_2px_rgba(26,58,92,0.06)]"
-                >
-                  <label class="sr-only" for="chat-input"
-                    >Ask ShefGuide a question</label
-                  >
-                  <textarea
-                    class="w-full bg-transparent border-none focus:ring-0 resize-none font-body-md text-on-surface py-4 px-4 max-h-32 custom-scrollbar placeholder:text-outline/70"
-                    id="chat-input"
-                    placeholder="Ask ShefGuide anything..."
-                    rows="1"
-                  ></textarea>
-                  <button
-                    class="group w-12 h-12 rounded-full bg-teal-accent text-pure-white flex items-center justify-center flex-shrink-0 m-1 shadow-[0_15px_30px_-10px_rgba(20,143,119,0.5)] hover:bg-secondary fluid active:scale-[0.92] disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed"
-                    id="send-btn"
-                  >
-                    <span
-                      class="material-symbols-outlined fluid group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                      >send</span
-                    >
+
+            <!-- Messages Stream -->
+            <div id="chat-messages" class="flex-1 overflow-y-auto p-6 md:p-8 z-10 flex flex-col gap-6 custom-scrollbar">
+              
+              <!-- Empty state prompt cards -->
+              <div id="empty-state" class="flex flex-col items-center text-center my-auto w-full max-w-2xl mx-auto">
+                <div class="w-16 h-16 mb-4 rounded-2xl bg-surface-container flex items-center justify-center shadow-sm">
+                  <span class="material-symbols-outlined text-3xl text-teal-accent">auto_awesome</span>
+                </div>
+                <h2 class="font-display text-xl md:text-2xl font-bold text-deep-navy mb-2">How can ShefGuide help with your studies today?</h2>
+                <p class="font-body text-xs md:text-sm text-on-surface-variant max-w-md mb-8">Get grounded academic guidance on referencing, essay structuring, critical analysis, or your uploaded handbook context.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
+                  <button class="prompt-chip flex flex-col text-left p-4 rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all border border-transparent hover:border-outline-variant/30 group">
+                    <span class="material-symbols-outlined text-teal-accent mb-1 group-hover:scale-110 transition-transform">article</span>
+                    <span class="font-display font-semibold text-xs text-deep-navy mb-0.5">Referencing Rules</span>
+                    <span class="font-body text-[12px] text-on-surface-variant">How do I reference a source in Harvard style?</span>
+                  </button>
+                  <button class="prompt-chip flex flex-col text-left p-4 rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all border border-transparent hover:border-outline-variant/30 group">
+                    <span class="material-symbols-outlined text-teal-accent mb-1 group-hover:scale-110 transition-transform">school</span>
+                    <span class="font-display font-semibold text-xs text-deep-navy mb-0.5">Academic Integrity</span>
+                    <span class="font-body text-[12px] text-on-surface-variant">Is it okay to use ChatGPT for my coursework?</span>
+                  </button>
+                  <button class="prompt-chip flex flex-col text-left p-4 rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all border border-transparent hover:border-outline-variant/30 group">
+                    <span class="material-symbols-outlined text-teal-accent mb-1 group-hover:scale-110 transition-transform">edit_document</span>
+                    <span class="font-display font-semibold text-xs text-deep-navy mb-0.5">Assignment Structure</span>
+                    <span class="font-body text-[12px] text-on-surface-variant">What's the difference between an essay and a report?</span>
+                  </button>
+                  <button class="prompt-chip flex flex-col text-left p-4 rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all border border-transparent hover:border-outline-variant/30 group">
+                    <span class="material-symbols-outlined text-teal-accent mb-1 group-hover:scale-110 transition-transform">psychology</span>
+                    <span class="font-display font-semibold text-xs text-deep-navy mb-0.5">Critical Thinking</span>
+                    <span class="font-body text-[12px] text-on-surface-variant">How do I show 'critical analysis' in my writing?</span>
                   </button>
                 </div>
               </div>
-              <div class="text-center mt-3">
-                <span
-                  class="font-label-md text-[11px] text-on-surface-variant/60"
-                  >AI can make mistakes. Consider verifying important
-                  information with university guidelines.</span
-                >
+
+            </div>
+
+            <!-- Chat Input Area -->
+            <div class="p-4 bg-surface-container-lowest border-t border-outline-variant/20 z-20">
+              <div class="max-w-4xl mx-auto relative flex items-end bg-surface-light rounded-full p-2 border border-outline-variant/40 focus-within:border-teal-accent focus-within:ring-2 focus-within:ring-teal-accent/20 transition-all">
+                <textarea id="chat-input" class="w-full bg-transparent border-none outline-none focus:ring-0 resize-none font-body text-xs md:text-sm text-on-surface py-3 px-4 max-h-32 custom-scrollbar placeholder:text-outline" placeholder="Ask ShefGuide anything..." rows="1"></textarea>
+                <button id="send-btn" class="w-10 h-10 rounded-full bg-teal-accent text-white flex items-center justify-center shrink-0 shadow-md hover:bg-deep-navy transition-all active:scale-95">
+                  <span class="material-symbols-outlined text-lg">send</span>
+                </button>
+              </div>
+              <div class="text-center mt-2">
+                <span class="font-body text-[11px] text-outline">AI can make mistakes. Always check official university handbook guidelines.</span>
               </div>
             </div>
           </div>
-          <div
-            class="panel-in w-full lg:w-[400px] xl:w-[450px] flex-shrink-0 flex flex-col gap-6"
-            style="animation-delay: 120ms"
-          >
-            <div
-              class="p-2 rounded-[2.25rem] bg-black/[0.03] ring-1 ring-black/[0.05] shadow-[0_20px_60px_-15px_rgba(26,58,92,0.12)] flex flex-col h-full"
-            >
-              <div
-                class="bg-surface-container-lowest rounded-[1.875rem] p-6 flex flex-col h-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]"
-              >
-              <div class="flex items-center justify-between mb-2">
-                <div class="flex items-center gap-3">
-                  <div
-                    class="w-10 h-10 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm"
-                  >
-                    <span class="material-symbols-outlined text-[22px]"
-                      >description</span
-                    >
-                  </div>
-                  <h3 class="font-title-lg text-title-lg text-deep-navy">
-                    Document Explainer
-                  </h3>
+
+          <!-- Document Grounding Sidebar -->
+          <div class="w-full lg:w-[380px] shrink-0 flex flex-col gap-6">
+            <div class="bg-surface-container-lowest rounded-[2rem] p-6 shadow-card border border-outline-variant/20 flex flex-col h-full">
+              <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm">
+                  <span class="material-symbols-outlined text-xl">description</span>
+                </div>
+                <div>
+                  <h3 class="font-display font-bold text-base text-deep-navy">Course Material &amp; Document Context</h3>
+                  <p class="font-body text-xs text-on-surface-variant">Upload PDF to combine with Sheffield guidance</p>
                 </div>
               </div>
-              <p
-                class="font-body-md text-[14px] text-on-surface-variant mb-6 pl-13"
-              >
-                Upload an assignment brief or policy PDF to ask specific
-                questions about it.
+
+              <!-- Explanation Text -->
+              <p class="font-body text-xs text-on-surface-variant mt-2 leading-relaxed">
+                Your uploaded PDF becomes extra knowledge for ShefGuide. Answers combine official UK university guidance with your specific course material.
               </p>
-              <input
-                type="file"
-                id="pdf-file"
-                accept=".pdf"
-                class="hidden"
-                aria-label="Choose a PDF document to upload"
-              />
-              <div
-                class="flex-1 flex flex-col items-center justify-center p-8 border-2 border-dashed border-outline-variant/50 rounded-3xl bg-surface-light hover:bg-surface-container hover:border-teal-accent/50 transition-all cursor-pointer group"
-                id="upload-zone"
-              >
-                <div
-                  class="w-16 h-16 rounded-2xl bg-surface shadow-[0_10px_25px_-12px_rgba(26,58,92,0.2)] ring-1 ring-black/[0.04] flex items-center justify-center mb-4 group-hover:-translate-y-2 fluid"
-                >
-                  <span
-                    class="material-symbols-outlined text-[32px] text-primary/60 group-hover:text-teal-accent transition-colors"
-                    >cloud_upload</span
-                  >
+
+              <!-- Upload Area -->
+              <div id="upload-zone" class="flex-1 flex flex-col items-center justify-center p-6 border-2 border-dashed border-outline-variant/60 rounded-3xl bg-surface-light hover:bg-surface-container hover:border-teal-accent transition-all cursor-pointer group mt-4 min-h-[200px]">
+                <div class="w-14 h-14 rounded-2xl bg-surface border border-outline-variant/30 flex items-center justify-center mb-3 group-hover:-translate-y-1 transition-transform">
+                  <span class="material-symbols-outlined text-2xl text-teal-accent">cloud_upload</span>
                 </div>
-                <span class="font-label-md text-[15px] text-deep-navy mb-1"
-                  >Click to choose a file</span
-                >
-                <span
-                  class="font-body-md text-[13px] text-on-surface-variant mb-4"
-                  id="upload-hint"
-                  >PDF only, up to a few MB</span
-                >
-                <button
-                  type="button"
-                  id="choose-file-btn"
-                  class="px-6 py-2 rounded-full ring-1 ring-outline-variant/40 text-on-surface-variant font-label-md text-sm hover:bg-surface hover:text-primary fluid shadow-[0_10px_20px_-12px_rgba(26,58,92,0.15)] bg-surface-container-lowest"
-                >
+                <span class="font-display font-semibold text-xs text-deep-navy mb-1">Drag &amp; drop course PDF here</span>
+                <span class="font-body text-[11px] text-outline mb-4">Supports PDF files up to 10MB</span>
+                <input id="doc-file-input" type="file" accept=".pdf" class="hidden" />
+                <button id="doc-choose-btn" type="button" class="px-5 py-2 rounded-full border border-outline-variant text-on-surface-variant font-body text-xs font-semibold hover:bg-white transition-colors bg-surface-container-lowest shadow-sm">
                   Choose File
                 </button>
               </div>
-              <div class="hidden flex-1 flex-col h-full" id="doc-active-state">
-                <div
-                  class="p-4 bg-surface-container rounded-2xl flex items-center gap-4 mb-6 shadow-[0_10px_25px_-15px_rgba(26,58,92,0.15)] ring-1 ring-black/[0.03]"
-                >
-                  <div
-                    class="w-12 h-12 rounded-xl bg-error-container text-on-error-container flex items-center justify-center shadow-inner flex-shrink-0"
-                  >
-                    <span class="font-label-md font-bold text-xs">PDF</span>
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <h4
-                      class="font-label-md text-[14px] text-deep-navy truncate"
-                      id="doc-filename"
-                    >
-                      Document.pdf
-                    </h4>
-                    <div class="flex items-center gap-2 mt-1">
-                      <span
-                        class="font-body-md text-[12px] text-on-surface-variant"
-                        id="doc-wordcount"
-                        >0 words</span
-                      >
-                    </div>
-                  </div>
-                  <button
-                    class="text-outline hover:text-error transition-colors p-1"
-                    id="remove-doc-btn"
-                  >
-                    <span class="material-symbols-outlined text-[20px]"
-                      >close</span
-                    >
-                  </button>
+
+              <!-- Document Active State -->
+              <div id="doc-active-state" class="hidden flex-col gap-3 mt-4 p-4 rounded-2xl bg-teal-accent/10 border border-teal-accent/30">
+                <div class="flex items-center justify-between">
+                  <span class="font-display font-bold text-xs text-deep-navy truncate" id="doc-filename">Handbook.pdf</span>
+                  <button id="doc-remove-btn" class="text-xs text-red-600 font-semibold hover:underline">Remove</button>
                 </div>
-                <div class="flex-1 flex flex-col">
-                  <h5
-                    class="font-label-md text-[13px] text-deep-navy uppercase tracking-wider mb-3 px-1 opacity-80"
-                  >
-                    Document Q&A
-                  </h5>
-                  <div
-                    class="flex-1 overflow-y-auto mb-4 px-1 pb-2 custom-scrollbar"
-                    id="doc-qa-list"
-                  ></div>
-                  <div
-                    class="relative bg-surface rounded-xl p-1 shadow-[inset_0_1px_2px_rgba(26,58,92,0.06)] ring-1 ring-outline-variant/30 focus-within:ring-2 focus-within:ring-secondary/30 fluid"
-                  >
-                    <label class="sr-only" for="doc-question"
-                      >Ask a question about your uploaded document</label
-                    >
-                    <input
-                      class="w-full bg-transparent border-none focus:ring-0 font-body-md text-[14px] py-3 pl-3 pr-10"
-                      id="doc-question"
-                      placeholder="Ask about this document..."
-                      type="text"
-                    />
-                    <button
-                      class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-surface-container-high text-primary flex items-center justify-center hover:bg-secondary hover:text-white transition-colors"
-                      id="doc-ask-btn"
-                    >
-                      <span class="material-symbols-outlined text-[18px]"
-                        >arrow_upward</span
-                      >
-                    </button>
-                  </div>
-                </div>
-              </div>
+                <p id="doc-status-text" class="text-[11px] text-on-surface-variant">Indexed passages active. Answers combine handbook + Sheffield knowledge.</p>
               </div>
             </div>
           </div>
+
         </div>
       </div>
-      <style>
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: rgba(115, 119, 127, 0.2);
-          border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background-color: rgba(115, 119, 127, 0.4);
-        }
-      </style>
     </main>
-    <footer class="w-full bg-surface-container-low mt-section-gap py-12">
-      <div
-        class="max-w-container-max mx-auto px-margin-mobile flex flex-col md:flex-row justify-between items-center gap-8"
-      >
-        <div class="flex flex-col items-center md:items-start gap-4">
-          <img
-            alt="ShefGuide"
-            class="h-9 w-auto opacity-80"
-            src="assets/images/logo-full.png"
-          />
-          <p
-            class="text-body-md text-on-surface-variant max-w-xs text-center md:text-left"
-          >
-            Empowering international students to navigate their new life with
-            confidence.
-          </p>
-        </div>
-        <div class="flex gap-8">
-          <a
-            class="text-label-md text-on-surface-variant hover:text-primary"
-            href="privacy.html"
-            >Privacy Policy</a
-          ><a
-            class="text-label-md text-on-surface-variant hover:text-primary"
-            href="terms.html"
-            >Terms of Service</a
-          ><a
-            class="text-label-md text-on-surface-variant hover:text-primary"
-            href="mailto:support@shefguide.edu"
-            >Contact Support</a
-          >
-        </div>
-      </div>
-      <div
-        class="max-w-container-max mx-auto px-margin-mobile mt-8 pt-8 border-t border-outline-variant text-center text-label-md text-on-surface-variant opacity-60"
-      >
-        © 2024 ShefGuide. All rights reserved.
-      </div>
-    </footer>
 
     <script src="assets/app.js"></script>
     <script>
       ShefGuide.requireAuth();
       ShefGuide.wireHeader();
 
-      // Mobile hamburger menu
-      const hamburger = document.getElementById("hamburger");
-      const mobileMenu = document.getElementById("mobile-menu");
-      hamburger.addEventListener("click", () => {
-        const open = hamburger.getAttribute("data-open") === "true";
-        hamburger.setAttribute("data-open", String(!open));
-        hamburger.setAttribute("aria-expanded", String(!open));
-        mobileMenu.setAttribute("data-open", String(!open));
-        document.body.style.overflow = open ? "" : "hidden";
+      let activeModel = "gpt-4o-mini";
+      const modelGpt = document.getElementById("model-gpt");
+      const modelGemini = document.getElementById("model-gemini");
+      const dataBadgeText = document.getElementById("data-badge-text");
+
+      function setModel(m) {
+        activeModel = m;
+        if (m === "gpt-4o-mini") {
+          modelGpt.className = "px-4 py-1.5 rounded-full font-body text-xs font-semibold text-white bg-deep-navy transition-all shadow-sm";
+          modelGemini.className = "px-4 py-1.5 rounded-full font-body text-xs font-semibold text-on-surface-variant hover:text-on-surface transition-all";
+          dataBadgeText.textContent = "OpenAI servers (US)";
+        } else {
+          modelGemini.className = "px-4 py-1.5 rounded-full font-body text-xs font-semibold text-white bg-deep-navy transition-all shadow-sm";
+          modelGpt.className = "px-4 py-1.5 rounded-full font-body text-xs font-semibold text-on-surface-variant hover:text-on-surface transition-all";
+          dataBadgeText.textContent = "Google servers (EU/US)";
+        }
+      }
+
+      modelGpt?.addEventListener("click", () => setModel("gpt-4o-mini"));
+      modelGemini?.addEventListener("click", () => setModel("gemini-3.5-flash"));
+
+      // Chat Messages Stream
+      const chatMessages = document.getElementById("chat-messages");
+      const emptyState = document.getElementById("empty-state");
+      const chatInput = document.getElementById("chat-input");
+      const sendBtn = document.getElementById("send-btn");
+
+      let currentSessionId = null;
+      let lastUserMessage = "";
+      let conversationHistory = [];
+
+      function renderUserBubble(text) {
+        emptyState?.classList.add("hidden");
+        lastUserMessage = text;
+        conversationHistory.push({ role: "user", content: text });
+        const div = document.createElement("div");
+        div.className = "flex justify-end";
+        div.innerHTML = `<div class="bg-deep-navy text-white px-5 py-3 rounded-2xl rounded-tr-sm text-xs leading-relaxed max-w-[85%] shadow-sm">${ShefGuide.escapeHtml(text)}</div>`;
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function renderBotBubble(text, loading = false) {
+        emptyState?.classList.add("hidden");
+        const div = document.createElement("div");
+        div.className = "flex gap-3 items-start group";
+        
+        const safeText = ShefGuide.escapeHtml(text).replace(/\n/g, '<br>');
+        
+        div.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-teal-accent/10 text-teal-accent shrink-0 flex items-center justify-center border border-teal-accent/30 shadow-sm">
+            <span class="material-symbols-outlined text-base">auto_awesome</span>
+          </div>
+          <div class="bg-surface-container-low px-5 py-3.5 rounded-2xl rounded-tl-sm border border-outline-variant/30 text-xs text-deep-navy leading-relaxed max-w-[85%] shadow-sm flex flex-col gap-2">
+            <div class="bot-content prose-academic">${loading ? '<span class="animate-pulse flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-teal-accent animate-ping"></span> Thinking...</span>' : safeText}</div>
+            ${!loading ? `<div class="pt-2 border-t border-outline-variant/20 flex items-center justify-between">
+              <button class="post-qa-action text-[11px] font-semibold text-teal-accent hover:text-white hover:bg-teal-accent px-3 py-1.5 rounded-full transition-all duration-200 cursor-pointer flex items-center gap-1.5 shadow-sm">
+                <span class="material-symbols-outlined text-sm">forum</span> Post question to Community Q&amp;A
+              </button>
+            </div>` : ""}
+          </div>`;
+
+        if (!loading) {
+          const actionBtn = div.querySelector(".post-qa-action");
+          actionBtn?.addEventListener("click", async () => {
+            if (!ShefGuide.requireAccount("post this question to the Community Q&A board")) return;
+            try {
+              ShefGuide.showToast("Posting to Community Q&A...", "info");
+              await ShefGuide.api("/posts", {
+                method: "POST",
+                headers: ShefGuide.authHeaders(true),
+                body: JSON.stringify({
+                  title: lastUserMessage || "Student Question",
+                  content: lastUserMessage || "Student Question",
+                  category: "academic",
+                  model: activeModel,
+                }),
+              });
+              ShefGuide.showToast("Posted to Community Q&A!", "success");
+            } catch (err) {
+              ShefGuide.showToast(err.message || "Could not post to community.", "error");
+            }
+          });
+        }
+
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return div;
+      }
+
+      async function handleSend() {
+        const text = (chatInput.value || "").trim();
+        if (!text) return;
+        chatInput.value = "";
+
+        try {
+          await ShefGuide.ensureDisclosure();
+        } catch (e) {
+          return;
+        }
+
+        renderUserBubble(text);
+        const botEl = renderBotBubble("", true);
+
+        try {
+          const modelCode = activeModel.includes("gemini") ? "gemini" : "gpt";
+          const body = { messages: conversationHistory, model: modelCode };
+          if (currentSessionId) body.session_id = currentSessionId;
+          const res = await ShefGuide.api("/chat", {
+            method: "POST",
+            headers: ShefGuide.authHeaders(true),
+            body: JSON.stringify(body),
+          });
+          currentSessionId = res.session_id;
+          if (res.reply) {
+            conversationHistory.push({ role: "assistant", content: res.reply });
+          }
+          
+          // Replace loading state with final reply
+          botEl.remove();
+          renderBotBubble(res.reply || "");
+        } catch (err) {
+          const contentEl = botEl.querySelector(".bot-content");
+          if (contentEl) {
+            contentEl.className += " text-red-600 font-medium";
+            contentEl.textContent = typeof err.message === 'string' ? err.message : JSON.stringify(err.message || err);
+          }
+        }
+      }
+
+      sendBtn?.addEventListener("click", handleSend);
+      chatInput?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          handleSend();
+        }
       });
-      mobileMenu.querySelectorAll(".menu-link").forEach((link) => {
-        link.addEventListener("click", () => {
-          hamburger.setAttribute("data-open", "false");
-          hamburger.setAttribute("aria-expanded", "false");
-          mobileMenu.setAttribute("data-open", "false");
-          document.body.style.overflow = "";
+
+      document.querySelectorAll(".prompt-chip").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const query = btn.querySelector("span:last-child")?.textContent || "";
+          if (query) {
+            chatInput.value = query;
+            handleSend();
+          }
         });
       });
 
-      let currentModel = "gpt";
-      let conversation = [];
-      let sessionId = null;
-
-      const btnGpt = document.getElementById("model-gpt");
-      const btnGemini = document.getElementById("model-gemini");
-      const dataBadge = document.getElementById("data-badge");
-      const badgeDot = dataBadge.querySelector(".w-2");
-      const badgeText = dataBadge.querySelector("span");
-
-      function toggleModel(model) {
-        currentModel = model;
-        if (model === "gpt") {
-          btnGpt.className =
-            "px-5 py-2 rounded-full font-label-md text-label-md text-on-primary bg-primary fluid shadow-[0_10px_25px_-10px_rgba(0,36,68,0.5)] transform hover:scale-[1.02]";
-          btnGemini.className =
-            "px-5 py-2 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface fluid";
-          dataBadge.className =
-            "flex items-center gap-2 px-4 py-2 rounded-full font-label-md text-[13px] ring-1 fluid bg-primary-fixed/20 text-on-primary-fixed-variant ring-primary-fixed-dim/30";
-          badgeText.textContent = "OpenAI servers (US)";
-          badgeDot.className = "w-2 h-2 rounded-full animate-pulse bg-blue-500";
-        } else {
-          btnGemini.className =
-            "px-5 py-2 rounded-full font-label-md text-label-md text-on-primary bg-primary fluid shadow-[0_10px_25px_-10px_rgba(0,36,68,0.5)] transform hover:scale-[1.02]";
-          btnGpt.className =
-            "px-5 py-2 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface fluid";
-          dataBadge.className =
-            "flex items-center gap-2 px-4 py-2 rounded-full font-label-md text-[13px] ring-1 fluid bg-secondary-fixed/20 text-on-secondary-fixed-variant ring-secondary-fixed-dim/30";
-          badgeText.textContent = "Google servers (EU/US)";
-          badgeDot.className =
-            "w-2 h-2 rounded-full animate-pulse bg-emerald-500";
-        }
-      }
-      btnGpt.addEventListener("click", () => toggleModel("gpt"));
-      btnGemini.addEventListener("click", () => toggleModel("gemini"));
-      toggleModel("gpt");
-
-      // ---- Chat ----
-      const chatInput = document.getElementById("chat-input");
-      const sendBtn = document.getElementById("send-btn");
-      const emptyState = document.getElementById("empty-state");
-      const chatMessages = document.getElementById("chat-messages");
-
-      function autoResize() {
-        chatInput.style.height = "auto";
-        chatInput.style.height = chatInput.scrollHeight + "px";
-      }
-      chatInput.addEventListener("input", autoResize);
-
-      function showChatArea() {
-        if (!emptyState.classList.contains("hidden")) {
-          emptyState.classList.add("hidden");
-          chatMessages.classList.remove("hidden");
-          chatMessages.classList.add("flex");
-        }
-      }
-
-      function addUserBubble(text) {
-        const div = document.createElement("div");
-        div.className = "flex gap-4 items-end justify-end";
-        div.innerHTML = `<div class="bg-primary text-on-primary p-5 rounded-3xl rounded-br-sm shadow-[0_15px_35px_-15px_rgba(0,36,68,0.4)] max-w-[85%] font-body-md text-[15px] leading-relaxed">${ShefGuide.escapeHtml(text)}</div>`;
-        chatMessages.appendChild(div);
-      }
-
-      function addBotBubble(text, modelUsed) {
-        const div = document.createElement("div");
-        div.className = "flex gap-4 items-start";
-        const safe = ShefGuide.escapeHtml(text).replace(/\n/g, "<br>");
-        div.innerHTML = `
-    <div class="w-10 h-10 rounded-full bg-surface-container-highest flex-shrink-0 flex items-center justify-center overflow-hidden border-2 border-surface-container-lowest shadow-sm">
-      <span class="material-symbols-outlined text-teal-accent text-[20px]">auto_awesome</span>
-    </div>
-    <div class="bg-surface-container-low text-on-surface p-6 rounded-3xl rounded-bl-sm shadow-[0_10px_30px_-18px_rgba(26,58,92,0.2)] ring-1 ring-black/[0.03] max-w-[90%] font-body-md text-[15px] leading-relaxed">
-      <p>${safe}</p>
-      <div class="mt-3 text-[11px] text-on-surface-variant/60 uppercase tracking-wider">${ShefGuide.escapeHtml(modelUsed || "")}</div>
-    </div>`;
-        chatMessages.appendChild(div);
-      }
-
-      function addErrorBubble(text) {
-        const div = document.createElement("div");
-        div.className = "flex gap-4 items-start";
-        div.innerHTML = `<div class="bg-red-50 text-red-700 p-5 rounded-3xl border border-red-200 max-w-[85%] font-body-md text-[14px]">${ShefGuide.escapeHtml(text)}</div>`;
-        chatMessages.appendChild(div);
-      }
-
-      function addTypingIndicator() {
-        const div = document.createElement("div");
-        div.className = "flex gap-4 items-start";
-        div.id = "typing-indicator";
-        div.innerHTML = `
-    <div class="w-10 h-10 rounded-full bg-surface-container-highest flex-shrink-0 flex items-center justify-center overflow-hidden border-2 border-surface-container-lowest shadow-sm">
-      <span class="material-symbols-outlined text-teal-accent text-[20px]">auto_awesome</span>
-    </div>
-    <div class="bg-surface-container-low p-5 rounded-3xl rounded-bl-sm shadow-sm border border-outline-variant/20 flex items-center gap-1.5" aria-live="polite" aria-label="ShefGuide is thinking">
-      <span class="w-2 h-2 rounded-full bg-outline-variant animate-pulse" style="animation-delay:0ms"></span>
-      <span class="w-2 h-2 rounded-full bg-outline-variant animate-pulse" style="animation-delay:200ms"></span>
-      <span class="w-2 h-2 rounded-full bg-outline-variant animate-pulse" style="animation-delay:400ms"></span>
-    </div>`;
-        chatMessages.appendChild(div);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }
-
-      function removeTypingIndicator() {
-        const el = document.getElementById("typing-indicator");
-        if (el) el.remove();
-      }
-
-      async function sendMessage(text) {
-        const msgText = (text || chatInput.value).trim();
-        if (!msgText) return;
-
-        showChatArea();
-        addUserBubble(msgText);
-        conversation.push({ role: "user", content: msgText });
-        chatInput.value = "";
-        autoResize();
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-
-        sendBtn.disabled = true;
-        try {
-          await ShefGuide.ensureDisclosure();
-          addTypingIndicator();
-          const data = await ShefGuide.api("/chat", {
-            method: "POST",
-            headers: ShefGuide.authHeaders(true),
-            body: JSON.stringify({
-              messages: conversation,
-              model: currentModel,
-              session_id: sessionId,
-            }),
-          });
-          removeTypingIndicator();
-          sessionId = data.session_id;
-          conversation.push({ role: "assistant", content: data.reply });
-          addBotBubble(data.reply, data.model_used);
-        } catch (err) {
-          removeTypingIndicator();
-          if (err.message !== "cancelled")
-            addErrorBubble(err.message || "Something went wrong.");
-        } finally {
-          sendBtn.disabled = false;
-          chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-      }
-
-      sendBtn.addEventListener("click", () => sendMessage());
-      chatInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" && !e.shiftKey) {
-          e.preventDefault();
-          sendMessage();
-        }
-      });
-      document.querySelectorAll(".prompt-chip").forEach((chip) => {
-        chip.addEventListener("click", () => sendMessage(chip.dataset.prompt));
-      });
-
-      // Prefill from ?q= (landing page "Ask AI" bar)
-      const qParam = new URLSearchParams(window.location.search).get("q");
-      if (qParam) sendMessage(qParam);
-
-      // ---- Document Explainer ----
+      // PDF Upload Wiring
+      const docInput = document.getElementById("doc-file-input");
+      const docChooseBtn = document.getElementById("doc-choose-btn");
       const uploadZone = document.getElementById("upload-zone");
-      const chooseFileBtn = document.getElementById("choose-file-btn");
-      const pdfFile = document.getElementById("pdf-file");
       const docActiveState = document.getElementById("doc-active-state");
-      const removeDocBtn = document.getElementById("remove-doc-btn");
       const docFilename = document.getElementById("doc-filename");
-      const docWordcount = document.getElementById("doc-wordcount");
-      const docQaList = document.getElementById("doc-qa-list");
-      const docQuestion = document.getElementById("doc-question");
-      const docAskBtn = document.getElementById("doc-ask-btn");
-      const uploadHint = document.getElementById("upload-hint");
+      const docRemoveBtn = document.getElementById("doc-remove-btn");
 
-      function openFilePicker(e) {
-        e.stopPropagation();
-        pdfFile.click();
-      }
-      uploadZone.addEventListener("click", openFilePicker);
-      chooseFileBtn.addEventListener("click", openFilePicker);
+      docChooseBtn?.addEventListener("click", () => docInput.click());
+      uploadZone?.addEventListener("click", (e) => {
+        if (e.target !== docChooseBtn) docInput.click();
+      });
 
-      pdfFile.addEventListener("change", async () => {
-        const file = pdfFile.files[0];
+      docInput?.addEventListener("change", async () => {
+        const file = docInput.files[0];
         if (!file) return;
-        uploadHint.textContent = "Uploading...";
-        const form = new FormData();
-        form.append("file", file);
+        const formData = new FormData();
+        formData.append("file", file);
+
         try {
-          const data = await ShefGuide.api("/document/upload", {
+          ShefGuide.showToast("Uploading document knowledge...", "info");
+          await ShefGuide.api("/document/upload", {
             method: "POST",
             headers: { Authorization: "Bearer " + ShefGuide.getToken() },
-            body: form,
+            body: formData,
           });
           docFilename.textContent = file.name;
-          docWordcount.textContent = data.word_count + " words";
-          docQaList.innerHTML = "";
           uploadZone.classList.add("hidden");
           docActiveState.classList.remove("hidden");
           docActiveState.classList.add("flex");
+          ShefGuide.showToast("Course document added to knowledge base!", "success");
         } catch (err) {
-          uploadHint.textContent =
-            err.message || "Upload failed. Try another PDF.";
+          ShefGuide.showToast(err.message || "Upload failed.", "error");
         }
       });
 
-      removeDocBtn.addEventListener("click", () => {
-        docActiveState.classList.add("hidden");
-        docActiveState.classList.remove("flex");
-        uploadZone.classList.remove("hidden");
-        pdfFile.value = "";
-        uploadHint.textContent = "PDF only, up to a few MB";
-      });
-
-      function addDocQA(question, answer) {
-        const div = document.createElement("div");
-        div.className =
-          "bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-4 shadow-sm mb-3";
-        div.innerHTML = `
-    <p class="font-label-md text-[13px] text-primary mb-2">Q: ${ShefGuide.escapeHtml(question)}</p>
-    <p class="font-body-md text-[13px] text-on-surface-variant leading-relaxed">${ShefGuide.escapeHtml(answer).replace(/\n/g, "<br>")}</p>`;
-        docQaList.appendChild(div);
-        docQaList.scrollTop = docQaList.scrollHeight;
-      }
-
-      async function askDoc() {
-        const question = docQuestion.value.trim();
-        if (!question) return;
-        docQuestion.value = "";
-        docAskBtn.disabled = true;
-
-        const pending = document.createElement("div");
-        pending.className =
-          "bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-4 shadow-sm mb-3";
-        pending.innerHTML = `
-    <p class="font-label-md text-[13px] text-primary mb-2">Q: ${ShefGuide.escapeHtml(question)}</p>
-    <p class="font-body-md text-[13px] text-on-surface-variant leading-relaxed" aria-live="polite">Thinking...</p>`;
-        docQaList.appendChild(pending);
-        docQaList.scrollTop = docQaList.scrollHeight;
-
+      docRemoveBtn?.addEventListener("click", async () => {
         try {
-          await ShefGuide.ensureDisclosure();
-          const data = await ShefGuide.api("/document/ask", {
-            method: "POST",
-            headers: ShefGuide.authHeaders(true),
-            body: JSON.stringify({ question, model: currentModel }),
-          });
-          pending.remove();
-          addDocQA(question, data.reply);
+          // The backend route is a POST — DELETE /document was never a real
+          // endpoint, so this button previously always failed silently.
+          await ShefGuide.api("/document/remove", { method: "POST", headers: ShefGuide.authHeaders() });
+          docActiveState.classList.add("hidden");
+          docActiveState.classList.remove("flex");
+          uploadZone.classList.remove("hidden");
+          ShefGuide.showToast("Document removed.", "info");
         } catch (err) {
-          pending.remove();
-          if (err.message !== "cancelled")
-            addDocQA(
-              question,
-              "Error: " + (err.message || "something went wrong"),
-            );
-        } finally {
-          docAskBtn.disabled = false;
+          ShefGuide.showToast(err.message || "Could not remove document.", "error");
         }
-      }
-      docAskBtn.addEventListener("click", askDoc);
-      docQuestion.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") askDoc();
       });
+
+      // Check URL search params (e.g. ?q=...)
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialQ = urlParams.get("q");
+      if (initialQ) {
+        chatInput.value = initialQ;
+        handleSend();
+      }
     </script>
   </body>
 </html>
