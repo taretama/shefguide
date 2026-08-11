@@ -255,7 +255,7 @@
           <span class="text-xs font-semibold text-teal-accent flex items-center gap-1"><span class="material-symbols-outlined text-sm">check_circle</span> Answered</span>
         </div>
 
-        <h3 class="font-display font-bold text-base text-deep-navy">${ShefGuide.escapeHtml(p.title || p.content)}</h3>
+        <h3 class="font-display font-bold text-base text-deep-navy">${ShefGuide.escapeHtml(p.question)}</h3>
 
         ${
           p.ai_answer
@@ -264,7 +264,7 @@
                   <span class="flex items-center gap-1.5 font-display text-deep-navy"><span class="material-symbols-outlined text-teal-accent text-base">smart_toy</span> ShefGuide AI Answer</span>
                   <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-teal-accent/10 text-teal-accent border border-teal-accent/30 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-teal-accent"></span> Cached</span>
                 </div>
-                <div class="prose-academic">${ShefGuide.escapeHtml(p.ai_answer).replace(/\n/g, "<br>")}</div>
+                <div class="prose-academic">${ShefGuide.escapeHtml(p.ai_answer.text).replace(/\n/g, "<br>")}</div>
               </div>`
             : ""
         }
@@ -311,10 +311,8 @@
             method: "POST",
             headers: ShefGuide.authHeaders(true),
             body: JSON.stringify({
-              title: text,
-              content: text,
+              question: text,
               category: selectedCategory,
-              model: modelSelect.value,
             }),
           });
           postText.value = "";
@@ -336,7 +334,7 @@
           searchDropdown.classList.add("hidden");
           return;
         }
-        const matches = allPosts.filter((p) => (p.title || p.content || "").toLowerCase().includes(query)).slice(0, 4);
+        const matches = allPosts.filter((p) => (p.question || "").toLowerCase().includes(query)).slice(0, 4);
         if (!matches.length) {
           searchResultsList.innerHTML = `<div class="p-3 text-xs text-outline">No matching questions found.</div>`;
         } else {
@@ -344,7 +342,7 @@
             .map(
               (m) => `
             <div class="p-3 rounded-xl hover:bg-surface-container-low cursor-pointer transition-colors" onclick="window.location.hash=''">
-              <h4 class="font-display font-bold text-xs text-deep-navy">${ShefGuide.escapeHtml(m.title || m.content)}</h4>
+              <h4 class="font-display font-bold text-xs text-deep-navy">${ShefGuide.escapeHtml(m.question)}</h4>
             </div>`
             )
             .join("");

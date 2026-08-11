@@ -550,8 +550,7 @@ def create_post(body: PostBody, authorization: str = Header(...)):
 
 
 @app.get("/posts")
-def list_posts(category: str = None, authorization: str = Header(...)):
-    get_user(authorization)
+def list_posts(category: str = None):
     query = {}
     if category:
         query["category"] = category
@@ -563,8 +562,7 @@ def list_posts(category: str = None, authorization: str = Header(...)):
 
 
 @app.get("/posts/search/{query}")
-def search_posts(query: str, authorization: str = Header(...)):
-    get_user(authorization)
+def search_posts(query: str):
     posts = list(posts_collection.find(
         {"question": {"$regex": re.escape(query), "$options": "i"}}
     ).limit(10))
@@ -574,8 +572,7 @@ def search_posts(query: str, authorization: str = Header(...)):
 
 
 @app.get("/posts/{post_id}")
-def get_post(post_id: str, authorization: str = Header(...)):
-    get_user(authorization)
+def get_post(post_id: str):
     post = posts_collection.find_one({"_id": ObjectId(post_id)})
     if not post:
         raise HTTPException(404, "Post not found")

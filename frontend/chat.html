@@ -300,10 +300,8 @@
                 method: "POST",
                 headers: ShefGuide.authHeaders(true),
                 body: JSON.stringify({
-                  title: lastUserMessage || "Student Question",
-                  content: lastUserMessage || "Student Question",
+                  question: lastUserMessage || "Student Question",
                   category: "academic",
-                  model: activeModel,
                 }),
               });
               ShefGuide.showToast("Posted to Community Q&A!", "success");
