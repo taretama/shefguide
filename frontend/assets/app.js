@@ -1,15 +1,16 @@
 // Shared helpers used by every ShefGuide page.
 window.ShefGuide = (function () {
   // Local dev talks to the backend on localhost. When the frontend is
-  // served remotely (e.g. a Cloudflare tunnel link sent to someone else),
-  // "localhost" would resolve to THEIR machine, not this one - so it falls
-  // back to this session's backend tunnel URL instead.
+  // served from any other hostname (a LAN IP, a different machine, a
+  // tunnel link), assume the backend is running on that same host on
+  // port 8000 - this is the sane default for anyone running their own
+  // full local stack, rather than pointing at one specific past demo link.
   const API = (function () {
     const host = window.location.hostname;
     if (host === 'localhost' || host === '127.0.0.1' || host === '') {
       return 'http://localhost:8000';
     }
-    return 'https://hair-anaheim-modeling-population.trycloudflare.com';
+    return `${window.location.protocol}//${host}:8000`;
   })();
 
   function getToken() { return localStorage.getItem('shefguide_token'); }
