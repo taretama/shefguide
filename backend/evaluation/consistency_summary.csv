@@ -1,0 +1,7 @@
+model,question_id,category,question,runs_succeeded,mean_pairwise_cosine_similarity,answer_length_stdev_chars
+gpt,1,academic_support,What does critically evaluate mean in UK university assignments?,3,0.9769,18.9
+gpt,18,ai_cybersecurity,What are the risks of using AI-generated information without checking the source?,3,0.9129,201.8
+gpt,27,out_of_scope,My visa expires next month; can you advise me?,3,0.9118,22.1
+gemini,1,academic_support,What does critically evaluate mean in UK university assignments?,3,0.9451,50.1
+gemini,18,ai_cybersecurity,What are the risks of using AI-generated information without checking the source?,3,0.9334,29.7
+gemini,27,out_of_scope,My visa expires next month; can you advise me?,3,0.8233,38.2
