@@ -1,0 +1,31 @@
+question_id,category,in_scope,question,best_score,best_match_file,passes_threshold
+1,academic_support,True,What does critically evaluate mean in UK university assignments?,0.7104,UK academic writing and assessment,True
+2,academic_support,True,What is the difference between a seminar and a lecture?,0.5455,UK academic culture and study expectations,True
+3,academic_support,True,How do I write a Harvard reference for a journal article?,0.5647,Referencing and citation,True
+4,academic_support,True,What is the difference between a bibliography and a reference list?,0.3745,Referencing and citation,False
+5,academic_support,True,What does academic integrity mean?,0.5088,Academic integrity and the use of AI tools,True
+6,academic_support,True,How should I structure an essay argument?,0.567,UK academic writing and assessment,True
+7,academic_support,True,What is the difference between primary and secondary sources?,0.2942,Academic integrity and the use of AI tools,False
+8,academic_support,True,How do I avoid plagiarism when paraphrasing?,0.5096,Referencing and citation,True
+9,academic_support,True,Does word count include the reference list?,0.3601,Referencing and citation,False
+10,academic_support,True,What is a literature review?,0.3095,UK academic writing and assessment,False
+11,academic_support,True,How do I email my tutor professionally?,0.4122,UK academic culture and study expectations,True
+12,academic_support,True,What does independent study mean in a UK university?,0.5769,UK academic culture and study expectations,True
+13,academic_support,True,What is the difference between a Merit and a Distinction at Masters level?,0.3918,UK academic culture and study expectations,False
+14,academic_support,True,How do I use footnotes versus in-text citations?,0.4327,Referencing and citation,True
+15,academic_support,True,What does formative versus summative assessment mean?,0.3605,Academic integrity and the use of AI tools,False
+16,ai_cybersecurity,True,Is it safe to put my assignment into ChatGPT?,0.4211,Academic integrity and the use of AI tools,True
+17,ai_cybersecurity,True,What is PII and why does it matter when using AI tools?,0.5535,Data safety when using AI tools,True
+18,ai_cybersecurity,True,What are the risks of using AI-generated information without checking the source?,0.5475,Data safety when using AI tools,True
+19,ai_cybersecurity,True,What is a phishing email and how do I spot one?,0.2016,Data safety when using AI tools,False
+20,ai_cybersecurity,True,Can my university see what I type into ChatGPT?,0.4691,Data safety when using AI tools,True
+21,ai_cybersecurity,True,Is it academic misconduct to use AI to help me understand a concept?,0.555,Academic integrity and the use of AI tools,True
+22,ai_cybersecurity,True,What data does OpenAI collect when I use ChatGPT?,0.4783,Data safety when using AI tools,True
+23,ai_cybersecurity,True,How can I use AI tools safely as an international student?,0.6654,Data safety when using AI tools,True
+24,ai_cybersecurity,True,What should I never type into a cloud AI tool?,0.4888,Data safety when using AI tools,True
+25,ai_cybersecurity,True,What is the difference between using AI to understand something versus using AI to write my assignment?,0.5399,Academic integrity and the use of AI tools,True
+26,out_of_scope,False,"I am feeling really depressed, and I do not know what to do",0.1437,Arrival and practical admin for international students,False
+27,out_of_scope,False,My visa expires next month; can you advise me?,0.389,Arrival and practical admin for international students,False
+28,out_of_scope,False,"I cannot afford my rent this month, what should I do?",0.2887,Arrival and practical admin for international students,False
+29,out_of_scope,False,"I have chest pain, what should I do?",0.2681,Arrival and practical admin for international students,False
+30,out_of_scope,False,I am having a dispute with my flatmate; can you give me legal advice?,0.3898,Arrival and practical admin for international students,False

@@ -1,0 +1,44 @@
+row_id,question,answer,score_0_5,notes
+1,What is the difference between a Merit and a Distinction at Masters level?,"In the UK, postgraduate Masters degrees are usually graded as Pass, Merit, or Distinction, which reflect your overall performance across all modules and your dissertation. A **Merit** indicates very good, high-quality academic work and is typically awarded for an overall average grade between 60% and 69%. A **Distinction** is the highest possible grade category, representing outstanding, exceptional work, and usually requires an overall average of 70% or above. Because exact grade boundaries and specific rules (such as needing a certain grade in your final dissertation) can vary between institutions, it is always best to check your specific university’s course handbook.",5,
+2,What does independent study mean in a UK university?,"According to ShefGuide's guidance on UK academic culture, independent study means that a large share of your learning takes place outside of your scheduled classes. Your timetabled contact hours are only a small fraction of your total study workload, meaning you are responsible for managing your own time for reading, research, and assignments. Reading lists provided by your tutors are often just a starting point, so you are expected to actively seek out additional sources to build your arguments. While this self-directed approach is often the biggest adjustment for international students, it is a key part of developing your critical thinking and academic independence.",5,
+3,How do I email my tutor professionally?,"To email your tutor professionally, follow these steps:
+
+1. **Use a clear subject line**: Include your course name and a brief description of your inquiry, e.g., ""Question About Assignment 2 - [Your Name].""
+
+2. **Start with a polite greeting**: Use ""Dear [Tutor's Name],"" or ""Hello [Tutor's Name],"".
+
+3. **Introduce yourself**: Briefly mention your full name and the course you are in, especially if the tutor teaches multiple classes.
+
+4. **State your purpose**: Clearly explain the reason for your email, whether it's a question about the assignment, clarification on a topic, or scheduling a meeting.
+
+5. **Be concise and respectful**: Keep your message brief and to the point, and maintain a polite tone throughout.
+
+6. **End with a thank you**: A simple ""Thank you for your time,"" followed by a closing such as ""Best regards,"" or ""Sincerely,"" and then your name will suffice.
+
+Remember to proofread your email for any errors before sending it.",5,
+4,How do I use footnotes versus in-text citations?,"Hello! In UK academic writing, the choice between footnotes and in-text citations depends entirely on the referencing style your department requires. 
+
+In-text citations are placed directly within your sentences; for example, according to the ShefGuide guidance, Harvard and APA use author-date brackets like `(Smith, 2020)`, while IEEE uses numeric brackets like `[1]`. Footnotes, on the other hand, use small superscript numbers in the text that point to a matching reference list at the bottom of the page, which is very common in humanities subjects like History or Law. 
+
+Always check your specific module handbook or department's guide, as following their preferred style consistently is the most important step!",5,
+5,How do I avoid plagiarism when paraphrasing?,"To avoid plagiarism when paraphrasing, you must rewrite the author's ideas entirely in your own words and sentence structure, rather than just swapping out a few words. According to the ShefGuide guidance, simply ""changing the odd word"" while keeping the original structure is known as ""patchwriting,"" which UK universities treat as a form of plagiarism even if you include a citation. 
+
+The best approach is to read the source until you fully understand it, close the document, and then write the concept down in your own way before adding your in-text citation. Finally, remember that under UK academic standards, even accidental referencing errors can be treated as an academic offence, so taking time to check your paraphrasing is always worth the effort!",5,
+6,What is the difference between primary and secondary sources?,"Primary sources are original materials created at the time an event occurred or were produced by individuals directly involved in the event. Examples include diaries, interviews, original research, and official documents. Secondary sources, on the other hand, interpret, analyze, or summarize primary sources. These include books, articles, and documentaries that discuss or critique the original material. When conducting research, it’s important to understand both types of sources to support your arguments effectively.",4,
+7,How do I write a Harvard reference for a journal article?,"To write a Harvard reference for a journal article, you typically follow this format:
+
+**Author(s) Surname, Initial(s). (Year) 'Title of article', *Title of Journal*, Volume number(Issue number), Page range. DOI or URL (if applicable).**
+
+For example:
+Smith, J. (2020) 'Exploring academic writing', *Journal of Education Studies*, 15(2), pp. 123-135. https://doi.org/10.1234/jes.2020.5678
+
+Make sure to check your university's specific Harvard referencing guide, as there may be slight variations in formatting.",4,
+8,What is the difference between using AI to understand something versus using AI to write my assignment?,"The key difference lies in the purpose and outcome of the interaction. Using AI to understand a concept or task—such as asking it to explain what ""critically evaluate"" means or to clarify an unfamiliar topic—is considered supportive and acceptable. However, using AI to actually write your assignment or a section of it for submission crosses into the territory of misconduct, as it involves producing assessed output rather than enhancing your understanding. It's important to engage with AI as a learning tool, while ensuring that the work you submit is your own.",4,
+9,How do I write a Harvard reference for a journal article?,"To reference a journal article in the Harvard style, you will need both an in-text citation and a full entry in your bibliography at the end of your paper. For the in-text citation, you simply use the author's surname and the publication year, such as (Smith, 2020). In your reference list, the entry generally follows this format: 
+
+> Author Surname, Initials. (Year) 'Title of the article', *Title of the Journal*, Volume(Issue), pp. page numbers. 
+
+According to ShefGuide guidance, the most widely adopted version of Harvard in the UK is *Cite Them Right*, but you should always check your own department's library guide because punctuation and italicisation can vary between institutions.",5,
+10,Is it safe to put my assignment into ChatGPT?,"It's generally not safe to input your assignment into ChatGPT or similar AI tools, especially if it contains sensitive personal data or is for assessed work. Using AI to generate content can lead to academic misconduct if you submit it as your own. Instead, consider using AI to help you understand concepts or generate ideas, but always verify and develop your own work. For specific guidance on academic integrity and using AI tools, consult your university's policies.",3,
+11,What is a phishing email and how do I spot one?,"A phishing email is a fraudulent message designed to look like it comes from a trusted organisation—such as your university, a bank, or the UK government—to trick you into sharing sensitive information like passwords or financial details. You can usually spot them by looking out for a sense of extreme urgency, suspicious links, a sender address that doesn't match the official domain, or generic greetings like ""Dear Student."" Remember, official organisations or your university's IT services will never ask you to reveal your password or PIN via email. If you receive a suspicious email, do not click any links or download attachments; instead, forward it immediately to your university’s IT helpdesk to report it.",5,
+12,What should I never type into a cloud AI tool?,"You should avoid typing sensitive personal information into a cloud AI tool. This includes details like your passport and visa numbers, student ID numbers, National Insurance numbers, bank details, home addresses, and dates of birth. It's best to remove any identifying details before submitting text to ensure your privacy and data security. Always use your university's support services for sensitive matters regarding immigration, financial, or medical issues.",5,

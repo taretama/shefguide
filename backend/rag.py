@@ -44,11 +44,16 @@ CHUNK_OVERLAP = 200
 # Retrieved passages below this cosine score are treated as irrelevant and
 # dropped, so an unrelated question does not drag in arbitrary context.
 #
-# 0.40 was chosen by measuring the score distribution over this knowledge
-# base: in-scope questions score 0.47-0.58 against their correct passage,
-# while out-of-scope questions peak at 0.33 (the worst case being a query
-# that shares a proper noun with the corpus, e.g. "weather in Sheffield").
-# 0.40 sits in that gap.
+# Measured over the 30-question evaluation set (evaluation/verify_threshold.py):
+# in-scope questions score 0.202-0.710 against their best-matching chunk,
+# out-of-scope questions 0.144-0.390. At 0.40 no out-of-scope question is
+# admitted, which is the direction that matters for the scope boundary, but
+# seven in-scope questions are dropped because the corpus does not cover
+# them. The margin is thin: the highest out-of-scope score is 0.390 against
+# a threshold of 0.400, so a differently phrased pastoral question could
+# cross it. Raising the threshold would widen that safety margin and drop
+# more in-scope questions; the separation is not clean enough for any single
+# value to avoid the trade.
 MIN_SCORE = 0.40
 
 

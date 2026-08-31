@@ -1,0 +1,60 @@
+Significance tests on the scores already in Appendix E
+======================================================
+
+Input: 60 scored answers, 30 questions answered by both models.
+No new scoring was required for any result below.
+
+All 30 questions
+----------------
+  n pairs      : 30
+  GPT-4o-mini  : mean 4.667, median 5.0, total 140
+  Gemini 3.5   : mean 4.200, median 5.0, total 126
+  difference   : +0.467
+  Wilcoxon W   : 7.0
+  p-value      : 0.0183
+  effect size  : r = +0.788 (large)
+  -> SIGNIFICANT at alpha = 0.05.
+     The difference is distinguishable from noise and can be claimed.
+
+Category: academic support (15 questions)
+-----------------------------------------
+  n pairs      : 15
+  GPT-4o-mini  : mean 4.733, median 5.0, total 71
+  Gemini 3.5   : mean 4.667, median 5.0, total 70
+  difference   : +0.067
+  Wilcoxon W   : 6.0
+  p-value      : 0.6547
+  effect size  : r = +0.200 (small)
+  -> NOT significant at alpha = 0.05.
+     The gap is within what sampling variation would produce.
+     It should be reported descriptively, with no claim made on it.
+
+Category: ai cybersecurity (10 questions)
+-----------------------------------------
+  n pairs      : 10
+  GPT-4o-mini  : mean 4.600, median 5.0, total 46
+  Gemini 3.5   : mean 3.900, median 5.0, total 39
+  difference   : +0.700
+  Wilcoxon W   : 0.0
+  p-value      : 0.2500
+  effect size  : r = +1.000 (large)
+  -> NOT significant at alpha = 0.05.
+     The gap is within what sampling variation would produce.
+     It should be reported descriptively, with no claim made on it.
+
+Category: out of scope (5 questions)
+------------------------------------
+  n pairs      : 5
+  GPT-4o-mini  : mean 4.600, median 5.0, total 23
+  Gemini 3.5   : mean 3.400, median 4.0, total 17
+  difference   : +1.200
+  Too few pairs (5) for a meaningful test.
+
+
+What this means for the write-up
+================================
+Section 5.4 currently reports these means without testing them, and
+Section 5.7 concedes the academic-support gap 'supports nothing'.
+Each comparison above now has a p-value and an effect size, so the
+dissertation can state which differences are real and which are not,
+rather than leaving the reader to guess.

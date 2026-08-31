@@ -1,0 +1,13 @@
+row_id,question_id,model,rater1_score
+1,13,gemini,5
+2,12,gemini,5
+3,11,gpt,5
+4,14,gemini,4
+5,8,gemini,4
+6,7,gpt,5
+7,3,gpt,4
+8,25,gpt,5
+9,3,gemini,4
+10,16,gpt,5
+11,19,gemini,5
+12,24,gpt,5

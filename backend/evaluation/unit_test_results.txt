@@ -1,0 +1,23 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\walte\Downloads\shefguide\shefguide\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\walte\Downloads\shefguide\shefguide\backend
+plugins: anyio-4.14.2
+collecting ... collected 14 items
+
+tests/test_password_storage.py::TestHashing::test_hash_is_not_the_plaintext PASSED [  7%]
+tests/test_password_storage.py::TestHashing::test_hash_is_bcrypt_with_a_salt PASSED [ 14%]
+tests/test_password_storage.py::TestHashing::test_same_password_hashes_differently_each_time PASSED [ 21%]
+tests/test_password_storage.py::TestHashing::test_correct_password_verifies PASSED [ 28%]
+tests/test_password_storage.py::TestHashing::test_wrong_password_is_rejected PASSED [ 35%]
+tests/test_password_storage.py::TestRegistrationFlow::test_stored_document_contains_no_plaintext_password PASSED [ 42%]
+tests/test_password_storage.py::TestRegistrationFlow::test_login_verifies_against_the_stored_hash PASSED [ 50%]
+tests/test_token_expiry.py::TestExpiry::test_expired_token_is_rejected PASSED [ 57%]
+tests/test_token_expiry.py::TestExpiry::test_token_expired_by_one_second_is_rejected PASSED [ 64%]
+tests/test_token_expiry.py::TestExpiry::test_unexpired_token_is_accepted PASSED [ 71%]
+tests/test_token_expiry.py::TestIssuedTokenLifetimes::test_registered_user_token_lasts_24_hours PASSED [ 78%]
+tests/test_token_expiry.py::TestIssuedTokenLifetimes::test_guest_token_lasts_6_hours PASSED [ 85%]
+tests/test_token_expiry.py::TestTamperResistance::test_token_signed_with_a_different_secret_is_rejected PASSED [ 92%]
+tests/test_token_expiry.py::TestTamperResistance::test_expired_token_is_rejected_at_the_endpoint_guard PASSED [100%]
+
+============================= 14 passed in 45.76s =============================

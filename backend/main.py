@@ -1,4 +1,6 @@
 from fastapi import FastAPI, HTTPException, Header
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from database import (users_collection, sessions_collection, checklists_collection,
@@ -21,12 +23,47 @@ from typing import List, Optional
 from fastapi import UploadFile, File
 
 app = FastAPI()
-@app.get("/")
-def home():
+
+# The built React frontend, if it has been produced. Kept optional on purpose:
+# with no build present the backend behaves exactly as it always did, so the API
+# can still be run on its own.
+SPA_DIR = os.getenv(
+    "SHEFGUIDE_SPA_DIR",
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend-dist"),
+)
+SPA_INDEX = os.path.join(SPA_DIR, "index.html")
+SPA_AVAILABLE = os.path.isfile(SPA_INDEX)
+
+
+@app.get("/health")
+def health():
+    """Unchanged liveness check. This is what `/` used to return."""
     return {"message": "ShefGuide backend is running"}
 
-app.add_middleware(CORSMiddleware, allow_origins=["*"],
-                   allow_methods=["*"], allow_headers=["*"])
+
+@app.get("/")
+def home():
+    if SPA_AVAILABLE:
+        return FileResponse(SPA_INDEX)
+    return {"message": "ShefGuide backend is running"}
+
+# Browser origins allowed to call this API. A wildcard would let any site on
+# the internet make authenticated requests on a signed-in student's behalf,
+# which contradicts the data-protection argument this project is built on.
+# Deployment overrides the default via the ALLOWED_ORIGINS environment
+# variable, as a comma-separated list.
+ALLOWED_ORIGINS = [
+    o.strip() for o in os.getenv(
+        "ALLOWED_ORIGINS",
+        "http://localhost:8000,http://127.0.0.1:8000,http://localhost:3000"
+    ).split(",") if o.strip()
+]
+
+app.add_middleware(CORSMiddleware,
+                   allow_origins=ALLOWED_ORIGINS,
+                   allow_credentials=True,
+                   allow_methods=["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+                   allow_headers=["Authorization", "Content-Type"])
 
 # How many passages to pull from each source for a single answer. The
 # knowledge base gets the larger share because it is the assistant's own
@@ -245,6 +282,14 @@ class ChatBody(BaseModel):
     messages: list
     model: str = "gpt"   # "gpt" or "gemini"
     session_id: str | None = None
+    # Evaluation affordance, not a user-facing setting. Disabling retrieval
+    # lets the same question be asked twice under otherwise identical
+    # conditions - once grounded in the knowledge base and any attached
+    # document, once from the model's own knowledge alone. That ablation is
+    # what Section 3.6 uses to test whether dual-source retrieval improves
+    # answer quality, rather than assuming it does. Defaults to True, so
+    # ordinary use is unaffected.
+    use_retrieval: bool = True
 
 @app.post("/chat")
 def chat(body: ChatBody, authorization: str = Header(...)):
@@ -278,9 +323,44 @@ def chat(body: ChatBody, authorization: str = Header(...)):
     # and from any document the student has attached. Both feed one answer —
     # the document adds to the assistant's knowledge rather than replacing it.
     question = messages[-1]["content"] if messages else ""
-    retrieved_context, retrieved_sources = retrieve_context(user_id, question)
+    if body.use_retrieval:
+        retrieved_context, retrieved_sources = retrieve_context(user_id, question)
+    else:
+        retrieved_context, retrieved_sources = None, []
 
-    result     = ask_llm(messages, model=body.model, retrieved_context=retrieved_context)
+    # A failure at the provider is not a failure of this application, and the
+    # difference matters to the student looking at the screen. Without this,
+    # any provider error surfaced as a bare 500 Internal Server Error, which
+    # tells a student nothing and tells an evaluation script the wrong thing:
+    # a rate limit needs waiting out, a server fault needs retrying, and the
+    # two call for different responses.
+    try:
+        result = ask_llm(messages, model=body.model, retrieved_context=retrieved_context)
+    except Exception as exc:
+        detail = str(exc)
+        rate_limited = "429" in detail or "RESOURCE_EXHAUSTED" in detail
+        security_events_collection.insert_one({
+            "user_id":      user_id,
+            "event_type":   "provider_rate_limited" if rate_limited else "provider_error",
+            "endpoint":     "/chat",
+            "model":        body.model,
+            "detail":       detail[:400],
+            "created_at":   datetime.utcnow()
+        })
+        if rate_limited:
+            raise HTTPException(
+                429,
+                f"The {'Gemini' if body.model == 'gemini' else 'GPT'} service has "
+                f"reached its request limit for now. Try the other model, or wait "
+                f"a few minutes and ask again."
+            )
+        raise HTTPException(
+            502,
+            f"The {'Gemini' if body.model == 'gemini' else 'GPT'} service could not "
+            f"be reached. This is a problem at the provider, not with your question. "
+            f"Try the other model, or ask again shortly."
+        )
+
     reply      = result["reply"]
     latency    = result["latency"]
     model_used = result["model_used"]
@@ -473,13 +553,40 @@ def _group_checklist_tasks(tasks: list) -> list:
             sections.append({"title": title, "icon": icon, "tasks": section_tasks})
     return sections
 
-@app.get("/checklist")
-def get_checklist(authorization: str = Header(...)):
-    user_id = get_user(authorization)
+def _checklist_for(user_id: str):
     checklist = checklists_collection.find_one({"user_id": user_id})
     if not checklist:
         return {"sections": []}
     return {"sections": checklist.get("sections", [])}
+
+
+@app.get("/api/checklist")
+def get_checklist_api(authorization: str = Header(...)):
+    """Checklist data for the signed-in student.
+
+    Lives under /api because "/checklist" is also a page in the frontend. Trying
+    to serve both from one URL does not work: the browser caches the HTML it
+    gets when the student navigates there, then reuses that cached HTML for the
+    app's own data request, because HTTP caches do not vary on the
+    Authorization header. Separate URLs are the only reliable fix.
+    """
+    return _checklist_for(get_user(authorization))
+
+
+@app.get("/checklist")
+def get_checklist(authorization: Optional[str] = Header(None)):
+    """Page route when the frontend is deployed, data route when it is not.
+
+    With a build present this always returns the app shell so that refreshing or
+    typing /checklist works. Without one the backend is running standalone, so
+    the original JSON behaviour is kept for the older frontend and for anything
+    calling the API directly.
+    """
+    if SPA_AVAILABLE:
+        return FileResponse(SPA_INDEX)
+    if authorization is None:
+        raise HTTPException(401, "Invalid token")
+    return _checklist_for(get_user(authorization))
 
 class ToggleTaskBody(BaseModel):
     task_id: str
@@ -718,3 +825,30 @@ def remove_document(authorization: str = Header(...)):
     user_id = get_user(authorization)
     document_chunks_collection.delete_many({"user_id": user_id})
     return {"message": "Document removed"}
+
+
+# ---------------------------------------------------------------------------
+# Frontend
+#
+# Registered last, after every API route, so nothing above can be shadowed. The
+# React app uses client-side routing, so any path that is not a known API route
+# and not a real file has to return index.html and let the browser router
+# resolve it. Without this, refreshing on /checklist would 404.
+# ---------------------------------------------------------------------------
+if SPA_AVAILABLE:
+    _assets_dir = os.path.join(SPA_DIR, "assets")
+    if os.path.isdir(_assets_dir):
+        app.mount("/assets", StaticFiles(directory=_assets_dir), name="assets")
+
+    _images_dir = os.path.join(SPA_DIR, "images")
+    if os.path.isdir(_images_dir):
+        app.mount("/images", StaticFiles(directory=_images_dir), name="images")
+
+    @app.get("/{full_path:path}")
+    def spa_fallback(full_path: str):
+        # Serve a real file when one exists (favicon, robots.txt and similar),
+        # otherwise hand the request to the client-side router.
+        candidate = os.path.normpath(os.path.join(SPA_DIR, full_path))
+        if candidate.startswith(os.path.abspath(SPA_DIR)) and os.path.isfile(candidate):
+            return FileResponse(candidate)
+        return FileResponse(SPA_INDEX)

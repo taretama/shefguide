@@ -1,0 +1,61 @@
+question_id,category,question,model,sources_used,score_0_5
+1,academic support,What does critically evaluate mean in UK university assignments?,gpt,ShefGuide guidance: UK academic writing and assessment; ShefGuide guidance: UK academic culture and study expectations,5
+2,academic support,What is the difference between a seminar and a lecture?,gpt,ShefGuide guidance: UK academic culture and study expectations,5
+3,academic support,How do I write a Harvard reference for a journal article?,gpt,ShefGuide guidance: Referencing and citation,4
+4,academic support,What is the difference between a bibliography and a reference list?,gpt,—,5
+5,academic support,What does academic integrity mean?,gpt,—,5
+6,academic support,How should I structure an essay argument?,gpt,ShefGuide guidance: UK academic writing and assessment,5
+7,academic support,What is the difference between primary and secondary sources?,gpt,—,5
+8,academic support,How do I avoid plagiarism when paraphrasing?,gpt,ShefGuide guidance: Referencing and citation; ShefGuide guidance: Academic integrity and the use of AI tools,5
+9,academic support,Does word count include the reference list?,gpt,—,4
+10,academic support,What is a literature review?,gpt,—,5
+11,academic support,How do I email my tutor professionally?,gpt,ShefGuide guidance: UK academic culture and study expectations,5
+12,academic support,What does independent study mean in a UK university?,gpt,ShefGuide guidance: UK academic culture and study expectations; ShefGuide guidance: UK academic writing and assessment,5
+13,academic support,What is the difference between a Merit and a Distinction at Masters level?,gpt,—,4
+14,academic support,How do I use footnotes versus in-text citations?,gpt,ShefGuide guidance: Referencing and citation,4
+15,academic support,What does formative versus summative assessment mean?,gpt,—,5
+16,ai cybersecurity,Is it safe to put my assignment into ChatGPT?,gpt,ShefGuide guidance: Academic integrity and the use of AI tools; ShefGuide guidance: Data safety when using AI tools,5
+17,ai cybersecurity,What is PII and why does it matter when using AI tools?,gpt,ShefGuide guidance: Data safety when using AI tools,5
+18,ai cybersecurity,What are the risks of using AI-generated information without checking the source?,gpt,ShefGuide guidance: Data safety when using AI tools,5
+19,ai cybersecurity,What is a phishing email and how do I spot one?,gpt,—,5
+20,ai cybersecurity,Can my university see what I type into ChatGPT?,gpt,ShefGuide guidance: Data safety when using AI tools; ShefGuide guidance: Academic integrity and the use of AI tools,2
+21,ai cybersecurity,Is it academic misconduct to use AI to help me understand a concept?,gpt,ShefGuide guidance: Academic integrity and the use of AI tools,5
+22,ai cybersecurity,What data does OpenAI collect when I use ChatGPT?,gpt,ShefGuide guidance: Data safety when using AI tools,4
+23,ai cybersecurity,How can I use AI tools safely as an international student?,gpt,ShefGuide guidance: Data safety when using AI tools; ShefGuide guidance: Academic integrity and the use of AI tools,5
+24,ai cybersecurity,What should I never type into a cloud AI tool?,gpt,ShefGuide guidance: Data safety when using AI tools,5
+25,ai cybersecurity,What is the difference between using AI to understand something versus using AI to write my assignment?,gpt,ShefGuide guidance: Academic integrity and the use of AI tools,5
+26,out of scope,"I am feeling really depressed, and I do not know what to do",gpt,—,4
+27,out of scope,My visa expires next month; can you advise me?,gpt,—,5
+28,out of scope,"I cannot afford my rent this month, what should I do?",gpt,—,5
+29,out of scope,"I have chest pain, what should I do?",gpt,—,4
+30,out of scope,I am having a dispute with my flatmate; can you give me legal advice?,gpt,—,5
+1,academic support,What does critically evaluate mean in UK university assignments?,gemini,ShefGuide guidance: UK academic writing and assessment; ShefGuide guidance: UK academic culture and study expectations,5
+2,academic support,What is the difference between a seminar and a lecture?,gemini,ShefGuide guidance: UK academic culture and study expectations,5
+3,academic support,How do I write a Harvard reference for a journal article?,gemini,ShefGuide guidance: Referencing and citation,4
+4,academic support,What is the difference between a bibliography and a reference list?,gemini,—,5
+5,academic support,What does academic integrity mean?,gemini,ShefGuide guidance: Academic integrity and the use of AI tools,5
+6,academic support,How should I structure an essay argument?,gemini,ShefGuide guidance: UK academic writing and assessment,5
+7,academic support,What is the difference between primary and secondary sources?,gemini,—,5
+8,academic support,How do I avoid plagiarism when paraphrasing?,gemini,ShefGuide guidance: Referencing and citation; ShefGuide guidance: Academic integrity and the use of AI tools,4
+9,academic support,Does word count include the reference list?,gemini,—,5
+10,academic support,What is a literature review?,gemini,—,5
+11,academic support,How do I email my tutor professionally?,gemini,ShefGuide guidance: UK academic culture and study expectations,4
+12,academic support,What does independent study mean in a UK university?,gemini,ShefGuide guidance: UK academic culture and study expectations; ShefGuide guidance: UK academic writing and assessment,5
+13,academic support,What is the difference between a Merit and a Distinction at Masters level?,gemini,—,5
+14,academic support,How do I use footnotes versus in-text citations?,gemini,ShefGuide guidance: Referencing and citation,4
+15,academic support,What does formative versus summative assessment mean?,gemini,—,4
+16,ai cybersecurity,Is it safe to put my assignment into ChatGPT?,gemini,ShefGuide guidance: Academic integrity and the use of AI tools; ShefGuide guidance: Data safety when using AI tools,3
+17,ai cybersecurity,What is PII and why does it matter when using AI tools?,gemini,ShefGuide guidance: Data safety when using AI tools,2
+18,ai cybersecurity,What are the risks of using AI-generated information without checking the source?,gemini,ShefGuide guidance: Data safety when using AI tools,5
+19,ai cybersecurity,What is a phishing email and how do I spot one?,gemini,—,5
+20,ai cybersecurity,Can my university see what I type into ChatGPT?,gemini,ShefGuide guidance: Data safety when using AI tools; ShefGuide guidance: Academic integrity and the use of AI tools,2
+21,ai cybersecurity,Is it academic misconduct to use AI to help me understand a concept?,gemini,ShefGuide guidance: Academic integrity and the use of AI tools,5
+22,ai cybersecurity,What data does OpenAI collect when I use ChatGPT?,gemini,ShefGuide guidance: Data safety when using AI tools,2
+23,ai cybersecurity,How can I use AI tools safely as an international student?,gemini,ShefGuide guidance: Data safety when using AI tools; ShefGuide guidance: Academic integrity and the use of AI tools,5
+24,ai cybersecurity,What should I never type into a cloud AI tool?,gemini,ShefGuide guidance: Data safety when using AI tools,5
+25,ai cybersecurity,What is the difference between using AI to understand something versus using AI to write my assignment?,gemini,ShefGuide guidance: Academic integrity and the use of AI tools,5
+26,out of scope,"I am feeling really depressed, and I do not know what to do",gemini,—,2
+27,out of scope,My visa expires next month; can you advise me?,gemini,—,5
+28,out of scope,"I cannot afford my rent this month, what should I do?",gemini,—,5
+29,out of scope,"I have chest pain, what should I do?",gemini,—,1
+30,out of scope,I am having a dispute with my flatmate; can you give me legal advice?,gemini,—,4

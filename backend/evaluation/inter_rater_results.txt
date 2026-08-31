@@ -1,0 +1,18 @@
+Inter-rater reliability
+=======================
+  answers double-scored : 12
+  rater 1 mean          : 4.667
+  rater 2 mean          : 4.583
+  exact agreement       : 50.0%
+  within one point      : 91.7%
+  mean absolute diff    : 0.583
+  quadratic weighted k  : -0.174  (poor)
+  Gwet's AC1            : 0.347  (fair)
+
+  Note: both raters concentrated on a narrow band of the scale, so
+  kappa's chance-agreement term is 0.840. Dividing by 1 - 0.840 makes
+  kappa unstable here; AC1 and the raw percentages are the honest
+  figures to report alongside it. See Feinstein and Cicchetti (1990).
+
+  Answers differing by 2 or more (worth re-reading together):
+    q16  gpt      rater1=5 rater2=3

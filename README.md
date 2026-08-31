@@ -14,7 +14,7 @@ An AI-supported web app for international students in UK higher education, built
 **Stack**
 
 - **Backend:** Python, FastAPI, MongoDB
-- **Frontend:** static HTML/CSS/JS, Tailwind via CDN, no build step
+- **Frontend:** React + TypeScript (Vite, Tailwind), built to static files and served by the backend
 - **Embeddings:** OpenAI `text-embedding-3-small`, cosine similarity computed in Python
 
 ## Prerequisites
@@ -68,18 +68,40 @@ cd backend
 uvicorn main:app --reload
 ```
 
-The API runs at `http://localhost:8000`. Visiting it in a browser should return `{"message": "ShefGuide backend is running"}`.
+The API runs at `http://localhost:8000`. `http://localhost:8000/health` should return
+`{"message": "ShefGuide backend is running"}`.
 
-## 6. Run the frontend
+If a frontend build is present the backend also serves the site itself, so
+`http://localhost:8000` opens ShefGuide rather than returning JSON. With no build
+present the backend runs API-only exactly as before.
+
+## 6. Build the frontend
+
+The frontend is a React app that compiles to static files. Build it once, and
+again whenever you change it:
 
 ```powershell
-cd frontend
-python -m http.server 5500
+cd ../frontend
+npm install
+npm run build:deploy
 ```
 
-Then open `http://localhost:5500/index.html`.
+That writes the compiled site to `shefguide/frontend-dist/`, which is where the
+backend looks for it. Restart the backend afterwards and open
+`http://localhost:8000`.
 
-The frontend picks its API URL from the hostname: on `localhost` it calls `http://localhost:8000`, and when served from any other host (for example a tunnel link shared with someone else) it uses the remote backend URL set at the top of `assets/app.js`. If you share a link, update that URL first — otherwise the other person's browser will try to call their own machine.
+To work on the frontend with hot reload instead, run `npm run dev` and use the
+URL it prints; in that mode it calls the backend on port 8000 directly.
+
+The built app talks to the API using relative URLs, so it works unchanged on
+localhost, on a LAN address, or through a tunnel. Only one port needs to be
+exposed when sharing a link.
+
+### The previous frontend
+
+The original static HTML frontend is kept in `legacy-static-frontend/`. It is no
+longer what gets served. To go back to it, restore `backend/main.py` from
+`backend/main.py.bak` and serve that folder with `python -m http.server 5500`.
 
 ## Project structure
 
@@ -96,18 +118,19 @@ backend/
   auth.py              bcrypt password hashing, JWT issuing and verification
   database.py          MongoDB connection and collections
   .env                 Secrets — not committed
-frontend/
-  index.html           Landing page
-  auth.html            Log in / register
-  chat.html            AI chat, model switch, document attach
-  qa.html              Community Q&A board
-  checklist.html       Personalised arrival checklist
-  history.html         Saved conversations: read, resume, delete
-  privacy.html         Privacy policy
-  terms.html           Terms of service
-  assets/app.js        Shared helpers: API base, auth, guest mode, header,
-                       consent disclosure, toasts
-  assets/base.css      Accessibility and shared styling
+frontend/              React 19 + Vite + TypeScript + Tailwind v4
+  client/src/pages/    One file per route: Home, Chat, Checklist, Community,
+                       History, Auth, Policy, NotFound
+  client/src/components/
+                       Shared shell: Brand, PublicHeader, WorkspaceSidebar,
+                       HowItWorks, DisclosureGate, plus ui/ (shadcn primitives)
+  client/src/lib/api.ts
+                       Every backend call, token storage, guest-session recovery
+  client/src/index.css Tailwind entry, fonts, project utilities
+  DESIGN.md            The design system: dials, locks, rules
+frontend-dist/         The built site the backend serves (generated)
+legacy-static-frontend/
+                       The original HTML/CSS/JS site, kept for rollback only
 ```
 
 ## How retrieval works

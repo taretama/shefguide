@@ -1,0 +1,362 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ShefGuide design reminder: contemporary editorial wayfinding — warm parchment, atlas cobalt, tactile paper surfaces and precise guide-line motifs. */
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* Square-corner design system: every radius step resolves to 0 so no
+     component can reintroduce a rounded corner through the token scale.
+     Genuinely circular elements (avatars, status dots, spinners) use
+     rounded-full, which is independent of this ramp. */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Ink ramp. Before these existed each page invented its own mid-grey, which
+     produced twenty-odd near-identical values and eight WCAG failures. Every
+     one of these clears 4.5:1 on the darkest surface it is used on
+     (#F4F0E8), so a role can move between surfaces without being re-checked. */
+  --color-ink: #12224a; /* headings, primary ink            15.15:1 */
+  --color-ink-title: #182a49; /* item + card titles               13.99:1 */
+  --color-ink-muted: #4e5870; /* body prose                        6.94:1 */
+  --color-ink-soft: #596174; /* metadata, captions, placeholders   6.05:1 */
+  --color-brand: #174ccf; /* actions, selection, links          6.90:1 */
+  --color-brand-deep: #123da9; /* hover / pressed                          */
+  --color-signal: #a5382d; /* kickers, boundary + advice notes   6.40:1 */
+}
+
+:root {
+  --primary: oklch(0.42 0.205 266);
+  --primary-foreground: oklch(0.98 0.005 82);
+  --sidebar-primary: oklch(0.42 0.205 266);
+  --sidebar-primary-foreground: oklch(0.98 0.005 82);
+  --chart-1: oklch(0.42 0.205 266);
+  --chart-2: oklch(0.57 0.165 145);
+  --chart-3: oklch(0.66 0.16 33);
+  --chart-4: oklch(0.34 0.04 264);
+  --chart-5: oklch(0.78 0.08 88);
+  --radius: 0px;
+  --background: oklch(0.968 0.011 86);
+  --foreground: oklch(0.22 0.051 268);
+  --card: oklch(0.995 0.007 85);
+  --card-foreground: oklch(0.22 0.051 268);
+  --popover: oklch(0.995 0.007 85);
+  --popover-foreground: oklch(0.22 0.051 268);
+  --secondary: oklch(0.94 0.015 85);
+  --secondary-foreground: oklch(0.34 0.04 264);
+  --muted: oklch(0.947 0.011 85);
+  --muted-foreground: oklch(0.52 0.025 265);
+  --accent: oklch(0.94 0.015 85);
+  --accent-foreground: oklch(0.22 0.051 268);
+  --destructive: oklch(0.57 0.21 26);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.885 0.015 84);
+  --input: oklch(0.885 0.015 84);
+  --ring: oklch(0.42 0.205 266);
+  --sidebar: oklch(0.995 0.007 85);
+  --sidebar-foreground: oklch(0.22 0.051 268);
+  --sidebar-accent: oklch(0.94 0.015 85);
+  --sidebar-accent-foreground: oklch(0.22 0.051 268);
+  --sidebar-border: oklch(0.885 0.015 84);
+  --sidebar-ring: oklch(0.42 0.205 266);
+}
+
+.dark {
+  --background: oklch(0.22 0.04 265);
+  --foreground: oklch(0.94 0.015 85);
+  --card: oklch(0.27 0.04 265);
+  --card-foreground: oklch(0.94 0.015 85);
+  --popover: oklch(0.27 0.04 265);
+  --popover-foreground: oklch(0.94 0.015 85);
+  --secondary: oklch(0.32 0.04 265);
+  --secondary-foreground: oklch(0.84 0.015 85);
+  --muted: oklch(0.32 0.04 265);
+  --muted-foreground: oklch(0.72 0.02 265);
+  --accent: oklch(0.32 0.04 265);
+  --accent-foreground: oklch(0.94 0.015 85);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.72 0.14 266);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "DM Sans", system-ui, sans-serif;
+    min-width: 320px;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+    font-optical-sizing: auto;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+}
+@layer utilities {
+  .font-display {
+    font-family: "DM Serif Display", Georgia, serif;
+  }
+  .paper-grid {
+    background-image:
+      linear-gradient(to right, rgba(36, 59, 107, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(36, 59, 107, 0.045) 1px, transparent 1px);
+    background-size: 54px 54px;
+    mask-image: linear-gradient(to bottom, black, transparent 88%);
+  }
+  .paper-noise {
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.8) 0.55px,
+      transparent 0.55px
+    );
+    background-size: 5px 5px;
+  }
+  .paper-note {
+    background-image: linear-gradient(
+      rgba(23, 76, 207, 0.025) 1px,
+      transparent 1px
+    );
+    background-size: 100% 27px;
+  }
+  /* Keyboard focus indicator. Defined here rather than as Tailwind ring
+     utilities because the ring colour has to be identical on every control
+     across the app, and the outline keeps working on elements that already
+     use box-shadow for elevation. */
+  .focus-ring:focus-visible {
+    outline: 2px solid #174ccf;
+    outline-offset: 2px;
+  }
+  .focus-ring-inset:focus-visible {
+    outline: 2px solid #174ccf;
+    outline-offset: -2px;
+  }
+}
+
+/* Type ramp. Semantic roles, fixed rem steps (~1.2 ratio), so the same element
+   is the same size everywhere in the app rather than each page inventing its
+   own set of Tailwind size utilities. DM Serif Display ships one weight, so the
+   display roles stay at 400 — asking for bold only gets a synthesised faux-bold.
+   Weight does the work in DM Sans: 400 prose, 500 metadata, 600 titles/labels. */
+@layer utilities {
+  .t-metric {
+    font-family: "DM Serif Display", Georgia, serif;
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .t-title {
+    font-size: 1.0625rem;
+    line-height: 1.45;
+    font-weight: 600;
+    letter-spacing: -0.004em;
+  }
+  .t-body {
+    font-size: 1rem;
+    line-height: 1.65;
+    font-weight: 400;
+  }
+  .t-body-sm {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  .t-label {
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    font-weight: 600;
+  }
+  .t-caption {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+  /* All-caps needs the extra tracking; capitals sit too close at default. */
+  .t-kicker {
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+  }
+  .t-num {
+    font-variant-numeric: tabular-nums;
+  }
+  /* Hero role for panels that open a page rather than a section. Tracking stays
+     at -.03em: tighter than that and the serif's letterforms start touching. */
+  /* Badges carry less tracking than kickers — they sit in a tinted pill, where
+     wide tracking reads as padding rather than emphasis. */
+  .t-badge {
+    font-size: 0.6875rem;
+    line-height: 1.3;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+  /* Form controls stay at 16px: iOS zooms the viewport on focus below that. */
+  .t-input {
+    font-size: 1rem;
+    line-height: 1.55;
+    font-weight: 400;
+  }
+  /* Chat messages. Two roles, not one: light text on the cobalt bubble loses
+     perceived weight, so the inverted role compensates on all three axes —
+     more leading, a little tracking, and one step up in weight. */
+  .t-message {
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  .t-message-invert {
+    font-size: 1rem;
+    line-height: 1.68;
+    font-weight: 500;
+    letter-spacing: 0.012em;
+  }
+}
+
+/* Marketing display scale. The app ramp above is fixed-rem on purpose — product
+   surfaces want spatial predictability — but the public home page is a brand
+   surface, where headings should scale with the viewport. Fluid clamp(), ~1.5
+   between steps, and tracking held at or above -.035em so the serif's
+   letterforms never touch at the top of the range. */
+@layer utilities {
+  .t-lead {
+    font-size: 1.125rem;
+    line-height: 1.62;
+    font-weight: 400;
+  }
+  /* Modifier for light-on-dark text: perceived weight drops, so leading and
+     tracking open up. Compose with any role above. */
+  .t-on-dark {
+    line-height: 1.72;
+    letter-spacing: 0.008em;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .paper-grid + * {
+    animation: float-in 0.55s cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+  @keyframes float-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Display ladder. Four steps, one family, ~1.3 between steps. Every heading in
+   the app resolves to one of these, so the same semantic level is the same
+   typeface and size on every page. DM Serif Display ships a single weight, so
+   these stay at 400 -- font-bold on them only buys a synthesised faux-bold.
+   Tracking never passes -.03em: at the top of the clamp the letterforms touch. */
+@layer utilities {
+  .t-hero {
+    font-family: "DM Serif Display", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(2.75rem, 6vw, 4.25rem);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+  }
+  .t-display {
+    font-family: "DM Serif Display", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    line-height: 1.02;
+    letter-spacing: -0.028em;
+  }
+  .t-section {
+    font-family: "DM Serif Display", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(1.875rem, 3.4vw, 2.5rem);
+    line-height: 1.06;
+    letter-spacing: -0.025em;
+  }
+  .t-subhead {
+    font-family: "DM Serif Display", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(1.375rem, 2vw, 1.625rem);
+    line-height: 1.16;
+    letter-spacing: -0.018em;
+  }
+}
