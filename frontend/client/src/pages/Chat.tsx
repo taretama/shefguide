@@ -312,30 +312,35 @@ export default function Chat() {
                   <div
                     key={`${message.role}-${index}`}
                     className={cn(
-                      "flex gap-3",
+                      "flex items-end gap-3",
                       message.role === "user" ? "justify-end" : "justify-start"
                     )}
                   >
+                    {message.role === "assistant" && (
+                      <div className="grid size-9 shrink-0 place-items-center rounded-full border border-[#DCE4FA] bg-[#EEF2FF] text-brand shadow-sm">
+                        <Sparkles className="size-4" />
+                      </div>
+                    )}
                     <div
                       className={cn(
-                        "max-w-[84%] px-4 py-3.5 sm:px-5 sm:max-w-[68ch]",
+                        "relative max-w-[84%] px-5 py-4 sm:max-w-[68ch]",
                         message.role === "user"
-                          ? "t-message-invert bg-[#174CCF] text-white"
-                          : "t-message border border-[#E6DED2] bg-[#F7F3EC] text-[#33415B]"
+                          ? "chat-bubble-user t-message-invert bg-[#174CCF] text-white"
+                          : "chat-bubble-assistant t-message border border-[#E4DCD0] bg-white text-[#243453]"
                       )}
                     >
                       <p className="whitespace-pre-wrap text-pretty">
                         {message.content}
                       </p>
                       {message.role === "assistant" && (
-                        <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-[#DDD6CB] pt-3">
+                        <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-[#EDE7DC] pt-3">
                           <button
                             onClick={() => shareToCommunity(index)}
                             disabled={sharedIndexes.has(index)}
                             className={cn(
-                              "inline-flex items-center gap-1.5 px-2.5 py-2 t-label transition",
+                              "inline-flex items-center gap-1.5 rounded px-2.5 py-1.5 t-label transition",
                               sharedIndexes.has(index)
-                                ? "text-[#467A4A]"
+                                ? "bg-[#EEF6EF] text-[#467A4A]"
                                 : "text-brand hover:bg-[#EEF2FF] active:scale-[.98]"
                             )}
                           >
@@ -355,6 +360,11 @@ export default function Chat() {
                         </div>
                       )}
                     </div>
+                    {message.role === "user" && (
+                      <div className="grid size-9 shrink-0 place-items-center rounded-full bg-[#174CCF] text-xs font-bold text-white shadow-sm">
+                        You
+                      </div>
+                    )}
                   </div>
                 ))}
                 {failure && (
@@ -375,10 +385,19 @@ export default function Chat() {
                   </div>
                 )}
                 {sending && (
-                  <div className="flex justify-start gap-3">
-                    <div className="flex items-center gap-2 border border-[#E6DED2] bg-[#F7F3EC] px-5 py-3.5 t-body-sm text-[#646E82]">
-                      <Loader2 className="size-4 animate-spin text-brand" />{" "}
-                      Thinking…
+                  <div className="flex items-end justify-start gap-3">
+                    <div className="grid size-9 shrink-0 place-items-center rounded-full border border-[#DCE4FA] bg-[#EEF2FF] text-brand shadow-sm">
+                      <Sparkles className="size-4 animate-pulse" />
+                    </div>
+                    <div className="chat-bubble-thinking flex items-center gap-3 border border-[#E4DCD0] bg-white px-5 py-3.5 text-[#646E82]">
+                      <div className="flex items-center gap-1.5 py-0.5">
+                        <span className="loading-dot-1 size-2.5 rounded-full bg-brand" />
+                        <span className="loading-dot-2 size-2.5 rounded-full bg-brand" />
+                        <span className="loading-dot-3 size-2.5 rounded-full bg-brand" />
+                      </div>
+                      <span className="t-body-sm font-medium text-[#536078]">
+                        ShefGuide is thinking…
+                      </span>
                     </div>
                   </div>
                 )}
