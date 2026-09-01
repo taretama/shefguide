@@ -2,6 +2,8 @@
 
 An AI-supported web app for international students in UK higher education, built as an MSc dissertation project.
 
+**Live demo:** [shefguide.onrender.com](https://shefguide.onrender.com/) — hosted on Render's free tier, so the first request after a period of inactivity can take up to a minute to wake the server.
+
 **What it does**
 
 - **Dual-LLM academic support chat** — the same question can be put to GPT-4o-mini or Gemini 3.5 Flash under one interface and one system prompt, which is what makes the model comparison in the dissertation possible.
