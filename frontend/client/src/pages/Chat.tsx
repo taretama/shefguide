@@ -232,9 +232,13 @@ export default function Chat() {
         <section className="flex min-h-[calc(100vh-140px)] flex-col overflow-hidden border border-[#E0D9CC] bg-[#FFFCF6] shadow-[0_12px_34px_rgba(35,50,72,.06)]">
           <div className="flex items-center justify-between border-b border-[#EAE3D7] px-5 py-4 sm:px-7">
             <div className="flex items-center gap-3">
-              <span className="grid size-9 place-items-center bg-[#EEF2FF] text-brand">
-                <Sparkles className="size-[17px]" />
-              </span>
+              <div className="size-9 shrink-0 overflow-hidden rounded-full border border-[#DCE4FA] bg-[#EEF2FF] shadow-sm">
+                <img
+                  src="/images/chatbot-avatar.png"
+                  alt="ShefGuide Bot"
+                  className="size-full object-cover"
+                />
+              </div>
               <div>
                 <p className="t-title text-ink">
                   {sessionId ? "Saved conversation" : "New conversation"}
@@ -277,9 +281,13 @@ export default function Chat() {
           >
             {messages.length === 0 ? (
               <div className="mx-auto flex max-w-[720px] flex-col items-start py-4 sm:py-12">
-                <span className="grid size-14 place-items-center bg-[#174CCF] text-white shadow-[0_10px_24px_rgba(23,76,207,.22)]">
-                  <Sparkles className="size-6" />
-                </span>
+                <div className="size-16 shrink-0 overflow-hidden rounded-2xl border border-[#DCE4FA] bg-[#EEF2FF] p-1.5 shadow-[0_10px_24px_rgba(23,76,207,.18)]">
+                  <img
+                    src="/images/chatbot-avatar.png"
+                    alt="ShefGuide Bot"
+                    className="size-full object-contain"
+                  />
+                </div>
                 <p className="mt-7 t-kicker text-[#C0432F]">
                   Start where you are
                 </p>
@@ -317,8 +325,12 @@ export default function Chat() {
                     )}
                   >
                     {message.role === "assistant" && (
-                      <div className="grid size-9 shrink-0 place-items-center rounded-full border border-[#DCE4FA] bg-[#EEF2FF] text-brand shadow-sm">
-                        <Sparkles className="size-4" />
+                      <div className="size-9 shrink-0 overflow-hidden rounded-full border border-[#DCE4FA] bg-[#EEF2FF] shadow-sm">
+                        <img
+                          src="/images/chatbot-avatar.png"
+                          alt="ShefGuide Bot"
+                          className="size-full object-cover"
+                        />
                       </div>
                     )}
                     <div
@@ -386,8 +398,12 @@ export default function Chat() {
                 )}
                 {sending && (
                   <div className="flex items-end justify-start gap-3">
-                    <div className="grid size-9 shrink-0 place-items-center rounded-full border border-[#DCE4FA] bg-[#EEF2FF] text-brand shadow-sm">
-                      <Sparkles className="size-4 animate-pulse" />
+                    <div className="size-9 shrink-0 overflow-hidden rounded-full border border-[#DCE4FA] bg-[#EEF2FF] shadow-sm">
+                      <img
+                        src="/images/chatbot-avatar.png"
+                        alt="ShefGuide Bot"
+                        className="size-full object-cover animate-pulse"
+                      />
                     </div>
                     <div className="chat-bubble-thinking flex items-center gap-3 border border-[#E4DCD0] bg-white px-5 py-3.5 text-[#646E82]">
                       <div className="flex items-center gap-1.5 py-0.5">
