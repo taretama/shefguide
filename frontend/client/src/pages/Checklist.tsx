@@ -453,13 +453,37 @@ export default function Checklist() {
           aria-busy="true"
           className="mx-auto max-w-[1080px] p-4 sm:p-6 lg:p-8 space-y-6"
         >
-          <div className="flex justify-between items-start">
-            <div className="space-y-2">
-              <div className="h-8 w-64 animate-pulse bg-[#EDE8DF]" />
-              <div className="h-4 w-96 animate-pulse bg-[#EDE8DF]" />
+          {/* Building the checklist is one language-model call, so a new
+              account waits several seconds for it. Skeletons alone read as a
+              page that is broken rather than one that is working, and this is
+              the first screen a student ever sees, so the wait is named and
+              explained instead of being left to look like a stall. */}
+          {generating ? (
+            <div
+              role="status"
+              className="border border-[#E0D9CC] bg-[#FFFCF6] p-6 sm:p-7"
+            >
+              <div className="flex items-center gap-3">
+                <Loader2 className="size-5 shrink-0 animate-spin text-[#174CCF]" />
+                <p className="t-label text-ink">
+                  Building your arrival checklist
+                </p>
+              </div>
+              <p className="mt-2 max-w-[62ch] text-pretty t-caption text-ink-soft">
+                Your tasks are written for your programme and your home
+                country, so this takes a few seconds. It only happens once —
+                afterwards your checklist opens straight away.
+              </p>
             </div>
-            <div className="h-10 w-28 animate-pulse bg-[#EDE8DF]" />
-          </div>
+          ) : (
+            <div className="flex justify-between items-start">
+              <div className="space-y-2">
+                <div className="h-8 w-64 animate-pulse bg-[#EDE8DF]" />
+                <div className="h-4 w-96 animate-pulse bg-[#EDE8DF]" />
+              </div>
+              <div className="h-10 w-28 animate-pulse bg-[#EDE8DF]" />
+            </div>
+          )}
           <div className="h-24 border border-[#E0D9CC] bg-[#FFFCF6] animate-pulse" />
           <div className="space-y-4">
             {[1, 2, 3].map(i => (
