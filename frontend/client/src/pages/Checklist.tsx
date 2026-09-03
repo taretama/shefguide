@@ -171,6 +171,81 @@ export default function Checklist() {
     [allCombinedTasks]
   );
 
+  /**
+   * Ticking a task moves the focus highlight to the next one, but the page
+   * used to stay where it was, so the student had to hunt for what had just
+   * become current. These refs let the list carry them along: to the next
+   * section heading when the next task begins a new phase, to the task itself
+   * when it is in the same phase, and back to the top once nothing is left.
+   */
+  const taskRefs = useRef(new Map<string, HTMLElement>());
+  const sectionRefs = useRef(new Map<string, HTMLElement>());
+  const topRef = useRef<HTMLDivElement>(null);
+
+  const registerTask = (id: string) => (el: HTMLElement | null) => {
+    if (el) taskRefs.current.set(id, el);
+    else taskRefs.current.delete(id);
+  };
+  const registerSection = (title: string) => (el: HTMLElement | null) => {
+    if (el) sectionRefs.current.set(title, el);
+    else sectionRefs.current.delete(title);
+  };
+
+  const sectionTitleOf = (taskId: string) => {
+    if (customTasks.some(t => t.id === taskId)) return "My Personal Tasks";
+    return sections.find(s => s.tasks.some(t => t.id === taskId))?.title ?? null;
+  };
+
+  /**
+   * Scrolls after the tick has been painted. Framer Motion animates the row's
+   * layout on completion, so measuring immediately would aim at the position
+   * the row is leaving rather than the one it settles into.
+   */
+  const scrollAfterToggle = (completedId: string) => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const behavior: ScrollBehavior = reduced ? "auto" : "smooth";
+
+    // Order of the list as the student sees it, with the just-ticked task
+    // treated as done so it is never chosen as its own "next".
+    const ordered = allCombinedTasks.map(t =>
+      t.id === completedId ? { ...t, completed: true } : t
+    );
+    const from = ordered.findIndex(t => t.id === completedId);
+    const after = ordered.slice(from + 1).find(t => !t.completed);
+    const wrapped = after ?? ordered.find(t => !t.completed);
+
+    window.setTimeout(() => {
+      if (!wrapped) {
+        // Whole checklist finished: back to the very top of the page, not just
+        // the top of the list, so the completed progress summary is what the
+        // student lands on.
+        window.scrollTo({ top: 0, behavior });
+        return;
+      }
+      const fromSection = sectionTitleOf(completedId);
+      const toSection = sectionTitleOf(wrapped.id);
+      const crossesSection = !!toSection && toSection !== fromSection;
+
+      // A new phase always pulls the student to its heading, so the change of
+      // section is legible.
+      if (crossesSection) {
+        const header = sectionRefs.current.get(toSection!);
+        (header ?? topRef.current)?.scrollIntoView({ behavior, block: "start" });
+        return;
+      }
+
+      // Within a phase, only move if the next task is low in the viewport or
+      // below it. Re-centring one that is already comfortably in view would
+      // scroll backwards, which reads as the page fighting the student.
+      const el = taskRefs.current.get(wrapped.id);
+      if (!el) return;
+      const { top } = el.getBoundingClientRect();
+      if (top > window.innerHeight * 0.72) {
+        el.scrollIntoView({ behavior, block: "center" });
+      }
+    }, 260);
+  };
+
   // Find the section corresponding to the current next task
   const currentNextSectionTitle = useMemo(() => {
     if (!currentNextTask) return null;
@@ -192,6 +267,12 @@ export default function Checklist() {
   // Handle checking/toggling a task with smooth auto-transition to the next one
   const handleToggle = async (taskId: string) => {
     if (pendingTasks.has(taskId)) return;
+
+    // Only advance the page when a task is being ticked off. Un-ticking one
+    // should leave the student where they are rather than jumping them away.
+    const wasCompleted =
+      allCombinedTasks.find(t => t.id === taskId)?.completed ?? false;
+    if (!wasCompleted) scrollAfterToggle(taskId);
 
     // Check if it is a custom task
     const isCustom = customTasks.some(t => t.id === taskId);
@@ -753,6 +834,9 @@ export default function Checklist() {
             CHECKLIST TODO TASK SECTIONS
             ========================================================================= */}
         <div className="space-y-6">
+          {/* Anchor for the return-to-top scroll once the list is finished. */}
+          <div ref={topRef} aria-hidden="true" className="scroll-mt-6" />
+
           {/* Custom Student Tasks Section (If Any) */}
           {filteredCustomTasks.length > 0 && (
             <section className="border border-[#E0D9CC] bg-[#FFFCF6] overflow-hidden shadow-2xs">
@@ -777,9 +861,10 @@ export default function Checklist() {
                   return (
                     <motion.li
                       key={task.id}
+                      ref={registerTask(task.id)}
                       layout
                       className={cn(
-                        "flex items-start gap-3.5 py-4 transition-colors",
+                        "flex items-start gap-3.5 py-4 scroll-mt-24 transition-colors",
                         isFocused && !isDone && "bg-[#EEF2FF]/40 -mx-4 px-4 sm:-mx-5 sm:px-5 border-l-2 border-[#174CCF]",
                         isDone && "opacity-65"
                       )}
@@ -859,8 +944,9 @@ export default function Checklist() {
             return (
               <section
                 key={section.title}
+                ref={registerSection(section.title)}
                 className={cn(
-                  "border border-[#E0D9CC] bg-[#FFFCF6] overflow-hidden shadow-2xs transition-all",
+                  "scroll-mt-6 border border-[#E0D9CC] bg-[#FFFCF6] overflow-hidden shadow-2xs transition-all",
                   isAllDone && "border-[#BBF7D0]"
                 )}
               >
@@ -914,9 +1000,10 @@ export default function Checklist() {
                     return (
                       <motion.li
                         key={task.id}
+                        ref={registerTask(task.id)}
                         layout
                         className={cn(
-                          "group relative flex items-start gap-3.5 py-4.5 transition-all",
+                          "group relative flex items-start gap-3.5 py-4.5 scroll-mt-24 transition-all",
                           isFocused && !isDone && "bg-[#EEF2FF]/40 -mx-4 px-4 sm:-mx-5 sm:px-5 border-l-3 border-[#174CCF]",
                           isDone && "opacity-65"
                         )}
