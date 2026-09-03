@@ -229,7 +229,13 @@ export default function Chat() {
     <WorkspaceShell title="Ask ShefGuide" eyebrow="Questions about your course">
       {disclosureDialog}
       <main className="mx-auto grid max-w-[1530px] gap-5 p-4 sm:p-6 xl:grid-cols-[minmax(0,1fr)_320px] xl:p-8">
-        <section className="flex min-h-[calc(100vh-140px)] flex-col overflow-hidden border border-[#E0D9CC] bg-[#FFFCF6] shadow-[0_12px_34px_rgba(35,50,72,.06)]">
+        {/* A definite height, not a minimum: with min-h the column grew as the
+            conversation did, so the transcript never had a bounded box to
+            scroll inside and the composer was pushed off the bottom of the
+            screen. Fixing the height makes the transcript the only thing that
+            scrolls and keeps the composer in place. dvh rather than vh so the
+            mobile browser's collapsing toolbar doesn't shift the layout. */}
+        <section className="flex h-[calc(100dvh-140px)] flex-col overflow-hidden border border-[#E0D9CC] bg-[#FFFCF6] shadow-[0_12px_34px_rgba(35,50,72,.06)]">
           <div className="flex items-center justify-between border-b border-[#EAE3D7] px-5 py-4 sm:px-7">
             <div className="flex items-center gap-3">
               <div className="size-9 shrink-0 overflow-hidden rounded-full border border-[#DCE4FA] bg-[#EEF2FF] shadow-sm">
@@ -275,9 +281,12 @@ export default function Chat() {
             </div>
           )}
 
+          {/* min-h-0 is required here: a flex child defaults to min-height:auto,
+              which refuses to shrink below its content and quietly disables the
+              overflow scrolling below it. */}
           <div
             ref={scrollRef}
-            className="flex-1 overflow-y-auto px-4 py-6 sm:px-8 sm:py-9"
+            className="min-h-0 flex-1 overflow-y-auto px-4 py-6 sm:px-8 sm:py-9"
           >
             {messages.length === 0 ? (
               <div className="mx-auto flex max-w-[720px] flex-col items-start py-4 sm:py-12">
