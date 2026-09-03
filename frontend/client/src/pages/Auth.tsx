@@ -3,7 +3,13 @@
  */
 import { Brand } from "@/components/Brand";
 import { notifyAuthChanged } from "@/hooks/useAuth";
-import { login, register, setToken, startGuest } from "@/lib/api";
+import {
+  getChecklist,
+  login,
+  register,
+  setToken,
+  startGuest,
+} from "@/lib/api";
 import {
   ArrowRight,
   Check,
@@ -42,7 +48,9 @@ function AuthPage({ mode }: { mode: "signin" | "signup" }) {
   const params = new URLSearchParams(search);
   // Set when a guest is bounced off an account-only page, so we can explain why.
   const why = params.get("why");
-  const next = params.get("next") || "/chat";
+  // Present when the student was bounced off a page they asked for. That
+  // intent outranks anything we would pick for them, so it is kept as-is.
+  const next = params.get("next");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,6 +63,31 @@ function AuthPage({ mode }: { mode: "signin" | "signup" }) {
   // A toast disappears; a rejected sign-in needs to stay next to the form it
   // belongs to, so the reason is still on screen when the student retries.
   const [formError, setFormError] = useState<string | null>(null);
+
+  /**
+   * Where a signed-in student should land.
+   *
+   * The checklist is the part of ShefGuide that says what to do; chat is the
+   * part that waits to be asked. Sending an arriving student to an empty chat
+   * box asks them to already know their own question, so they go to the
+   * checklist until it is finished and to chat once it is.
+   *
+   * An empty response means the account has no checklist yet — a student who
+   * has just registered — and that is the case that most needs the checklist,
+   * which the page generates on arrival. Any failure falls through to chat:
+   * a routing preference must never be able to block a successful sign-in.
+   */
+  const landingRoute = async () => {
+    try {
+      const { sections } = await getChecklist();
+      const tasks = (sections ?? []).flatMap((section) => section.tasks ?? []);
+      return tasks.every((task) => task.completed) && tasks.length > 0
+        ? "/chat"
+        : "/checklist";
+    } catch {
+      return "/chat";
+    }
+  };
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
@@ -86,7 +119,7 @@ function AuthPage({ mode }: { mode: "signin" | "signup" }) {
         notifyAuthChanged();
         toast.success("Signed in.");
       }
-      navigate(next);
+      navigate(next ?? (await landingRoute()));
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Something went wrong.";
@@ -103,6 +136,8 @@ function AuthPage({ mode }: { mode: "signin" | "signup" }) {
     try {
       await startGuest();
       notifyAuthChanged();
+      // Guests have no checklist to route to — it needs the profile that only
+      // registration collects — so they always start in chat.
       navigate("/chat");
     } catch {
       toast.error("Could not start a guest session.");
