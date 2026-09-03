@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Student avatar">
+  <!-- Student avatar, drawn to sit beside the assistant's bot avatar in the
+       chat transcript. SVG rather than a raster so it stays crisp at the 36px
+       it renders at and on high-density screens, at a fraction of the bytes.
+
+       The shoulders are drawn as two pieces on purpose: a filled shape that
+       runs off the bottom of the disc, and a separate stroked arc for the top
+       edge only. Stroking one closed shape instead would leave its own bottom
+       and side edges visible inside the rim as stray lines. -->
+  <defs>
+    <clipPath id="avatar-clip">
+      <circle cx="256" cy="256" r="219"/>
+    </clipPath>
+  </defs>
+
+  <!-- Face of the disc -->
+  <circle cx="256" cy="256" r="219" fill="#E6E4FB"/>
+
+  <g clip-path="url(#avatar-clip)">
+    <!-- Shoulders: filled well past the bottom edge so no gap can show -->
+    <path d="M99 445a157 157 0 0 1 314 0V580H99Z" fill="#5BD6A4"/>
+    <!-- and only their top edge is outlined -->
+    <path d="M99 445a157 157 0 0 1 314 0" fill="none" stroke="#000"
+          stroke-width="26" stroke-linecap="butt"/>
+  </g>
+
+  <!-- Head -->
+  <circle cx="256" cy="186" r="88" fill="#FBCDB4" stroke="#000" stroke-width="26"/>
+
+  <!-- Rim last, so it closes over the shoulders -->
+  <circle cx="256" cy="256" r="219" fill="none" stroke="#000" stroke-width="26"/>
+</svg>

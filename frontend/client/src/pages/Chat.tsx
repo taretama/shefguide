@@ -382,8 +382,12 @@ export default function Chat() {
                       )}
                     </div>
                     {message.role === "user" && (
-                      <div className="grid size-9 shrink-0 place-items-center rounded-full bg-[#174CCF] text-xs font-bold text-white shadow-sm">
-                        You
+                      <div className="size-9 shrink-0 overflow-hidden rounded-full border border-[#DCE4FA] bg-[#EEF2FF] shadow-sm">
+                        <img
+                          src="/images/user-avatar.svg"
+                          alt="You"
+                          className="size-full object-cover"
+                        />
                       </div>
                     )}
                   </div>
