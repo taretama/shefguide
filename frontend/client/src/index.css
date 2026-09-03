@@ -55,13 +55,20 @@
      produced twenty-odd near-identical values and eight WCAG failures. Every
      one of these clears 4.5:1 on the darkest surface it is used on
      (#F4F0E8), so a role can move between surfaces without being re-checked. */
-  --color-ink: #12224a; /* headings, primary ink            15.15:1 */
-  --color-ink-title: #182a49; /* item + card titles               13.99:1 */
-  --color-ink-muted: #4e5870; /* body prose                        6.94:1 */
-  --color-ink-soft: #596174; /* metadata, captions, placeholders   6.05:1 */
-  --color-brand: #174ccf; /* actions, selection, links          6.90:1 */
-  --color-brand-deep: #123da9; /* hover / pressed                          */
-  --color-signal: #a5382d; /* kickers, boundary + advice notes   6.40:1 */
+  --color-ink: #12224a;
+  /* headings, primary ink            15.15:1 */
+  --color-ink-title: #182a49;
+  /* item + card titles               13.99:1 */
+  --color-ink-muted: #4e5870;
+  /* body prose                        6.94:1 */
+  --color-ink-soft: #596174;
+  /* metadata, captions, placeholders   6.05:1 */
+  --color-brand: #174ccf;
+  /* actions, selection, links          6.90:1 */
+  --color-brand-deep: #123da9;
+  /* hover / pressed                          */
+  --color-signal: #a5382d;
+  /* kickers, boundary + advice notes   6.40:1 */
 }
 
 :root {
@@ -122,6 +129,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
     font-family: "DM Sans", system-ui, sans-serif;
@@ -130,6 +138,7 @@
     font-kerning: normal;
     font-optical-sizing: auto;
   }
+
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   [type="button"]:not(:disabled),
@@ -142,6 +151,7 @@
     @apply cursor-pointer;
   }
 }
+
 @layer components {
   .container {
     width: 100%;
@@ -150,16 +160,19 @@
     padding-left: 1rem;
     padding-right: 1rem;
   }
+
   .flex {
     min-height: 0;
     min-width: 0;
   }
+
   @media (min-width: 640px) {
     .container {
       padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
   }
+
   @media (min-width: 1024px) {
     .container {
       padding-left: 2rem;
@@ -168,10 +181,43 @@
     }
   }
 }
+
 @layer utilities {
   .font-display {
     font-family: "DM Serif Display", Georgia, serif;
   }
+
+  .font-serif-text {
+    font-family: "DM Serif Text", Georgia, serif;
+  }
+
+  /* Ambient campus-map linework for the public page. The tile is mirrored on
+     both axes, so it repeats without a visible join, and its darkest pixel is
+     210/255 — light enough to sit under body copy without touching contrast.
+     Rendered with mix-blend-multiply so it tints the paper rather than laying
+     a grey film over it. */
+  .paper-map {
+    background-image: url("/images/campus-map-texture.png");
+    background-repeat: repeat;
+    background-size: 760px auto;
+  }
+
+  /* Feathers all four edges of an image so it dissolves into the paper rather
+     than sitting inside a hard rectangle. Two gradients intersected: one fades
+     left/right, the other top/bottom, so no corner is left hard. Used on the
+     hero, whose source file already carries its own parchment and map
+     linework — the feather is what hides the seam between the two. */
+  .edge-blend {
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 9%, #000 91%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 9%, #000 91%, transparent 100%);
+    mask-composite: intersect;
+  }
+
   .paper-grid {
     background-image:
       linear-gradient(to right, rgba(36, 59, 107, 0.06) 1px, transparent 1px),
@@ -179,20 +225,19 @@
     background-size: 54px 54px;
     mask-image: linear-gradient(to bottom, black, transparent 88%);
   }
+
   .paper-noise {
-    background-image: radial-gradient(
-      rgba(255, 255, 255, 0.8) 0.55px,
-      transparent 0.55px
-    );
+    background-image: radial-gradient(rgba(255, 255, 255, 0.8) 0.55px,
+        transparent 0.55px);
     background-size: 5px 5px;
   }
+
   .paper-note {
-    background-image: linear-gradient(
-      rgba(23, 76, 207, 0.025) 1px,
-      transparent 1px
-    );
+    background-image: linear-gradient(rgba(23, 76, 207, 0.025) 1px,
+        transparent 1px);
     background-size: 100% 27px;
   }
+
   /* Keyboard focus indicator. Defined here rather than as Tailwind ring
      utilities because the ring colour has to be identical on every control
      across the app, and the outline keeps working on elements that already
@@ -201,6 +246,7 @@
     outline: 2px solid #174ccf;
     outline-offset: 2px;
   }
+
   .focus-ring-inset:focus-visible {
     outline: 2px solid #174ccf;
     outline-offset: -2px;
@@ -221,32 +267,38 @@
     letter-spacing: -0.02em;
     font-variant-numeric: tabular-nums;
   }
+
   .t-title {
     font-size: 1.0625rem;
     line-height: 1.45;
     font-weight: 600;
     letter-spacing: -0.004em;
   }
+
   .t-body {
     font-size: 1rem;
     line-height: 1.65;
     font-weight: 400;
   }
+
   .t-body-sm {
     font-size: 0.9375rem;
     line-height: 1.6;
     font-weight: 400;
   }
+
   .t-label {
     font-size: 0.8125rem;
     line-height: 1.35;
     font-weight: 600;
   }
+
   .t-caption {
     font-size: 0.75rem;
     line-height: 1.5;
     font-weight: 500;
   }
+
   /* All-caps needs the extra tracking; capitals sit too close at default. */
   .t-kicker {
     font-size: 0.6875rem;
@@ -255,9 +307,11 @@
     text-transform: uppercase;
     letter-spacing: 0.13em;
   }
+
   .t-num {
     font-variant-numeric: tabular-nums;
   }
+
   /* Hero role for panels that open a page rather than a section. Tracking stays
      at -.03em: tighter than that and the serif's letterforms start touching. */
   /* Badges carry less tracking than kickers — they sit in a tinted pill, where
@@ -269,12 +323,14 @@
     text-transform: uppercase;
     letter-spacing: 0.07em;
   }
+
   /* Form controls stay at 16px: iOS zooms the viewport on focus below that. */
   .t-input {
     font-size: 1rem;
     line-height: 1.55;
     font-weight: 400;
   }
+
   /* Chat messages. Two roles, not one: light text on the cobalt bubble loses
      perceived weight, so the inverted role compensates on all three axes —
      more leading, a little tracking, and one step up in weight. */
@@ -283,6 +339,7 @@
     line-height: 1.6;
     font-weight: 400;
   }
+
   .t-message-invert {
     font-size: 1rem;
     line-height: 1.68;
@@ -302,6 +359,7 @@
     line-height: 1.62;
     font-weight: 400;
   }
+
   /* Modifier for light-on-dark text: perceived weight drops, so leading and
      tracking open up. Compose with any role above. */
   .t-on-dark {
@@ -309,15 +367,18 @@
     letter-spacing: 0.008em;
   }
 }
+
 @media (prefers-reduced-motion: no-preference) {
-  .paper-grid + * {
+  .paper-grid+* {
     animation: float-in 0.55s cubic-bezier(0.23, 1, 0.32, 1) both;
   }
+
   @keyframes float-in {
     from {
       opacity: 0;
       transform: translateY(10px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -338,6 +399,7 @@
     line-height: 0.98;
     letter-spacing: -0.03em;
   }
+
   .t-display {
     font-family: "DM Serif Display", Georgia, serif;
     font-weight: 400;
@@ -345,6 +407,7 @@
     line-height: 1.02;
     letter-spacing: -0.028em;
   }
+
   .t-section {
     font-family: "DM Serif Display", Georgia, serif;
     font-weight: 400;
@@ -352,6 +415,7 @@
     line-height: 1.06;
     letter-spacing: -0.025em;
   }
+
   .t-subhead {
     font-family: "DM Serif Display", Georgia, serif;
     font-weight: 400;
@@ -365,10 +429,12 @@
     border-radius: 20px 20px 4px 20px;
     box-shadow: 0 4px 16px rgba(23, 76, 207, 0.16);
   }
+
   .chat-bubble-assistant {
     border-radius: 20px 20px 20px 4px;
     box-shadow: 0 4px 18px rgba(35, 50, 72, 0.05);
   }
+
   .chat-bubble-thinking {
     border-radius: 20px 20px 20px 4px;
     box-shadow: 0 4px 18px rgba(35, 50, 72, 0.05);
@@ -376,10 +442,14 @@
 }
 
 @keyframes bubble-wave {
-  0%, 60%, 100% {
+
+  0%,
+  60%,
+  100% {
     transform: translateY(0) scale(0.85);
     opacity: 0.4;
   }
+
   30% {
     transform: translateY(-5px) scale(1.2);
     opacity: 1;
@@ -390,10 +460,12 @@
   animation: bubble-wave 1.3s infinite ease-in-out;
   animation-delay: -0.32s;
 }
+
 .loading-dot-2 {
   animation: bubble-wave 1.3s infinite ease-in-out;
   animation-delay: -0.16s;
 }
+
 .loading-dot-3 {
   animation: bubble-wave 1.3s infinite ease-in-out;
   animation-delay: 0s;

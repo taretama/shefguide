@@ -16,7 +16,7 @@ export function Brand({
       className="inline-flex items-center gap-3 group"
       aria-label="ShefGuide home"
     >
-      <span className="relative grid size-11 place-items-center overflow-hidden bg-[#EEF2FF] transition-transform duration-200 group-hover:-rotate-3 group-hover:scale-105">
+      <span className="relative grid size-10 place-items-center transition-transform duration-200 group-hover:-rotate-3 group-hover:scale-105">
         <svg
           viewBox="0 0 48 48"
           className="relative z-10 size-8"
@@ -29,14 +29,14 @@ export function Brand({
           <path
             d="M18 7v27.5M30 11.5V39"
             fill="none"
-            stroke="#EEF2FF"
+            stroke={tone === "light" ? "#0C1935" : "#EEF2FF"}
             strokeWidth="2.3"
             strokeLinejoin="round"
           />
           <path
             d="m6 11.5 12 4.5 12-4.5L42 7"
             fill="none"
-            stroke="#12224A"
+            stroke={tone === "light" ? "#FFFFFF" : "#12224A"}
             strokeWidth="1.45"
             strokeLinejoin="round"
             opacity=".82"
@@ -46,7 +46,7 @@ export function Brand({
             cy="21"
             r="5.3"
             fill="#E35D4F"
-            stroke="#FFFCF6"
+            stroke={tone === "light" ? "#0C1935" : "#FFFCF6"}
             strokeWidth="2"
           />
         </svg>

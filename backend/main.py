@@ -86,15 +86,28 @@ def retrieve_context(user_id: str, question: str) -> tuple[str | None, list[str]
     """
     try:
         query_vec = rag.embed_one(question)
-    except Exception:
-        # Retrieval must never take the chat down; fall back to no context.
+    except Exception as exc:
+        # Retrieval must never take the chat down, but failing silently meant a
+        # student saw a general-knowledge answer with no indication their
+        # document had been skipped. Record it so the cause is recoverable.
+        security_events_collection.insert_one({
+            "user_id":    user_id,
+            "event_type": "retrieval_embedding_failed",
+            "endpoint":   "/chat",
+            "detail":     str(exc)[:400],
+            "created_at": datetime.utcnow(),
+        })
         return None, []
 
     kb_records = list(knowledge_collection.find({}, {"_id": 0}))
     kb_hits = rag.top_matches(query_vec, kb_records, KB_TOP_K)
 
+    # The attached document is searched at its own, lower floor: the student
+    # chose to attach it, so the question is which passages to use rather than
+    # whether to look at all. See DOC_MIN_SCORE in rag.py.
     doc_records = list(document_chunks_collection.find({"user_id": user_id}, {"_id": 0}))
-    doc_hits = rag.top_matches(query_vec, doc_records, DOC_TOP_K)
+    doc_hits = rag.top_matches(query_vec, doc_records, DOC_TOP_K,
+                               min_score=rag.DOC_MIN_SCORE)
 
     sources: list[str] = []
     seen = set()

@@ -35,8 +35,8 @@ export function HowItWorks() {
   const reduce = useReducedMotion();
 
   return (
-    <section id="how-it-works" className="px-4 py-20 sm:px-6 lg:px-10 lg:py-24">
-      <div className="mx-auto grid max-w-[1240px] gap-12 lg:grid-cols-[.85fr_1.15fr] lg:gap-16">
+    <section id="how-it-works" className="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <div className="mx-auto grid max-w-[1280px] items-start gap-10 lg:grid-cols-[.85fr_1.15fr] lg:gap-16">
         <header className="lg:pt-2">
           <p className="t-kicker text-signal">How it works</p>
           <h2 className="mt-4 text-balance t-section text-ink">

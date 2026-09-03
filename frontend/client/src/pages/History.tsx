@@ -112,9 +112,13 @@ export default function History() {
 
   return (
     <WorkspaceShell title="Chat history" eyebrow="Your saved conversations">
-      <main className="mx-auto max-w-[1100px] p-4 sm:p-6 lg:p-8">
-        <section className="flex flex-col gap-5 border border-[#E0D9CC] bg-[#FFFCF6] p-6 sm:flex-row sm:items-end sm:justify-between sm:p-8">
-          <div className="max-w-[590px]">
+      <main className="mx-auto max-w-[1280px] p-4 sm:px-6 lg:px-8 lg:py-8">
+        <section className="flex flex-col gap-5 border border-[#E0D9CC] bg-[#FFFCF6] p-6 sm:flex-row sm:items-end sm:justify-between sm:p-8 shadow-xs">
+          <div className="max-w-[620px]">
+            <span className="t-kicker text-brand flex items-center gap-1.5 mb-2">
+              <MessageSquareText className="size-3.5" />
+              Conversation Archive
+            </span>
             <h2 className="text-balance t-display text-ink">
               A record of questions you have already begun to answer.
             </h2>
@@ -125,7 +129,7 @@ export default function History() {
           </div>
           <Link
             href="/chat"
-            className="inline-flex shrink-0 items-center justify-center gap-2 bg-[#174CCF] px-4 py-3 t-label text-white transition hover:bg-brand-deep"
+            className="inline-flex shrink-0 items-center justify-center gap-2 bg-[#174CCF] px-5 py-3 t-label text-white transition hover:bg-brand-deep cursor-pointer shadow-xs"
           >
             <Sparkles className="size-4" /> Start a new chat
           </Link>
@@ -136,8 +140,8 @@ export default function History() {
           <input
             value={query}
             onChange={event => setQuery(event.target.value)}
-            className="w-full border border-[#DDD5C7] bg-[#FFFCF6] py-3 pl-10 pr-4 t-input outline-none placeholder:text-ink-soft focus:border-[#174CCF] focus:ring-4 focus:ring-[#174CCF]/10"
-            placeholder="Search your chats"
+            className="w-full border border-[#DDD5C7] bg-[#FFFCF6] py-2.5 pl-10 pr-4 t-input outline-none placeholder:text-ink-soft focus:border-[#174CCF] focus:ring-4 focus:ring-[#174CCF]/10"
+            placeholder="Search your saved conversations..."
             aria-label="Search your saved conversations"
           />
         </div>

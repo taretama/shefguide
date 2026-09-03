@@ -56,6 +56,34 @@ CHUNK_OVERLAP = 200
 # value to avoid the trade.
 MIN_SCORE = 0.40
 
+# MIN_SCORE is tuned for the curated corpus, where the job is to stop an
+# unrelated question dragging in arbitrary guidance. An attached document is a
+# different case: uploading it already states that it is relevant, so the
+# question is which passages to use, not whether to look at all.
+#
+# Measured against a real 53-chunk upload (a biometric-fingerprint health
+# paper), best-chunk scores were:
+#
+#   about the document   0.232 - 0.446  ("when is the deadline?" 0.232,
+#                                        "what is this document about?" 0.338)
+#   unrelated to it      0.116 - 0.284  ("council tax" 0.116, "phishing" 0.143,
+#                                        "register with a GP" 0.284)
+#
+# At 0.40 not one ordinary question about the document retrieved anything: the
+# file uploaded successfully and was then silently never used, which is what a
+# student reported as the feature not working.
+#
+# The two ranges overlap, so no single value separates them — the same result
+# Section 4.10 reports for the knowledge-base threshold. Here the GP question
+# scores 0.284 because that particular document is about healthcare, so the
+# overlap is real similarity rather than noise. The failure modes are not
+# symmetric, though: missing the document when the student is asking about it
+# breaks the feature outright, while admitting a marginal passage costs a few
+# tokens and is handled by the system prompt's instruction to ignore passages
+# that are not relevant. The floor is therefore set permissively, below the
+# lowest on-topic score, and ranking with DOC_TOP_K does the rest.
+DOC_MIN_SCORE = 0.15
+
 
 # ── chunking ──────────────────────────────────────────────────────────────
 

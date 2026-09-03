@@ -35,8 +35,8 @@ export function PublicHeader() {
   const hasAccount = loggedIn && !guest;
 
   return (
-    <header className="relative z-30 px-4 pt-4 sm:px-6 lg:px-10">
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between py-2 sm:px-1">
+    <header className="relative z-30 px-4 pt-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-[1280px] items-center justify-between py-2">
         <Brand />
         <nav className="hidden items-center gap-7 t-label font-medium text-ink-muted md:flex">
           {sections.map(section => (

@@ -184,8 +184,8 @@ export default function Community() {
   return (
     <WorkspaceShell title="Community Q&A" eyebrow="Ask and answer">
       {disclosureDialog}
-      <main className="mx-auto max-w-[1220px] p-4 sm:p-6 lg:p-8">
-        <section className="relative overflow-hidden border border-[#DED6C8] bg-[#FFFCF6] p-6 sm:p-8">
+      <main className="mx-auto max-w-[1280px] p-4 sm:px-6 lg:px-8 lg:py-8">
+        <section className="relative overflow-hidden border border-[#DED6C8] bg-[#FFFCF6] p-6 sm:p-8 shadow-xs">
           <div
             aria-hidden
             className="absolute inset-y-0 right-0 hidden w-[46%] bg-[url('/images/community-room.jpg')] bg-cover bg-center opacity-90 lg:block"
@@ -198,27 +198,31 @@ export default function Community() {
             }}
           />
           <div className="relative max-w-[680px]">
+            <span className="t-kicker text-brand flex items-center gap-1.5 mb-2">
+              <UsersRound className="size-3.5" />
+              Shared Knowledge Base
+            </span>
             <h2 className="text-balance t-display text-ink">
               A shared notebook for the questions that travel well.
             </h2>
-            <p className="mt-5 max-w-[64ch] text-pretty t-body text-ink-muted">
+            <p className="mt-4 max-w-[64ch] text-pretty t-body text-ink-muted">
               Search first, then add your own question. Every post can get a
               source-aware ShefGuide answer; fellow students can add their own
               experience below.
             </p>
             <button
               onClick={() => setAsking(true)}
-              className="mt-6 inline-flex items-center gap-2 bg-[#174CCF] px-4 py-3 t-label text-white shadow-[0_8px_16px_rgba(23,76,207,.18)] transition hover:-translate-y-0.5 hover:bg-brand-deep"
+              className="mt-6 inline-flex items-center gap-2 bg-[#174CCF] px-4 py-3 t-label text-white shadow-[0_8px_16px_rgba(23,76,207,.18)] transition hover:-translate-y-0.5 hover:bg-brand-deep cursor-pointer"
             >
               <Plus className="size-4" /> Ask the community
             </button>
           </div>
         </section>
 
-        <div className="mt-7 grid gap-5 lg:grid-cols-[minmax(0,1fr)_245px]">
+        <div className="mt-7 grid gap-6 lg:grid-cols-[minmax(0,1fr)_270px]">
           <section>
             {guest && (
-              <div className="mb-4 flex items-start gap-3 border border-[#F0E2C9] bg-[#FDF6E7] p-3.5">
+              <div className="mb-4 flex items-start gap-3 border border-[#F0E2C9] bg-[#FDF6E7] p-4 shadow-2xs">
                 <UsersRound className="mt-0.5 size-4 shrink-0 text-[#8A6516]" />
                 <div>
                   <p className="t-label text-[#8A6516]">
@@ -232,28 +236,28 @@ export default function Community() {
               </div>
             )}
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border border-[#E0D9CC] bg-[#FFFCF6] p-3 sm:p-4">
               <div className="relative max-w-md flex-1">
                 <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-[#616875]" />
                 <input
                   value={query}
                   onChange={event => setQuery(event.target.value)}
-                  className="w-full border border-[#DDD5C7] bg-[#FFFCF6] py-3 pl-10 pr-4 t-input outline-none placeholder:text-ink-soft focus:border-[#174CCF] focus:ring-4 focus:ring-[#174CCF]/10"
-                  placeholder="Search questions before posting"
+                  className="w-full border border-[#DDD5C7] bg-[#FAF7F1] py-2 pl-10 pr-4 t-input outline-none placeholder:text-ink-soft focus:border-[#174CCF] focus:ring-4 focus:ring-[#174CCF]/10 focus:bg-white"
+                  placeholder="Search community questions..."
                   aria-label="Search community questions"
                 />
               </div>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap items-center gap-1.5 overflow-x-auto pb-0.5 sm:pb-0">
                 {CATEGORIES.map(item => (
                   <button
                     key={item.id}
                     onClick={() => setCategory(item.id)}
                     aria-pressed={category === item.id}
                     className={cn(
-                      "px-3 py-2 t-label transition",
+                      "px-3 py-1.5 t-caption font-semibold transition border cursor-pointer",
                       category === item.id
-                        ? "bg-[#174CCF] text-white"
-                        : "border border-[#DDD5C7] bg-[#FFFCF6] text-[#526078] hover:border-[#174CCF]"
+                        ? "border-[#174CCF] bg-[#EEF2FF] text-brand"
+                        : "border-[#DDD5C7] bg-[#FAF7F1] text-[#526078] hover:border-[#174CCF] hover:bg-[#F2ECE1]"
                     )}
                   >
                     {item.label}

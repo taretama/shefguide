@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <path
+    d="M6 11.5 18 7l12 4.5L42 7v27.5L30 39l-12-4.5L6 39V11.5Z"
+    fill="#174CCF"
+  />
+  <path
+    d="M18 7v27.5M30 11.5V39"
+    fill="none"
+    stroke="#EEF2FF"
+    stroke-width="2.3"
+    stroke-linejoin="round"
+  />
+  <path
+    d="m6 11.5 12 4.5 12-4.5L42 7"
+    fill="none"
+    stroke="#12224A"
+    stroke-width="1.45"
+    stroke-linejoin="round"
+    opacity=".82"
+  />
+  <circle
+    cx="24"
+    cy="21"
+    r="5.3"
+    fill="#E35D4F"
+    stroke="#FFFCF6"
+    stroke-width="2"
+  />
+</svg>

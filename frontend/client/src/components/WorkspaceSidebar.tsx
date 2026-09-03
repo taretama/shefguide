@@ -339,7 +339,7 @@ function WorkspaceTopbar({
   const initial = initialFor(profile, guest);
 
   return (
-    <header className="sticky top-0 z-20 flex min-h-[76px] items-center justify-between gap-3 border-b border-[#E4DCCF] bg-[#FFFCF6]/92 px-5 backdrop-blur lg:px-9">
+    <header className="sticky top-0 z-20 flex min-h-[72px] items-center justify-between gap-3 border-b border-[#E4DCCF] bg-[#FFFCF6]/92 px-4 backdrop-blur sm:px-6 lg:px-8">
       <div className="flex min-w-0 items-center gap-3">
         {/* Opens the drawer on small screens; the desktop collapse control lives in the panel. */}
         <button
