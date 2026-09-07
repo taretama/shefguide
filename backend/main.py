@@ -22,6 +22,41 @@ from fastapi import UploadFile, File
 
 app = FastAPI()
 
+
+@app.on_event("startup")
+def index_knowledge_if_missing() -> None:
+    """Index the knowledge base the first time a deployment starts empty.
+
+    The corpus lives in backend/knowledge/ as markdown, but the embedded
+    chunks live in the database, and until now those were only ever created
+    by running index_knowledge.py by hand against whichever database was
+    configured. A deployment pointed at a fresh database therefore ran with
+    no knowledge base at all: retrieval silently returned nothing and every
+    answer came from the model's own knowledge, which is precisely what this
+    system exists not to do.
+
+    Seeding here makes a deployment self-sufficient. It is skipped as soon as
+    the collection has anything in it, so an ordinary restart pays only for
+    one count query, and a failure is logged rather than raised - a missing
+    corpus should degrade answers, not prevent the service from starting.
+    """
+    try:
+        if knowledge_collection.count_documents({}, limit=1):
+            return
+        records = rag.load_knowledge_files()
+        if not records:
+            return
+        texts = [r["text"] for r in records]
+        vectors: list[list[float]] = []
+        for i in range(0, len(texts), 64):
+            vectors.extend(rag.embed_texts(texts[i:i + 64]))
+        for rec, vec in zip(records, vectors):
+            rec["embedding"] = vec
+        knowledge_collection.insert_many(records)
+        print(f"Indexed {len(records)} knowledge chunks on startup.")
+    except Exception as exc:
+        print(f"Knowledge base indexing skipped: {exc}")
+
 # The built React frontend, if it has been produced. Kept optional on purpose:
 # with no build present the backend behaves exactly as it always did, so the API
 # can still be run on its own.
