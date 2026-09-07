@@ -16,10 +16,8 @@ import json
 import re
 import pdfplumber
 import io
-import math
 import os
-from datetime import datetime, timedelta
-from typing import List, Optional
+from typing import Optional
 from fastapi import UploadFile, File
 
 app = FastAPI()
@@ -325,7 +323,12 @@ def chat(body: ChatBody, authorization: str = Header(...)):
                 f"free account to keep going — this conversation will be saved."
             )
 
-    messages = list(body.messages)
+    # Stored messages carry provenance alongside the text (which passages an
+    # answer used, which model wrote it, whether anything was redacted). That
+    # is for the student to see, not for the provider, and an unexpected key
+    # is rejected by the chat APIs — so history is reduced to role and content
+    # before it is replayed to a model.
+    messages = [{"role": m["role"], "content": m["content"]} for m in body.messages]
     pii_redacted = False
     if messages:
         clean_content = guard_and_redact(user_id, "/chat", messages[-1]["content"])
@@ -378,7 +381,21 @@ def chat(body: ChatBody, authorization: str = Header(...)):
     latency    = result["latency"]
     model_used = result["model_used"]
 
-    all_messages = body.messages + [{"role": "assistant", "content": reply}]
+    # Provenance is stored with the answer it belongs to, so reopening a
+    # conversation still shows what each answer was grounded in rather than
+    # only the most recent one. The earlier turns are kept as the client sent
+    # them (they carry their own provenance already); only the question just
+    # asked is replaced, with its redacted text rather than the original.
+    history = [dict(m) for m in body.messages]
+    if history and messages:
+        history[-1]["content"] = messages[-1]["content"]
+    all_messages = history + [{
+        "role":         "assistant",
+        "content":      reply,
+        "sources":      retrieved_sources,
+        "model_used":   model_used,
+        "pii_redacted": pii_redacted,
+    }]
 
     if body.session_id:
         sessions_collection.update_one(

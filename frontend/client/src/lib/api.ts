@@ -198,6 +198,15 @@ export type ChatModel = "gpt" | "gemini";
 export interface ChatMessage {
   role: "user" | "assistant";
   content: string;
+  /**
+   * Provenance, present on answers the backend has produced or stored: the
+   * passages it drew on, the model that wrote it, and whether personal
+   * details were stripped from the question first. Optional because a
+   * message being typed does not have any of it yet.
+   */
+  sources?: string[];
+  model_used?: string;
+  pii_redacted?: boolean;
 }
 
 export interface ChatResponse {

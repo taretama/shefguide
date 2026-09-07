@@ -136,16 +136,23 @@ export default function Chat() {
 
     try {
       const result = await sendChat(history, model, sessionId);
-      setMessages([...history, { role: "assistant", content: result.reply }]);
+      // Provenance is kept on the answer itself rather than in a panel that
+      // only ever describes the most recent one. Scrolling back through a
+      // conversation should still show what each answer was grounded in.
+      setMessages([
+        ...history,
+        {
+          role: "assistant",
+          content: result.reply,
+          sources: result.sources ?? [],
+          model_used: result.model_used,
+          pii_redacted: result.pii_redacted,
+        },
+      ]);
       setSessionId(result.session_id);
       setSources(result.sources ?? []);
       if (result.messages_remaining !== null)
         setRemaining(result.messages_remaining);
-      if (result.pii_redacted) {
-        toast.info(
-          "Some personal details were removed from your message before sending."
-        );
-      }
     } catch (error) {
       // The question stays in the transcript so it is not lost; the failure is
       // held separately so it can be retried rather than retyped.
@@ -353,8 +360,52 @@ export default function Chat() {
                       <p className="whitespace-pre-wrap text-pretty">
                         {message.content}
                       </p>
+                      {/* What produced this answer, shown with the answer.
+                          Grounding is the central claim of the system, so it
+                          is stated on every answer rather than described once
+                          in a side panel. When nothing was retrieved that is
+                          said plainly too: a silent fallback to the model's
+                          own knowledge would be the more misleading option. */}
+                      {message.role === "assistant" &&
+                        (message.sources !== undefined ||
+                          message.model_used) && (
+                          <div className="mt-3.5 border-t border-[#EDE7DC] pt-3">
+                            {message.sources && message.sources.length > 0 ? (
+                              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                                <span className="inline-flex items-center gap-1.5 t-label text-brand">
+                                  <FileText className="size-3.5" /> Drawn from
+                                </span>
+                                <span className="t-caption text-[#5F6A80]">
+                                  {message.sources.join(" · ")}
+                                </span>
+                              </div>
+                            ) : (
+                              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                                <span className="inline-flex items-center gap-1.5 t-label text-[#8A6D3B]">
+                                  <FileText className="size-3.5" /> No matching
+                                  passage
+                                </span>
+                                <span className="t-caption text-[#5F6A80]">
+                                  answered from the model’s general knowledge,
+                                  not ShefGuide’s guidance.
+                                </span>
+                              </div>
+                            )}
+                            <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 t-caption text-[#5F6A80]">
+                              {message.model_used && (
+                                <span>Answered by {message.model_used}</span>
+                              )}
+                              {message.pii_redacted && (
+                                <span className="inline-flex items-center gap-1.5 text-[#8A6D3B]">
+                                  <ShieldAlert className="size-3.5" />
+                                  Personal details were removed before sending.
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        )}
                       {message.role === "assistant" && (
-                        <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-[#EDE7DC] pt-3">
+                        <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-[#EDE7DC] pt-3">
                           <button
                             onClick={() => shareToCommunity(index)}
                             disabled={sharedIndexes.has(index)}
