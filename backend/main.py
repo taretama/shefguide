@@ -70,8 +70,21 @@ SPA_AVAILABLE = os.path.isfile(SPA_INDEX)
 
 @app.get("/health")
 def health():
-    """Unchanged liveness check. This is what `/` used to return."""
-    return {"message": "ShefGuide backend is running"}
+    """Liveness check, plus how much of the knowledge base is loaded.
+
+    The chunk count is here because its absence is otherwise invisible: an
+    unindexed deployment answers every question without retrieving anything,
+    and looks identical to one whose corpus simply did not match. Reporting it
+    makes that state checkable from outside the process.
+    """
+    try:
+        chunks = knowledge_collection.count_documents({})
+    except Exception:
+        chunks = -1
+    return {
+        "message": "ShefGuide backend is running",
+        "knowledge_chunks": chunks,
+    }
 
 
 @app.get("/")
