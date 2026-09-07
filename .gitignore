@@ -2,8 +2,6 @@ backend/venv/
 backend/.env
 __pycache__/
 *.pyc
-# AI tooling scratch output — not part of the app
-.impeccable/
 
 # Built frontend output — reproducible via `cd frontend && npm run build:deploy`
 frontend-dist/

@@ -99,11 +99,22 @@ The built app talks to the API using relative URLs, so it works unchanged on
 localhost, on a LAN address, or through a tunnel. Only one port needs to be
 exposed when sharing a link.
 
-### The previous frontend
+## Running the tests and the evaluation
 
-The original static HTML frontend is kept in `legacy-static-frontend/`. It is no
-longer what gets served. To go back to it, restore `backend/main.py` from
-`backend/main.py.bak` and serve that folder with `python -m http.server 5500`.
+The unit tests and the evaluation scripts need packages the application itself
+does not use, so they are declared separately:
+
+```powershell
+pip install -r backendequirements-dev.txt
+cd backend
+python -m pytest tests -q
+```
+
+`backend/evaluation/` holds the scripts behind Chapter 5: the 30-question run
+against both models, the latency measurements, the prompt-injection suite, the
+threshold verification and the inter-rater agreement. Each writes its results
+to a CSV or TXT file alongside it, and those result files are the ones cited in
+the dissertation.
 
 ## Project structure
 
@@ -131,8 +142,6 @@ frontend/              React 19 + Vite + TypeScript + Tailwind v4
   client/src/index.css Tailwind entry, fonts, project utilities
   DESIGN.md            The design system: dials, locks, rules
 frontend-dist/         The built site the backend serves (generated)
-legacy-static-frontend/
-                       The original HTML/CSS/JS site, kept for rollback only
 ```
 
 ## How retrieval works
@@ -140,14 +149,15 @@ legacy-static-frontend/
 1. Knowledge files and any uploaded PDF are split into overlapping chunks of roughly 1,200 characters, preferring paragraph boundaries.
 2. Each chunk is embedded once with `text-embedding-3-small` and stored in MongoDB — the knowledge corpus shared by everyone, document chunks scoped per user.
 3. Each question is embedded with the same model and scored by cosine similarity against both stores. The top three passages from each are kept.
-4. Passages scoring below **0.40** are discarded. That threshold was measured, not guessed: in-scope questions score 0.47–0.58 against the correct passage, while out-of-scope questions peak at 0.33. An unrelated question therefore retrieves nothing and the assistant answers normally instead of being fed misleading context.
+4. Knowledge-base passages scoring below **0.40** are discarded, so an unrelated question retrieves nothing and the assistant answers normally rather than being fed misleading context. The threshold was measured rather than guessed: across the 30-question evaluation set, in-scope questions score 0.202–0.710 against their best-matching chunk and out-of-scope questions 0.144–0.390. No out-of-scope question is admitted at 0.40, but the margin is thin — the highest scores 0.390 — and seven in-scope questions retrieve nothing because the corpus does not cover them.
+5. An **attached document uses a lower threshold of 0.15**. Uploading a file already states that it is relevant, so the question is which passages to use rather than whether to look at all; at 0.40 ordinary questions about an uploaded document retrieved nothing.
 
 The corpus is small enough that an exact scan beats the round trip to a vector database, and it keeps the retrieval step simple enough to describe and defend.
 
 ## Notes and known limitations
 
 - The curated guidance corpus was **written for this prototype** and is deliberately general to UK higher education. It is **not** official University of Sheffield policy, and each file records its own provenance. See section 4.10 of the dissertation.
-- CORS is wide open (`allow_origins=["*"]`) for local development — tighten before any real deployment.
+- CORS is restricted to an explicit allow-list, set with the `ALLOWED_ORIGINS` environment variable and defaulting to localhost for development. A wildcard would let any site make authenticated requests on a signed-in student's behalf.
 - Rate limiting is in-memory and resets on restart, which is fine for a single-instance deployment but would not survive horizontal scaling.
 - Guests are capped at five answers and their sessions expire after six hours.
 - Only one attached document is held per user at a time; attaching a new one replaces the previous one.

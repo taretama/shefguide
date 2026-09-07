@@ -1,0 +1,13 @@
+# Extra packages needed to run the unit tests and the evaluation scripts.
+# The application itself does not import any of these, so they are kept out of
+# requirements.txt: deploying ShefGuide should not pull in a scientific stack.
+#
+#   pip install -r requirements-dev.txt
+
+pytest              # tests/
+requests            # evaluation/ drives the API over HTTP
+scipy               # Wilcoxon signed-rank test (evaluation/test_existing_scores.py)
+numpy               # inter-rater agreement
+pandas              # reading and summarising the scoring sheets
+scikit-learn        # Cohen's kappa (evaluation/inter_rater.py)
+matplotlib          # latency and threshold figures
