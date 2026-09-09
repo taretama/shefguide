@@ -17,14 +17,14 @@ import re
 import pdfplumber
 import io
 import os
+import threading
 from typing import Optional
 from fastapi import UploadFile, File
 
 app = FastAPI()
 
 
-@app.on_event("startup")
-def index_knowledge_if_missing() -> None:
+def _index_knowledge_if_missing() -> None:
     """Index the knowledge base the first time a deployment starts empty.
 
     The corpus lives in backend/knowledge/ as markdown, but the embedded
@@ -47,7 +47,7 @@ def index_knowledge_if_missing() -> None:
         if not records:
             return
         texts = [r["text"] for r in records]
-        vectors: list[list[float]] = []
+        vectors = []
         for i in range(0, len(texts), 64):
             vectors.extend(rag.embed_texts(texts[i:i + 64]))
         for rec, vec in zip(records, vectors):
@@ -56,6 +56,26 @@ def index_knowledge_if_missing() -> None:
         print(f"Indexed {len(records)} knowledge chunks on startup.")
     except Exception as exc:
         print(f"Knowledge base indexing skipped: {exc}")
+
+
+@app.on_event("startup")
+def start_knowledge_indexing() -> None:
+    """Run the seeding above without holding up the server.
+
+    Both steps it performs - a query against the database and a call to the
+    embedding API - are network round trips, and on a cold host either can
+    take long enough that the platform gives up waiting for the port to open
+    and marks the deployment failed. Nothing else depends on the corpus being
+    present the instant the process starts: retrieval reads it per request, so
+    a question asked during the first few seconds simply falls back to the
+    model, exactly as it would if the corpus were missing entirely.
+    """
+    threading.Thread(
+        target=_index_knowledge_if_missing,
+        name="knowledge-indexing",
+        daemon=True,
+    ).start()
+
 
 # The built React frontend, if it has been produced. Kept optional on purpose:
 # with no build present the backend behaves exactly as it always did, so the API
