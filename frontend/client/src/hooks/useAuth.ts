@@ -34,7 +34,16 @@ export function useRequireAuth(): AuthState {
     let cancelled = false;
     startGuest()
       .then(() => {
-        if (!cancelled) setState("ready");
+        if (cancelled) return;
+        // The token is new, so anything reading it from a hook is still
+        // holding the pre-session answer. Without this, a visitor who opens a
+        // guest-friendly page directly is a guest to the backend but not to
+        // the interface, and the parts that speak to guests - the remaining
+        // free questions, the invitation to keep the conversation - never
+        // appear. Signing in through the auth page announces the change
+        // already; starting a session in place has to do it too.
+        notifyAuthChanged();
+        setState("ready");
       })
       .catch(() => {
         if (cancelled) return;
